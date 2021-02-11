@@ -51,7 +51,9 @@ namespace brainKiller
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddHostedService<CommandHandler>();
+                    services
+                    .AddHostedService<CommandHandler>();
+                    .AddDbContext<brainKillerContext>()
                 })
                 .UseConsoleLifetime();
             

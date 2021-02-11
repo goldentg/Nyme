@@ -28,8 +28,26 @@ namespace brainKiller.Services
         public override async Task InitializeAsync(CancellationToken cancellationToken)
         {
             _client.MessageReceived += OnMessageReceived;
+
+            _client.ChannelCreated += OnChannelCreated;
+
+            _client.JoinedGuild += OnJoinedGuild;
+
             _service.CommandExecuted += OnCommandExecuted;
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
+        }
+
+        private async Task OnJoinedGuild(SocketGuild arg)
+        {
+            await arg.DefaultChannel.SendMessageAsync("What's poppin?");
+        }
+
+        private async Task OnChannelCreated(SocketChannel arg)
+        {
+            if ((arg as ITextChannel) == null) return;
+            var channel = arg as ITextChannel;
+
+            await channel.SendMessageAsync("The event was called");
         }
 
         private async Task OnMessageReceived(SocketMessage arg)
