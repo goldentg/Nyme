@@ -5,11 +5,13 @@ using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
 using Discord.WebSocket;
+using Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using brainKiller.Services;
+
 
 namespace brainKiller
 {
@@ -52,9 +54,11 @@ namespace brainKiller
                 .ConfigureServices((context, services) =>
                 {
                     services
-                    .AddHostedService<CommandHandler>();
+                    .AddHostedService<CommandHandler>()
                     .AddDbContext<brainKillerContext>()
+                    .AddSingleton<Servers>();
                 })
+                
                 .UseConsoleLifetime();
             
             var host = builder.Build();
