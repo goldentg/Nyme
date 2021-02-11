@@ -40,6 +40,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Discord.Addons.Hosting": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
             "Discord.Net": {
               "target": "Package",
               "version": "[2.3.0, )"
@@ -63,6 +67,14 @@
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
               "version": "[5.0.1, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             },
             "NetEscapades.Configuration.Yaml": {
               "target": "Package",
