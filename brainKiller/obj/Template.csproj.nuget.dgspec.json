@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\brainKiller\\brainKiller\\brainKiller.csproj": {}
+    "C:\\Discord.NET-Template\\Template\\Template.csproj": {}
   },
   "projects": {
-    "C:\\brainKiller\\brainKiller\\brainKiller.csproj": {
+    "C:\\Discord.NET-Template\\Template\\Template.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
-        "projectName": "brainKiller",
-        "projectPath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
+        "projectUniqueName": "C:\\Discord.NET-Template\\Template\\Template.csproj",
+        "projectName": "Template",
+        "projectPath": "C:\\Discord.NET-Template\\Template\\Template.csproj",
         "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
-        "outputPath": "C:\\brainKiller\\brainKiller\\obj\\",
+        "outputPath": "C:\\Discord.NET-Template\\Template\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",

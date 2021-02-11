@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,14 @@ using System.Threading.Tasks;
 
 namespace brainKiller.Modules
 {
-    public class Moderation : ModuleBase
+    public class Moderation : ModuleBase<SocketCommandContext>
     {
+        private readonly ILogger<Moderation> _logger;
+
+        public Moderation(ILogger<Moderation> logger)
+            => _logger = logger;
+
+
         [Command("purge")]
         [RequireUserPermission(GuildPermission.ManageMessages)]
         public async Task Purge(int amount)

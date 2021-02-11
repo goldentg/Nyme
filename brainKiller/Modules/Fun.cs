@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,13 @@ using System.Threading.Tasks;
 
 namespace brainKiller.Modules
 {
-    public class Fun : ModuleBase
+    public class Fun : ModuleBase<SocketCommandContext>
     {
+        private readonly ILogger<Fun> _logger;
+
+        public Fun(ILogger<Fun> logger)
+            => _logger = logger;
+
         [Command("meme")]
         [Alias("reddit")]
         public async Task Meme(string subreddit = null)

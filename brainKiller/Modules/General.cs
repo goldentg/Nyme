@@ -6,11 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace brainKiller.Modules
 {
-    public class General : ModuleBase 
+    public class General : ModuleBase<SocketCommandContext>
     {
+        private readonly ILogger<General> _logger;
+
+        public General(ILogger<General> logger)
+            => _logger = logger;
+
+
         [Command("ping")]
         public async Task Ping()
         {
