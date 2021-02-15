@@ -14,5 +14,7 @@ namespace Infrastructure
     {
         public ulong Id { get; set; }
         public string Prefix { get; set; }
+
+        
     }
 }

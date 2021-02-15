@@ -29,5 +29,6 @@ namespace brainKiller.Modules
             await Task.Delay(2500);
             await message.DeleteAsync();
         }
+
     }
 }

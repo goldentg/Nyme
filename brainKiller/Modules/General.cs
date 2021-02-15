@@ -1,13 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Infrastructure;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace brainKiller.Modules
 {
@@ -61,7 +58,7 @@ namespace brainKiller.Modules
             }
         }
 
-        
+
 
         [Command("server")]
         public async Task Server()
@@ -98,5 +95,9 @@ namespace brainKiller.Modules
             await _servers.ModifyGuildPrefix(Context.Guild.Id, prefix);
             await ReplyAsync($"The prefix of this bot has been changed to `{prefix}`");
         }
+
+    
+
+
     }
 }

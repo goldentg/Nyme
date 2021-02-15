@@ -19,6 +19,7 @@ namespace brainKiller
     {
         static async Task Main()
         {
+            
             var builder = new HostBuilder()
                 .ConfigureAppConfiguration(x =>
                 {
