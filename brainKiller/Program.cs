@@ -49,7 +49,7 @@ namespace brainKiller
                 .UseCommandService((context, config) =>
                 {
                     config.CaseSensitiveCommands = false;
-                    config.LogLevel = LogSeverity.Verbose;
+                    config.LogLevel = LogSeverity.Info;
                     config.DefaultRunMode = RunMode.Sync;
                 })
                 .ConfigureServices((context, services) =>

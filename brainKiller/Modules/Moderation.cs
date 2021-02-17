@@ -30,5 +30,14 @@ namespace brainKiller.Modules
             await message.DeleteAsync();
         }
 
+        //doesnt kick other bots?
+        [Command("kick")]
+        [RequireUserPermission(GuildPermission.KickMembers)]
+        [RequireBotPermission(GuildPermission.KickMembers)]
+        public async Task Kick([Remainder]SocketGuildUser user)
+        {
+            await ReplyAsync($"Cya {user.Mention}");
+            await user.KickAsync();
+        }
     }
 }

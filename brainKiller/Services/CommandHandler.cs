@@ -32,18 +32,24 @@ namespace brainKiller.Services
         {
             _client.MessageReceived += OnMessageReceived;
 
-            _client.ChannelCreated += OnChannelCreated;
+           // _client.ChannelCreated += OnChannelCreated;
 
-            _client.JoinedGuild += OnJoinedGuild;
+           // _client.JoinedGuild += OnJoinedGuild;
 
             _service.CommandExecuted += OnCommandExecuted;
+
+            _client.Ready += OnReadyAsync;
+
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
 
+        
+        /*
         private async Task OnJoinedGuild(SocketGuild arg)
         {
             await arg.DefaultChannel.SendMessageAsync("What's poppin?");
         }
+        
 
         private async Task OnChannelCreated(SocketChannel arg)
         {
@@ -52,6 +58,7 @@ namespace brainKiller.Services
 
             await channel.SendMessageAsync("The event was called");
         }
+        */
 
         private async Task OnMessageReceived(SocketMessage arg)
         {
@@ -70,6 +77,11 @@ namespace brainKiller.Services
         private async Task OnCommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
             if (command.IsSpecified && !result.IsSuccess) await context.Channel.SendMessageAsync($"Error: {result}");
+        }
+
+        private async Task OnReadyAsync()
+        {
+            await _client.SetGameAsync("Online");
         }
     }
 }
