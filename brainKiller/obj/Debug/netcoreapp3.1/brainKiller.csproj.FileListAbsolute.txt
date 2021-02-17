@@ -93,3 +93,8 @@ C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Infrastructure.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Infrastructure.pdb
+C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll

@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using brainKiller.Services;
-
+using brainKiller.Utilities;
 
 namespace brainKiller
 {
@@ -49,7 +49,7 @@ namespace brainKiller
                 .UseCommandService((context, config) =>
                 {
                     config.CaseSensitiveCommands = false;
-                    config.LogLevel = LogSeverity.Info;
+                    config.LogLevel = LogSeverity.Warning;
                     config.DefaultRunMode = RunMode.Sync;
                 })
                 .ConfigureServices((context, services) =>
@@ -57,7 +57,8 @@ namespace brainKiller
                     services
                     .AddHostedService<CommandHandler>()
                     .AddDbContext<brainKillerContext>()
-                    .AddSingleton<Servers>();
+                    .AddSingleton<Servers>()
+                    .AddSingleton<Images>();
                 })
                 
                 .UseConsoleLifetime();

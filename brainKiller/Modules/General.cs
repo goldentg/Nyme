@@ -1,8 +1,11 @@
-﻿using Discord;
+﻿using brainKiller.Utilities;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Infrastructure;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,11 +15,13 @@ namespace brainKiller.Modules
     {
         private readonly ILogger<General> _logger;
         private readonly Servers _servers;
+        private readonly Images _images;
 
-        public General(ILogger<General> logger, Servers servers)
+        public General(ILogger<General> logger, Servers servers, Images images)
         {
             _logger = logger;
             _servers = servers;
+            _images = images;
         }
 
         [Command("ping")]
@@ -96,7 +101,23 @@ namespace brainKiller.Modules
             await ReplyAsync($"The prefix of this bot has been changed to `{prefix}`");
         }
 
-    
+    [Command("image", RunMode = RunMode.Async)]
+    public async Task Image(SocketGuildUser user)
+        {
+            var path = await _images.CreateImageAsync(user);
+            await Context.Channel.SendFileAsync(path);
+            File.Delete(path);
+        }
+
+        [Command("say")]
+        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        public async Task Say([Remainder] string msg) 
+        {
+            await ReplyAsync(msg);
+            await Context.Message.DeleteAsync();
+        }
+
+       
 
 
     }

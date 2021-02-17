@@ -1,10 +1,12 @@
-﻿using Discord;
+﻿using brainKiller.Utilities;
+using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
 using Discord.WebSocket;
 using Infrastructure;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,23 +20,23 @@ namespace brainKiller.Services
         private readonly CommandService _service;
         private readonly IConfiguration _config;
         private readonly Servers _servers;
+        private readonly Images _images;
 
-        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service, IConfiguration config, Servers servers)
+        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service, IConfiguration config, Servers servers, Images images)
         {
             _provider = provider;
             _client = client;
             _service = service;
             _config = config;
             _servers = servers;
+            _images = images;
         }
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
         {
             _client.MessageReceived += OnMessageReceived;
 
-           // _client.ChannelCreated += OnChannelCreated;
-
-           // _client.JoinedGuild += OnJoinedGuild;
+           // _client.UserJoined += OnMemberJoin;
 
             _service.CommandExecuted += OnCommandExecuted;
 
@@ -42,24 +44,17 @@ namespace brainKiller.Services
 
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
-
-        
         /*
-        private async Task OnJoinedGuild(SocketGuild arg)
+        private async Task OnMemberJoin(SocketGuildUser user, SocketGuild arg)
         {
-            await arg.DefaultChannel.SendMessageAsync("What's poppin?");
-        }
-        
+            var path = await _images.CreateImageAsync(user);
+            
 
-        private async Task OnChannelCreated(SocketChannel arg)
-        {
-            if ((arg as ITextChannel) == null) return;
-            var channel = arg as ITextChannel;
-
-            await channel.SendMessageAsync("The event was called");
+            await arg.DefaultChannel.SendFileAsync(path);
+            File.Delete(path);
         }
         */
-
+        
         private async Task OnMessageReceived(SocketMessage arg)
         {
             if (!(arg is SocketUserMessage message)) return;
