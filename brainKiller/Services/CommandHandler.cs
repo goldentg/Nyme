@@ -10,6 +10,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace brainKiller.Services
 {
@@ -21,8 +22,10 @@ namespace brainKiller.Services
         private readonly IConfiguration _config;
         private readonly Servers _servers;
         private readonly Images _images;
+        private readonly AutoRolesHelper _autoRolesHelper;
+        
 
-        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service, IConfiguration config, Servers servers, Images images)
+        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service, IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper)
         {
             _provider = provider;
             _client = client;
@@ -30,13 +33,14 @@ namespace brainKiller.Services
             _config = config;
             _servers = servers;
             _images = images;
+            _autoRolesHelper = autoRolesHelper;
         }
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
         {
             _client.MessageReceived += OnMessageReceived;
 
-           // _client.UserJoined += OnMemberJoin;
+            _client.UserJoined += OnMemberJoin;
 
             _service.CommandExecuted += OnCommandExecuted;
 
@@ -44,16 +48,37 @@ namespace brainKiller.Services
 
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
-        /*
-        private async Task OnMemberJoin(SocketGuildUser user, SocketGuild arg)
-        {
-            var path = await _images.CreateImageAsync(user);
-            
 
-            await arg.DefaultChannel.SendFileAsync(path);
-            File.Delete(path);
+        private async Task OnMemberJoin(SocketGuildUser arg)
+        {
+            var newTask = new Task(async () => await HandleUserJoined(arg));
+            newTask.Start();
         }
-        */
+
+
+        private async Task HandleUserJoined(SocketGuildUser arg)
+        {
+            var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);
+            if (roles.Count > 0)
+                await arg.AddRolesAsync(roles);
+
+            var channelId = await _servers.GetWelcomeAsync(arg.Guild.Id);
+            if (channelId == 0)
+                return;
+
+            var channel = arg.Guild.GetTextChannel(channelId);
+            if (channel == null) 
+            {
+                await _servers.ClearWelcomeAsync(arg.Guild.Id);
+                return;
+            }
+
+            var background = await _servers.GetBackgroundAsync(arg.Guild.Id) ?? "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+            string path = await _images.CreateImageAsync(arg, background);
+            await channel.SendFileAsync(path, null);
+            System.IO.File.Delete(path);
+        }
+        
         
         private async Task OnMessageReceived(SocketMessage arg)
         {

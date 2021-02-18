@@ -58,7 +58,11 @@ namespace brainKiller
                     .AddHostedService<CommandHandler>()
                     .AddDbContext<brainKillerContext>()
                     .AddSingleton<Servers>()
-                    .AddSingleton<Images>();
+                    .AddSingleton<Images>()
+                    .AddSingleton<Ranks>()
+                    .AddSingleton<AutoRoles>()
+                    .AddSingleton<RanksHelper>()
+                    .AddSingleton<AutoRolesHelper>();
                 })
                 
                 .UseConsoleLifetime();

@@ -11,10 +11,10 @@ namespace brainKiller.Utilities
 {
     public class Images
     {
-        public async Task<string> CreateImageAsync(SocketGuildUser user)
+        public async Task<string> CreateImageAsync(SocketGuildUser user, string url = "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80")
         {
             var avatar = await FetchImageAsync(user.GetAvatarUrl(size: 2048, format: Discord.ImageFormat.Png) ?? user.GetDefaultAvatarUrl());
-            var background = await FetchImageAsync("https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+            var background = await FetchImageAsync(url);
 
             background = CropToBanner(background);
             avatar = ClipImageToCircle(avatar);

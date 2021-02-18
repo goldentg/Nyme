@@ -2,14 +2,16 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(brainKillerContext))]
-    partial class brainKillerContextModelSnapshot : ModelSnapshot
+    [Migration("20210218004638_SecondVersion")]
+    partial class SecondVersion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,14 +58,8 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint unsigned");
 
-                    b.Property<string>("Background")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("Prefix")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<ulong>("Welcome")
-                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Id");
 
