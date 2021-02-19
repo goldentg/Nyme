@@ -1,0 +1,12 @@
+C:\brainKiller\Infrastructure\bin\Release\netcoreapp3.1\Infrastructure.deps.json
+C:\brainKiller\Infrastructure\bin\Release\netcoreapp3.1\Infrastructure.runtimeconfig.json
+C:\brainKiller\Infrastructure\bin\Release\netcoreapp3.1\Infrastructure.runtimeconfig.dev.json
+C:\brainKiller\Infrastructure\bin\Release\netcoreapp3.1\Infrastructure.dll
+C:\brainKiller\Infrastructure\bin\Release\netcoreapp3.1\Infrastructure.pdb
+C:\brainKiller\Infrastructure\obj\Release\netcoreapp3.1\Infrastructure.csprojAssemblyReference.cache
+C:\brainKiller\Infrastructure\obj\Release\netcoreapp3.1\Infrastructure.AssemblyInfoInputs.cache
+C:\brainKiller\Infrastructure\obj\Release\netcoreapp3.1\Infrastructure.AssemblyInfo.cs
+C:\brainKiller\Infrastructure\obj\Release\netcoreapp3.1\Infrastructure.csproj.CoreCompileInputs.cache
+C:\brainKiller\Infrastructure\obj\Release\netcoreapp3.1\Infrastructure.dll
+C:\brainKiller\Infrastructure\obj\Release\netcoreapp3.1\Infrastructure.pdb
+C:\brainKiller\Infrastructure\obj\Release\netcoreapp3.1\Infrastructure.genruntimeconfig.cache
