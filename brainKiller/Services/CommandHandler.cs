@@ -6,11 +6,10 @@ using Discord.WebSocket;
 using Infrastructure;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
+using Victoria;
 
 namespace brainKiller.Services
 {
@@ -23,9 +22,10 @@ namespace brainKiller.Services
         private readonly Servers _servers;
         private readonly Images _images;
         private readonly AutoRolesHelper _autoRolesHelper;
-        
+        private readonly LavaNode _lavaNode;
 
-        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service, IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper)
+
+        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service, IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
         {
             _provider = provider;
             _client = client;
@@ -34,6 +34,7 @@ namespace brainKiller.Services
             _servers = servers;
             _images = images;
             _autoRolesHelper = autoRolesHelper;
+            _lavaNode = lavaNode;
         }
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
@@ -47,6 +48,19 @@ namespace brainKiller.Services
             _client.Ready += OnReadyAsync;
 
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
+        }
+
+        private async Task OnReadyAsync()
+        {
+            await _client.SetGameAsync("Online");
+
+
+            if (!_lavaNode.IsConnected)
+            {
+                await _lavaNode.ConnectAsync();
+            }
+
+            // Other ready related stuff
         }
 
         private async Task OnMemberJoin(SocketGuildUser arg)
@@ -67,7 +81,7 @@ namespace brainKiller.Services
                 return;
 
             var channel = arg.Guild.GetTextChannel(channelId);
-            if (channel == null) 
+            if (channel == null)
             {
                 await _servers.ClearWelcomeAsync(arg.Guild.Id);
                 return;
@@ -78,8 +92,8 @@ namespace brainKiller.Services
             await channel.SendFileAsync(path, null);
             System.IO.File.Delete(path);
         }
-        
-        
+
+
         private async Task OnMessageReceived(SocketMessage arg)
         {
             if (!(arg is SocketUserMessage message)) return;
@@ -99,9 +113,6 @@ namespace brainKiller.Services
             if (command.IsSpecified && !result.IsSuccess) await context.Channel.SendMessageAsync($"Error: {result}");
         }
 
-        private async Task OnReadyAsync()
-        {
-            await _client.SetGameAsync("Online");
-        }
+
     }
 }

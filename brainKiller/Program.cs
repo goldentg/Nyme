@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using brainKiller.Services;
 using brainKiller.Utilities;
+using Victoria;
 
 namespace brainKiller
 {
@@ -57,6 +58,10 @@ namespace brainKiller
                     services
                     .AddHostedService<CommandHandler>()
                     .AddDbContext<brainKillerContext>()
+                    .AddLavaNode(x =>
+                    {
+                        x.SelfDeaf = true;
+                    })
                     .AddSingleton<Servers>()
                     .AddSingleton<Images>()
                     .AddSingleton<Ranks>()

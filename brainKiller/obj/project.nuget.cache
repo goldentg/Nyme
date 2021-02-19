@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "HoHUrSKWK3gPs4OYk6qR46y35nNK17bu5WW5trSkvzVfIyOQqlHJMj7ndNfZxvmfrfPH83FrWpa3d3Exga2H6Q==",
+  "dgSpecHash": "7msf6MMvm1tcdgeeSQUkOOB87H8GnPb9exG5I89leLuImu+TBLImX6U4OFt8SaV1YbJ2Qvc1mAVxAXvhM2f04Q==",
   "success": true,
   "projectFilePath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
   "expectedPackageFiles": [
@@ -132,7 +132,8 @@
     "C:\\Users\\evann\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\evann\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\evann\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\evann\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\evann\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\evann\\.nuget\\packages\\victoria\\5.1.11\\victoria.5.1.11.nupkg.sha512"
   ],
   "logs": []
 }

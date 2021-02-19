@@ -24,7 +24,8 @@
           "Microsoft.Extensions.Logging": "5.0.0",
           "Pomelo.EntityFrameworkCore.MySql": "3.2.4",
           "System.Drawing.Common": "5.0.1",
-          "System.Drawing.Primitives": "4.3.0"
+          "System.Drawing.Primitives": "4.3.0",
+          "Victoria": "5.1.11"
         },
         "runtime": {
           "brainKiller.dll": {}
@@ -1460,6 +1461,18 @@
           "System.Xml.XmlDocument": "4.3.0"
         }
       },
+      "Victoria/5.1.11": {
+        "dependencies": {
+          "Discord.Net.WebSocket": "2.3.0",
+          "Microsoft.Extensions.DependencyInjection": "5.0.1"
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/Victoria.dll": {
+            "assemblyVersion": "5.1.11.0",
+            "fileVersion": "5.1.11.0"
+          }
+        }
+      },
       "Infrastructure/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "3.1.12",
@@ -2380,6 +2393,13 @@
       "sha512": "sha512-MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    },
+    "Victoria/5.1.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jw6pQc3RVzXAk9JN5ft9xMHwyxtwReMTF+Qoaf0KcfkgcdTBERhc/9nF1LGyScC5qQC5ks+b5Xb1EpMprBkB3Q==",
+      "path": "victoria/5.1.11",
+      "hashPath": "victoria.5.1.11.nupkg.sha512"
     },
     "Infrastructure/1.0.0": {
       "type": "project",
