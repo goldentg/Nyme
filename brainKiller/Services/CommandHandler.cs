@@ -1,4 +1,5 @@
-﻿using brainKiller.Utilities;
+﻿using brainKiller.Common;
+using brainKiller.Utilities;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
@@ -10,6 +11,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Victoria;
+using Victoria.EventArgs;
 
 namespace brainKiller.Services
 {
@@ -45,6 +47,8 @@ namespace brainKiller.Services
 
             _service.CommandExecuted += OnCommandExecuted;
 
+            _lavaNode.OnTrackEnded += OnTrackEnded;
+
             _client.Ready += OnReadyAsync;
 
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
@@ -61,6 +65,33 @@ namespace brainKiller.Services
             }
 
             // Other ready related stuff
+        }
+        private async Task OnTrackEnded(TrackEndedEventArgs args)
+        {
+            if (!args.Reason.ShouldPlayNext())
+            {
+                return;
+            }
+
+            var player = args.Player;
+            if (!player.Queue.TryDequeue(out var queueable))
+            {
+                // await player.TextChannel.SendMessageAsync("Queue completed! Please add more tracks to rock n' roll!");
+                await player.TextChannel.TextMusic("Queue Completed", "Add more songs to the queue to keep the party going!", "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                return;
+            }
+
+            if (!(queueable is LavaTrack track))
+            {
+                //await player.TextChannel.SendMessageAsync("Next item in queue is not a track.");
+                await player.TextChannel.SendErrorTextChannelAsync("Error", "The next item in the queue is not a track");
+                return;
+            }
+            
+            await args.Player.PlayAsync(track);
+            await args.Player.TextChannel.TextMusic("Now Playing:", track.Title, "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+            //await args.Player.TextChannel.SendMessageAsync(
+            //    $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
         }
 
         private async Task OnMemberJoin(SocketGuildUser arg)

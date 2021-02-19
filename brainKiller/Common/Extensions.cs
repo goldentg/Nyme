@@ -43,6 +43,23 @@ namespace brainKiller.Common
             return message;
         }
 
+        public static async Task<IMessage> SendErrorTextChannelAsync(this ITextChannel channel, string title, string description)
+        {
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(231, 76, 60))
+                .WithDescription(description)
+                .WithAuthor(author =>
+                {
+                    author
+                    .WithIconUrl("https://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-error-icon.png")
+                    .WithName(title);
+                })
+                .Build();
+
+            var message = await channel.SendMessageAsync(embed: embed);
+            return message;
+        }
+
         public static async Task<IMessage> SendLogAsync(this ITextChannel channel, string title, string description)
         {
             var embed = new EmbedBuilder()
@@ -66,6 +83,19 @@ namespace brainKiller.Common
             {
                 thumb = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1";
             }
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(91, 7, 175))
+                .WithDescription(song)
+                .WithTitle(title)
+                .WithThumbnailUrl(thumb)
+                .Build();
+
+            var message = await channel.SendMessageAsync(embed: embed);
+            return message;
+        }
+
+        public static async Task<IMessage> TextMusic(this ITextChannel channel, string title, string song, string thumb)
+        {
             var embed = new EmbedBuilder()
                 .WithColor(new Color(91, 7, 175))
                 .WithDescription(song)

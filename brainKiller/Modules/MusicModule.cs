@@ -20,30 +20,7 @@ namespace brainKiller.Modules
         {
             _lavaNode = lavaNode;
         }
-        private async Task OnTrackEnded(TrackEndedEventArgs args)
-        {
-            if (!args.Reason.ShouldPlayNext())
-            {
-                return;
-            }
-
-            var player = args.Player;
-            if (!player.Queue.TryDequeue(out var queueable))
-            {
-                await player.TextChannel.SendMessageAsync("Queue completed! Please add more tracks to rock n' roll!");
-                return;
-            }
-
-            if (!(queueable is LavaTrack track))
-            {
-                await player.TextChannel.SendMessageAsync("Next item in queue is not a track.");
-                return;
-            }
-
-            await args.Player.PlayAsync(track);
-            await args.Player.TextChannel.SendMessageAsync(
-                $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
-        }
+        
 
         [Command("Join", RunMode = RunMode.Async)]
         public async Task JoinAsync()
@@ -234,6 +211,48 @@ namespace brainKiller.Modules
             await player.ResumeAsync();
             await Context.Channel.SendSuccessAsync("Resumed", $"I have resumed playing {player.Track.Title}");
             //await ReplyAsync("Resuming the music!");
+        }
+
+        private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
+
+        [Command("lyrics", RunMode = RunMode.Async)]
+        public async Task ShowGeniusLyrics()
+        {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
+            {
+                await ReplyAsync("I'm not connected to a voice channel.");
+                return;
+            }
+
+            if (player.PlayerState != PlayerState.Playing)
+            {
+                await ReplyAsync("Woaaah there, I'm not playing any tracks.");
+                return;
+            }
+
+            var lyrics = await player.Track.FetchLyricsFromGeniusAsync();
+            if (string.IsNullOrWhiteSpace(lyrics))
+            {
+                await ReplyAsync($"No lyrics found for {player.Track.Title}");
+                return;
+            }
+
+            var splitLyrics = lyrics.Split('\n');
+            var stringBuilder = new StringBuilder();
+            foreach (var line in splitLyrics)
+            {
+                if (Range.Contains(stringBuilder.Length))
+                {
+                    await ReplyAsync($"```{stringBuilder}```");
+                    stringBuilder.Clear();
+                }
+                else
+                {
+                    stringBuilder.AppendLine(line);
+                }
+            }
+
+            await ReplyAsync($"```{stringBuilder}```");
         }
 
     }
