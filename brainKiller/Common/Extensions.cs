@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Template.Common
+namespace brainKiller.Common
 {
     public static class Extensions
     {
@@ -54,6 +54,23 @@ namespace Template.Common
                     .WithIconUrl("https://i.imgur.com/gLR4k7d.png")
                     .WithName(title);
                 })
+                .Build();
+
+            var message = await channel.SendMessageAsync(embed: embed);
+            return message;
+        }
+
+        public static async Task<IMessage> Music(this ISocketMessageChannel channel, string title, string song, string thumb)
+        {
+            if (thumb == null)
+            {
+                thumb = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1";
+            }
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(91, 7, 175))
+                .WithDescription(song)
+                .WithTitle(title)
+                .WithThumbnailUrl(thumb)
                 .Build();
 
             var message = await channel.SendMessageAsync(embed: embed);

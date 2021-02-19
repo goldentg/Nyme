@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Victoria;
 using Victoria.Enums;
+using brainKiller.Common;
+using Victoria.EventArgs;
 
 namespace brainKiller.Modules
 {
@@ -17,6 +19,30 @@ namespace brainKiller.Modules
         public MusicModule(LavaNode lavaNode)
         {
             _lavaNode = lavaNode;
+        }
+        private async Task OnTrackEnded(TrackEndedEventArgs args)
+        {
+            if (!args.Reason.ShouldPlayNext())
+            {
+                return;
+            }
+
+            var player = args.Player;
+            if (!player.Queue.TryDequeue(out var queueable))
+            {
+                await player.TextChannel.SendMessageAsync("Queue completed! Please add more tracks to rock n' roll!");
+                return;
+            }
+
+            if (!(queueable is LavaTrack track))
+            {
+                await player.TextChannel.SendMessageAsync("Next item in queue is not a track.");
+                return;
+            }
+
+            await args.Player.PlayAsync(track);
+            await args.Player.TextChannel.SendMessageAsync(
+                $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
         }
 
         [Command("Join", RunMode = RunMode.Async)]
@@ -38,11 +64,13 @@ namespace brainKiller.Modules
             try
             {
                 await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
+                await Context.Channel.SendSuccessAsync("Success", $"Joined {voiceState.VoiceChannel.Name}");
+                //await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
             }
             catch (Exception exception)
             {
-                await ReplyAsync(exception.Message);
+                // await ReplyAsync(exception.Message);
+                await Context.Channel.SendErrorAsync("Error", exception.Message);
             }
         }
 
@@ -51,13 +79,15 @@ namespace brainKiller.Modules
     {
         if (string.IsNullOrWhiteSpace(query))
         {
-            await ReplyAsync("Please provide search terms.");
+                //await ReplyAsync("Please provide search terms.");
+                await Context.Channel.SendErrorAsync("Error", "Please provide search terms");
             return;
         }
 
         if (!_lavaNode.HasPlayer(Context.Guild))
         {
-            await ReplyAsync("I'm not connected to a voice channel.");
+                //await ReplyAsync("I'm not connected to a voice channel.");
+                await Context.Channel.SendErrorAsync("Error", "I'm not connected to a voice channel");
             return;
         }
 
@@ -65,7 +95,8 @@ namespace brainKiller.Modules
             if (searchResponse.LoadStatus == LoadStatus.LoadFailed ||
                 searchResponse.LoadStatus == LoadStatus.NoMatches)
             {
-                await ReplyAsync($"I wasn't able to find anything for `{query}`.");
+                await Context.Channel.SendErrorAsync("Error", $"I could not find anything for {query}");
+                //await ReplyAsync($"I wasn't able to find anything for `{query}`.");
                 return;
             }
 
@@ -74,14 +105,19 @@ namespace brainKiller.Modules
             if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused)
             {
                 var track = searchResponse.Tracks[0];
+                var thumbnail = await track.FetchArtworkAsync();
+
                 player.Queue.Enqueue(track);
-                await ReplyAsync($"Enqued {track.Title}");
+                await Context.Channel.Music("Enqued:", track.Title, thumbnail);
+                //await ReplyAsync($"Enqued {track.Title}");
             }
             else {
                 var track = searchResponse.Tracks[0];
                 var thumbnail = await track.FetchArtworkAsync();
+
                     await player.PlayAsync(track);
-                    await ReplyAsync($"Now Playing: {track.Title}");
+                    await Context.Channel.Music("Playing:", track.Title, thumbnail);
+                   // await ReplyAsync($"Now Playing: {track.Title}");
                 }
             }
 
@@ -91,31 +127,37 @@ namespace brainKiller.Modules
             var voiceState = Context.User as IVoiceState;
             if (voiceState?.VoiceChannel == null)
             {
-                await ReplyAsync("You must be connected to a voice channel!");
+                await Context.Channel.SendErrorAsync("Error", "You must be connected to a voice channel");
+                //await ReplyAsync("You must be connected to a voice channel!");
                 return;
             }
 
             if (!_lavaNode.HasPlayer(Context.Guild))
             {
-                await ReplyAsync("I'm not connected to a voice channel!");
+                await Context.Channel.SendErrorAsync("Error", "I'm not connected to a voice channel");
+                //await ReplyAsync("I'm not connected to a voice channel!");
                 return;
             }
 
             var player = _lavaNode.GetPlayer(Context.Guild);
             if (voiceState.VoiceChannel != player.VoiceChannel)
             {
-                await ReplyAsync("You must be in the same channel as me");
+                await Context.Channel.SendErrorAsync("Error", "You must be in the same channel as me");
+                //await ReplyAsync("You must be in the same channel as me");
                 return;
             }
 
             if (player.Queue.Count == 0)
             {
-                await ReplyAsync("There are no more songs in the queue!");
+                await Context.Channel.SendErrorAsync("Error", "There are no more songs in the queue");
+                //await ReplyAsync("There are no more songs in the queue!");
                 return;
             }
 
             await player.SkipAsync();
-            await ReplyAsync($"Skipped! Now playing: **{player.Track.Title}**!");
+            var thumbnail = await player.Track.FetchArtworkAsync();
+            await Context.Channel.Music("Skipped", player.Track.Title, thumbnail);
+            //await ReplyAsync($"Skipped! Now playing: **{player.Track.Title}**!");
         }
 
         [Command("pause", RunMode = RunMode.Async)]
@@ -124,31 +166,36 @@ namespace brainKiller.Modules
             var voiceState = Context.User as IVoiceState;
             if (voiceState?.VoiceChannel == null)
             {
-                await ReplyAsync("You must be connected to a voice channel!");
+                await Context.Channel.SendErrorAsync("Error", "You must be connected to a voice channel");
+                //await ReplyAsync("You must be connected to a voice channel!");
                 return;
             }
 
             if (!_lavaNode.HasPlayer(Context.Guild))
             {
-                await ReplyAsync("I'm not connected to a voice channel!");
+                await Context.Channel.SendErrorAsync("Error", "I'm not connected to a voice channel");
+                //await ReplyAsync("I'm not connected to a voice channel!");
                 return;
             }
 
             var player = _lavaNode.GetPlayer(Context.Guild);
             if (voiceState.VoiceChannel != player.VoiceChannel)
             {
-                await ReplyAsync("You must be in the same channel as me");
+                await Context.Channel.SendErrorAsync("Error", "You must be in the same channel as me");
+                //await ReplyAsync("You must be in the same channel as me");
                 return;
             }
 
             if (player.PlayerState == PlayerState.Paused || player.PlayerState == PlayerState.Stopped)
             {
-                await ReplyAsync("The music is already paused!");
+                await Context.Channel.SendErrorAsync("Error", "The music is already paused");
+                //await ReplyAsync("The music is already paused!");
                 return;
             }
 
             await player.PauseAsync();
-            await ReplyAsync("Paused the music!");
+            await Context.Channel.SendSuccessAsync("Paused", "Music has been paused");
+           // await ReplyAsync("Paused the music!");
         }
 
         [Command("resume", RunMode = RunMode.Async)]
@@ -157,31 +204,36 @@ namespace brainKiller.Modules
             var voiceState = Context.User as IVoiceState;
             if (voiceState?.VoiceChannel == null)
             {
-                await ReplyAsync("You must be connected to a voice channel!");
+                Context.Channel.SendErrorAsync("Error", "You must be connected to a voice channel");
+                //await ReplyAsync("You must be connected to a voice channel!");
                 return;
             }
 
             if (!_lavaNode.HasPlayer(Context.Guild))
             {
-                await ReplyAsync("I'm not connected to a voice channel!");
+                await Context.Channel.SendErrorAsync("Error", "I'm not connected to a voice channel");
+                //await ReplyAsync("I'm not connected to a voice channel!");
                 return;
             }
 
             var player = _lavaNode.GetPlayer(Context.Guild);
             if (voiceState.VoiceChannel != player.VoiceChannel)
             {
-                await ReplyAsync("You must be in the same channel as me");
+                Context.Channel.SendErrorAsync("Error", "You must be in the same channel as me");
+                //await ReplyAsync("You must be in the same channel as me");
                 return;
             }
 
             if (player.PlayerState == PlayerState.Playing)
             {
-                await ReplyAsync("The music is already playing!");
+                await Context.Channel.SendErrorAsync("Error", "The music is already playing");
+                //await ReplyAsync("The music is already playing!");
                 return;
             }
 
             await player.ResumeAsync();
-            await ReplyAsync("Resuming the music!");
+            await Context.Channel.SendSuccessAsync("Resumed", $"I have resumed playing {player.Track.Title}");
+            //await ReplyAsync("Resuming the music!");
         }
 
     }
