@@ -1,4 +1,5 @@
-﻿using brainKiller.Utilities;
+﻿using brainKiller.Common;
+using brainKiller.Utilities;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -28,7 +29,7 @@ namespace brainKiller.Modules
         [Command("ping")]
         public async Task Ping()
         {
-            await Context.Channel.SendMessageAsync("Pong!");
+            await Context.Channel.SendSuccessAsync("Ping", "Pong!");
         }
 
         [Command("info")]
