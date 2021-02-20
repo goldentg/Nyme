@@ -1,6 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using brainKiller.Services;
+using brainKiller.Utilities;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
@@ -10,17 +11,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using brainKiller.Services;
-using brainKiller.Utilities;
 using Victoria;
 
 namespace brainKiller
 {
-    class Program
+    internal class Program
     {
-        static async Task Main()
+        private static async Task Main()
         {
-            
             var builder = new HostBuilder()
                 .ConfigureAppConfiguration(x =>
                 {
@@ -34,15 +32,17 @@ namespace brainKiller
                 .ConfigureLogging(x =>
                 {
                     x.AddConsole();
-                    x.SetMinimumLevel(LogLevel.Debug); // Defines what kind of information should be logged (e.g. Debug, Information, Warning, Critical) adjust this to your liking
+                    x.SetMinimumLevel(LogLevel
+                        .Debug); // Defines what kind of information should be logged (e.g. Debug, Information, Warning, Critical) adjust this to your liking
                 })
                 .ConfigureDiscordHost<DiscordSocketClient>((context, config) =>
                 {
                     config.SocketConfig = new DiscordSocketConfig
                     {
-                        LogLevel = LogSeverity.Verbose, // Defines what kind of information should be logged from the API (e.g. Verbose, Info, Warning, Critical) adjust this to your liking
+                        LogLevel = LogSeverity
+                            .Verbose, // Defines what kind of information should be logged from the API (e.g. Verbose, Info, Warning, Critical) adjust this to your liking
                         AlwaysDownloadUsers = true,
-                        MessageCacheSize = 200,
+                        MessageCacheSize = 200
                     };
 
                     config.Token = context.Configuration["token"];
@@ -56,22 +56,18 @@ namespace brainKiller
                 .ConfigureServices((context, services) =>
                 {
                     services
-                    .AddHostedService<CommandHandler>()
-                    .AddDbContext<brainKillerContext>()
-                    .AddLavaNode(x =>
-                    {
-                        x.SelfDeaf = true;
-                    })
-                    .AddSingleton<Servers>()
-                    .AddSingleton<Images>()
-                    .AddSingleton<Ranks>()
-                    .AddSingleton<AutoRoles>()
-                    .AddSingleton<RanksHelper>()
-                    .AddSingleton<AutoRolesHelper>();
+                        .AddHostedService<CommandHandler>()
+                        .AddDbContext<brainKillerContext>()
+                        .AddLavaNode(x => { x.SelfDeaf = true; })
+                        .AddSingleton<Servers>()
+                        .AddSingleton<Images>()
+                        .AddSingleton<Ranks>()
+                        .AddSingleton<AutoRoles>()
+                        .AddSingleton<RanksHelper>()
+                        .AddSingleton<AutoRolesHelper>();
                 })
-                
                 .UseConsoleLifetime();
-            
+
             var host = builder.Build();
             using (host)
             {

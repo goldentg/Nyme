@@ -1,4 +1,9 @@
-﻿using brainKiller.Common;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using brainKiller.Common;
 using brainKiller.Utilities;
 using Discord;
 using Discord.Addons.Hosting;
@@ -6,10 +11,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Infrastructure;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using Victoria;
 using Victoria.EventArgs;
 
@@ -17,17 +18,18 @@ namespace brainKiller.Services
 {
     public class CommandHandler : InitializedService
     {
-        private readonly IServiceProvider _provider;
-        private readonly DiscordSocketClient _client;
-        private readonly CommandService _service;
-        private readonly IConfiguration _config;
-        private readonly Servers _servers;
-        private readonly Images _images;
         private readonly AutoRolesHelper _autoRolesHelper;
+        private readonly DiscordSocketClient _client;
+        private readonly IConfiguration _config;
+        private readonly Images _images;
         private readonly LavaNode _lavaNode;
+        private readonly IServiceProvider _provider;
+        private readonly Servers _servers;
+        private readonly CommandService _service;
 
 
-        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service, IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
+        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
+            IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
         {
             _provider = provider;
             _client = client;
@@ -59,37 +61,36 @@ namespace brainKiller.Services
             await _client.SetGameAsync("Online");
 
 
-            if (!_lavaNode.IsConnected)
-            {
-                await _lavaNode.ConnectAsync();
-            }
+            if (!_lavaNode.IsConnected) await _lavaNode.ConnectAsync();
 
             // Other ready related stuff
         }
+
         private async Task OnTrackEnded(TrackEndedEventArgs args)
         {
-            if (!args.Reason.ShouldPlayNext())
-            {
-                return;
-            }
+            if (!args.Reason.ShouldPlayNext()) return;
 
             var player = args.Player;
             if (!player.Queue.TryDequeue(out var queueable))
             {
                 // await player.TextChannel.SendMessageAsync("Queue completed! Please add more tracks to rock n' roll!");
-                await player.TextChannel.TextMusic("Queue Completed", "Add more songs to the queue to keep the party going!", "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                await player.TextChannel.TextMusic("Queue Completed",
+                    "Add more songs to the queue to keep the party going!",
+                    "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
                 return;
             }
 
             if (!(queueable is LavaTrack track))
             {
                 //await player.TextChannel.SendMessageAsync("Next item in queue is not a track.");
-                await player.TextChannel.SendErrorTextChannelAsync("Error", "The next item in the queue is not a track");
+                await player.TextChannel.SendErrorTextChannelAsync("Error",
+                    "The next item in the queue is not a track");
                 return;
             }
-            
+
             await args.Player.PlayAsync(track);
-            await args.Player.TextChannel.TextMusic("Now Playing:", track.Title, "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+            await args.Player.TextChannel.TextMusic("Now Playing:", track.Title,
+                "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
             //await args.Player.TextChannel.SendMessageAsync(
             //    $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
         }
@@ -118,10 +119,11 @@ namespace brainKiller.Services
                 return;
             }
 
-            var background = await _servers.GetBackgroundAsync(arg.Guild.Id) ?? "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
-            string path = await _images.CreateImageAsync(arg, background);
+            var background = await _servers.GetBackgroundAsync(arg.Guild.Id) ??
+                             "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+            var path = await _images.CreateImageAsync(arg, background);
             await channel.SendFileAsync(path, null);
-            System.IO.File.Delete(path);
+            File.Delete(path);
         }
 
 
@@ -133,7 +135,8 @@ namespace brainKiller.Services
             var argPos = 0;
             //if no value on left, it will use "value" as prefix instead
             var prefix = await _servers.GetGuildPrefix((message.Channel as SocketGuildChannel).Guild.Id) ?? "!";
-            if (!message.HasStringPrefix(prefix, ref argPos) && !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) return;
+            if (!message.HasStringPrefix(prefix, ref argPos) &&
+                !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) return;
 
             var context = new SocketCommandContext(_client, message);
             await _service.ExecuteAsync(context, argPos, _provider);
@@ -143,7 +146,5 @@ namespace brainKiller.Services
         {
             if (command.IsSpecified && !result.IsSuccess) await context.Channel.SendMessageAsync($"Error: {result}");
         }
-
-
     }
 }

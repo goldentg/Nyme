@@ -1,24 +1,23 @@
-﻿using brainKiller.Utilities;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using brainKiller.Utilities;
 using Discord;
 using Discord.Commands;
 using Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace brainKiller.Modules
 {
-   public class Configuration : ModuleBase<SocketCommandContext>
+    public class Configuration : ModuleBase<SocketCommandContext>
     {
-        private readonly RanksHelper _ranksHelper;
-        private readonly AutoRolesHelper _autoRolesHelper;
-        private readonly Servers _servers;
-        private readonly Ranks _ranks;
         private readonly AutoRoles _autoRoles;
+        private readonly AutoRolesHelper _autoRolesHelper;
+        private readonly Ranks _ranks;
+        private readonly RanksHelper _ranksHelper;
+        private readonly Servers _servers;
 
-        public Configuration(RanksHelper ranksHelper, Servers servers, Ranks ranks, AutoRolesHelper autoRolesHelper, AutoRoles autoRoles)
+        public Configuration(RanksHelper ranksHelper, Servers servers, Ranks ranks, AutoRolesHelper autoRolesHelper,
+            AutoRoles autoRoles)
         {
             _ranksHelper = ranksHelper;
             _autoRolesHelper = autoRolesHelper;
@@ -28,7 +27,7 @@ namespace brainKiller.Modules
         }
 
         [Command("prefix", RunMode = RunMode.Async)]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Prefix(string prefix = null)
         {
             if (prefix == null)
@@ -38,10 +37,7 @@ namespace brainKiller.Modules
                 return;
             }
 
-            if (prefix.Length > 8)
-            {
-                await ReplyAsync("The length of the new prefix is too long!");
-            }
+            if (prefix.Length > 8) await ReplyAsync("The length of the new prefix is too long!");
 
             await _servers.ModifyGuildPrefix(Context.Guild.Id, prefix);
             await ReplyAsync($"The prefix of this bot has been changed to `{prefix}`");
@@ -53,31 +49,30 @@ namespace brainKiller.Modules
             var ranks = await _ranksHelper.GetRanksAsync(Context.Guild);
             if (ranks.Count == 0)
             {
-                await ReplyAsync("This server doesnt have any ranks!");
+                await ReplyAsync("This server doesn't have any ranks!");
                 return;
             }
 
             await Context.Channel.TriggerTypingAsync();
 
-            string description = "This message lists all avalible ranks \nIn order to add a rank you can use the name or ID of the rank";
-            foreach(var rank in ranks)
-            {
-                description += $"\n{rank.Mention} ({rank.Id})";
-            }
+            var description =
+                "This message lists all available ranks \nIn order to add a rank you can use the name or ID of the rank";
+            foreach (var rank in ranks) description += $"\n{rank.Mention} ({rank.Id})";
 
             await ReplyAsync(description);
         }
 
         [Command("addrank", RunMode = RunMode.Async)]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
-        [RequireBotPermission(Discord.GuildPermission.ManageRoles)]
-        public async Task AddRank([Remainder]string name)
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task AddRank([Remainder] string name)
         {
             await Context.Channel.TriggerTypingAsync();
             var ranks = await _ranksHelper.GetRanksAsync(Context.Guild);
 
-            var role = Context.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
-            if(role == null)
+            var role = Context.Guild.Roles.FirstOrDefault(x =>
+                string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            if (role == null)
             {
                 await ReplyAsync("That role does not exist!");
                 return;
@@ -100,13 +95,14 @@ namespace brainKiller.Modules
         }
 
         [Command("delrank", RunMode = RunMode.Async)]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
-        [RequireBotPermission(Discord.GuildPermission.ManageRoles)]
-        public async Task DelRank([Remainder]string name)
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task DelRank([Remainder] string name)
         {
             await Context.Channel.TriggerTypingAsync();
             var ranks = await _ranksHelper.GetRanksAsync(Context.Guild);
-            var role = Context.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            var role = Context.Guild.Roles.FirstOrDefault(x =>
+                string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
             if (role == null)
             {
                 await ReplyAsync("That role does not exist!");
@@ -124,38 +120,35 @@ namespace brainKiller.Modules
         }
 
 
-
         [Command("autoroles", RunMode = RunMode.Async)]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task AutoRoles()
         {
             var autoRoles = await _autoRolesHelper.GetAutoRolesAsync(Context.Guild);
             if (autoRoles.Count == 0)
             {
-                await ReplyAsync("This server doesnt have any auto roles!");
+                await ReplyAsync("This server doesn't have any auto roles!");
                 return;
             }
 
             await Context.Channel.TriggerTypingAsync();
 
-            string description = "This message lists all auto roles \nIn order to remove an autorole, use the name or ID";
-            foreach (var autoRole in autoRoles)
-            {
-                description += $"\n{autoRole.Mention} ({autoRole.Id})";
-            }
+            var description = "This message lists all auto roles \nIn order to remove an autorole, use the name or ID";
+            foreach (var autoRole in autoRoles) description += $"\n{autoRole.Mention} ({autoRole.Id})";
 
             await ReplyAsync(description);
         }
 
         [Command("addautorole", RunMode = RunMode.Async)]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
-        [RequireBotPermission(Discord.GuildPermission.ManageRoles)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task AddAutoRole([Remainder] string name)
         {
             await Context.Channel.TriggerTypingAsync();
             var autoRoles = await _autoRolesHelper.GetAutoRolesAsync(Context.Guild);
 
-            var role = Context.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            var role = Context.Guild.Roles.FirstOrDefault(x =>
+                string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
             if (role == null)
             {
                 await ReplyAsync("That role does not exist!");
@@ -179,13 +172,14 @@ namespace brainKiller.Modules
         }
 
         [Command("delautorole", RunMode = RunMode.Async)]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
-        [RequireBotPermission(Discord.GuildPermission.ManageRoles)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task DelAutoRole([Remainder] string name)
         {
             await Context.Channel.TriggerTypingAsync();
             var autoRoles = await _autoRolesHelper.GetAutoRolesAsync(Context.Guild);
-            var role = Context.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            var role = Context.Guild.Roles.FirstOrDefault(x =>
+                string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
             if (role == null)
             {
                 await ReplyAsync("That role does not exist!");
@@ -203,7 +197,7 @@ namespace brainKiller.Modules
         }
 
         [Command("welcome")]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Welcome(string option = null, string value = null)
         {
             if (option == null && value == null)
@@ -226,7 +220,8 @@ namespace brainKiller.Modules
                 var fetchedBackground = await _servers.GetBackgroundAsync(Context.Guild.Id);
 
                 if (fetchedBackground != null)
-                    await ReplyAsync($"The channel used for the welcome mudule is {fetchedChannel.Mention}.\nThe background is set to {fetchedBackground}");
+                    await ReplyAsync(
+                        $"The channel used for the welcome mudule is {fetchedChannel.Mention}.\nThe background is set to {fetchedBackground}");
                 else await ReplyAsync($"The channel used for the welcome mudule is {fetchedChannel.Mention}.");
 
                 return;
@@ -234,11 +229,12 @@ namespace brainKiller.Modules
 
             if (option == "channel" && value != null)
             {
-                if (!MentionUtils.TryParseChannel(value, out ulong parsedId))
+                if (!MentionUtils.TryParseChannel(value, out var parsedId))
                 {
                     await ReplyAsync("Please pass through a valid channel!");
                     return;
                 }
+
                 var parsedChannel = Context.Guild.GetTextChannel(parsedId);
 
                 if (parsedChannel == null)
@@ -251,7 +247,8 @@ namespace brainKiller.Modules
                 await ReplyAsync($"Successfully modified the welcome channel to {parsedChannel.Mention}.");
                 return;
             }
-                        if (option == "background" && value != null)
+
+            if (option == "background" && value != null)
             {
                 if (value == "clear")
                 {
@@ -259,6 +256,7 @@ namespace brainKiller.Modules
                     await ReplyAsync("Successfully cleared the background for this server");
                     return;
                 }
+
                 await _servers.ModifyBackgroundAsync(Context.Guild.Id, value);
                 await ReplyAsync($"Successfully modified the background to {value}.");
                 return;
@@ -275,4 +273,3 @@ namespace brainKiller.Modules
         }
     }
 }
-

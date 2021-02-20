@@ -1,22 +1,20 @@
-﻿using brainKiller.Common;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using brainKiller.Common;
 using brainKiller.Utilities;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Infrastructure;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace brainKiller.Modules
 {
     public class General : ModuleBase<SocketCommandContext>
     {
-        private readonly ILogger<General> _logger;
         private readonly Images _images;
+        private readonly ILogger<General> _logger;
         private readonly RanksHelper _ranksHelper;
 
         public General(ILogger<General> logger, Images images, RanksHelper ranksHelper)
@@ -43,7 +41,8 @@ namespace brainKiller.Modules
                     .WithColor(new Color(33, 176, 252))
                     .AddField("User ID", Context.User.Id, true)
                     .AddField("Account Creation Date", Context.User.CreatedAt.ToString("yyyy/MM/dd"), true)
-                    .AddField("Date User Joined Server", (Context.User as SocketGuildUser).JoinedAt.Value.ToString("yyyy/MM/dd"), true)
+                    .AddField("Date User Joined Server",
+                        (Context.User as SocketGuildUser).JoinedAt.Value.ToString("yyyy/MM/dd"), true)
                     .AddField("Roles", string.Join(" ", (Context.User as SocketGuildUser).Roles.Select(x => x.Mention)))
                     .WithCurrentTimestamp();
                 var embed = builder.Build();
@@ -66,7 +65,6 @@ namespace brainKiller.Modules
         }
 
 
-
         [Command("server")]
         public async Task Server()
         {
@@ -76,18 +74,17 @@ namespace brainKiller.Modules
                 .WithTitle($"{Context.Guild.Name} Server Stats")
                 .WithColor(new Color(33, 176, 252))
                 .AddField("Created At", Context.Guild.CreatedAt.ToString("yyyy/MM/dd"), true)
-                .AddField("Member Count", (Context.Guild as SocketGuild).MemberCount + " members", true)
-                .AddField("Online Users", (Context.Guild as SocketGuild).Users.Where(x => x.Status != UserStatus.Offline).Count() + " members", true);
+                .AddField("Member Count", Context.Guild.MemberCount + " members", true)
+                .AddField("Online Users",
+                    Context.Guild.Users.Where(x => x.Status != UserStatus.Offline).Count() + " members", true);
             var embed = builder.Build();
 
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
 
-        
-        
 
-    [Command("image", RunMode = RunMode.Async)]
-    public async Task Image(SocketGuildUser user)
+        [Command("image", RunMode = RunMode.Async)]
+        public async Task Image(SocketGuildUser user)
         {
             var path = await _images.CreateImageAsync(user);
             await Context.Channel.SendFileAsync(path);
@@ -95,8 +92,8 @@ namespace brainKiller.Modules
         }
 
         [Command("say")]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
-        public async Task Say([Remainder] string msg) 
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task Say([Remainder] string msg)
         {
             await ReplyAsync(msg);
             await Context.Message.DeleteAsync();
@@ -111,7 +108,7 @@ namespace brainKiller.Modules
 
             IRole role;
 
-            if (ulong.TryParse(identifier, out ulong roleId))
+            if (ulong.TryParse(identifier, out var roleId))
             {
                 var roleById = Context.Guild.Roles.FirstOrDefault(x => x.Id == roleId);
                 if (roleById == null)
@@ -124,7 +121,8 @@ namespace brainKiller.Modules
             }
             else
             {
-                var roleByName = Context.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, identifier, StringComparison.CurrentCultureIgnoreCase));
+                var roleByName = Context.Guild.Roles.FirstOrDefault(x =>
+                    string.Equals(x.Name, identifier, StringComparison.CurrentCultureIgnoreCase));
                 if (roleByName == null)
                 {
                     await ReplyAsync("That role does not exist!");
@@ -133,7 +131,7 @@ namespace brainKiller.Modules
 
                 role = roleByName;
             }
-           
+
             if ((Context.User as SocketGuildUser).Roles.Any(x => x.Id == role.Id))
             {
                 await (Context.User as SocketGuildUser).RemoveRoleAsync(role);
@@ -144,8 +142,5 @@ namespace brainKiller.Modules
             await (Context.User as SocketGuildUser).AddRoleAsync(role);
             await ReplyAsync($"Succesfully added the rank {role.Mention} to you.");
         }
-
-
-
     }
 }

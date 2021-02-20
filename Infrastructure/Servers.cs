@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
-   public class Servers
+    public class Servers
     {
         private readonly brainKillerContext _context;
 
@@ -16,7 +13,7 @@ namespace Infrastructure
         {
             _context = context;
         }
-       
+
 
         public async Task ModifyGuildPrefix(ulong id, string prefix)
         {
@@ -24,11 +21,11 @@ namespace Infrastructure
                 .FindAsync(id);
 
             if (server == null)
-                _context.Add(new Server { Id = id, Prefix = prefix });
+                _context.Add(new Server {Id = id, Prefix = prefix});
             else
                 server.Prefix = prefix;
 
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
         }
 
         public async Task<string> GetGuildPrefix(ulong id)
@@ -47,12 +44,13 @@ namespace Infrastructure
                 .FindAsync(id);
 
             if (server == null)
-                _context.Add(new Server { Id = id, Welcome = channelId });
+                _context.Add(new Server {Id = id, Welcome = channelId});
             else
                 server.Welcome = channelId;
 
-            await _context.SaveChangesAsync();    
+            await _context.SaveChangesAsync();
         }
+
         public async Task ClearWelcomeAsync(ulong id)
         {
             var server = await _context.Servers
@@ -61,6 +59,7 @@ namespace Infrastructure
             server.Welcome = 0;
             await _context.SaveChangesAsync();
         }
+
         public async Task<ulong> GetWelcomeAsync(ulong id)
         {
             var server = await _context.Servers
@@ -75,12 +74,13 @@ namespace Infrastructure
                 .FindAsync(id);
 
             if (server == null)
-                _context.Add(new Server { Id = id, Background = url});
+                _context.Add(new Server {Id = id, Background = url});
             else
                 server.Background = url;
 
             await _context.SaveChangesAsync();
         }
+
         public async Task ClearBackgroundAsync(ulong id)
         {
             var server = await _context.Servers
@@ -89,6 +89,7 @@ namespace Infrastructure
             server.Background = null;
             await _context.SaveChangesAsync();
         }
+
         public async Task<string> GetBackgroundAsync(ulong id)
         {
             var server = await _context.Servers
@@ -96,6 +97,5 @@ namespace Infrastructure
 
             return await Task.FromResult(server.Background);
         }
-
     }
 }
