@@ -108,3 +108,4 @@
 2021-02-19 17:38:02.422  INFO 22116 --- [XNIO-1 task-1] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:another brick in the wall p2"
 2021-02-19 17:38:03.045  INFO 22116 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: another brick in the wall p2
 2021-02-19 17:41:21.538  INFO 22116 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:1091 -- CloseStatus[code=1006, reason=]
+2021-02-19 17:41:21.539  INFO 22116 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 1 playing players.

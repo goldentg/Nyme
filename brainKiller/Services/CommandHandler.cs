@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -21,6 +22,7 @@ namespace brainKiller.Services
         private readonly AutoRolesHelper _autoRolesHelper;
         private readonly DiscordSocketClient _client;
         private readonly IConfiguration _config;
+        private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
         private readonly Images _images;
         private readonly LavaNode _lavaNode;
         private readonly IServiceProvider _provider;
@@ -29,7 +31,8 @@ namespace brainKiller.Services
 
 
         public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
-            IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
+            IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode,
+            ConcurrentDictionary<ulong, CancellationTokenSource> disconnectTokens)
         {
             _provider = provider;
             _client = client;
@@ -66,6 +69,7 @@ namespace brainKiller.Services
             // Other ready related stuff
         }
 
+
         private async Task OnTrackEnded(TrackEndedEventArgs args)
         {
             if (!args.Reason.ShouldPlayNext()) return;
@@ -77,6 +81,7 @@ namespace brainKiller.Services
                 await player.TextChannel.TextMusic("Queue Completed",
                     "Add more songs to the queue to keep the party going!",
                     "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+
                 return;
             }
 

@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
@@ -23,7 +21,7 @@ namespace Infrastructure
                 .Where(x => x.ServerId == id)
                 .ToListAsync();
 
-                return await Task.FromResult(ranks);
+            return await Task.FromResult(ranks);
         }
 
         public async Task AddRankAsync(ulong id, ulong roleId)
@@ -32,9 +30,9 @@ namespace Infrastructure
                 .FindAsync(id);
 
             if (server == null)
-                _context.Add(new Server { Id = id });
+                _context.Add(new Server {Id = id});
 
-            _context.Add(new Rank { RoleId = roleId, ServerId = id });
+            _context.Add(new Rank {RoleId = roleId, ServerId = id});
             await _context.SaveChangesAsync();
         }
 

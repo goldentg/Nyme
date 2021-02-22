@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
@@ -32,9 +30,9 @@ namespace Infrastructure
                 .FindAsync(id);
 
             if (server == null)
-                _context.Add(new Server { Id = id });
+                _context.Add(new Server {Id = id});
 
-            _context.Add(new AutoRole { RoleId = roleId, ServerId = id });
+            _context.Add(new AutoRole {RoleId = roleId, ServerId = id});
             await _context.SaveChangesAsync();
         }
 

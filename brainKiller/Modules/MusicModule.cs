@@ -51,6 +51,35 @@ namespace brainKiller.Modules
             }
         }
 
+        [Command("disconnect", RunMode = RunMode.Async)]
+        public async Task DisconnectAsync()
+        {
+            if (!_lavaNode.HasPlayer(Context.Guild))
+            {
+                await ReplyAsync("I'm not in a voice channel!");
+                return;
+            }
+
+            var voiceState = Context.User as IVoiceState;
+            if (voiceState?.VoiceChannel == null)
+            {
+                await ReplyAsync("You must be connected to a voice channel!");
+                return;
+            }
+
+            try
+            {
+                await _lavaNode.LeaveAsync(voiceState.VoiceChannel);
+                await Context.Channel.SendSuccessAsync("Success", $"Disconnected from {voiceState.VoiceChannel.Name}");
+                //await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
+            }
+            catch (Exception exception)
+            {
+                // await ReplyAsync(exception.Message);
+                await Context.Channel.SendErrorAsync("Error", exception.Message);
+            }
+        }
+
         [Command("Play", RunMode = RunMode.Async)]
         public async Task PlayAsync([Remainder] string query)
         {
