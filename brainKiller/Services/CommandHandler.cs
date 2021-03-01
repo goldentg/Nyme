@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -22,7 +21,6 @@ namespace brainKiller.Services
         private readonly AutoRolesHelper _autoRolesHelper;
         private readonly DiscordSocketClient _client;
         private readonly IConfiguration _config;
-        private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
         private readonly Images _images;
         private readonly LavaNode _lavaNode;
         private readonly IServiceProvider _provider;
@@ -31,8 +29,7 @@ namespace brainKiller.Services
 
 
         public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
-            IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode,
-            ConcurrentDictionary<ulong, CancellationTokenSource> disconnectTokens)
+            IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
         {
             _provider = provider;
             _client = client;
@@ -135,7 +132,9 @@ namespace brainKiller.Services
         private async Task OnMessageReceived(SocketMessage arg)
         {
             if (!(arg is SocketUserMessage message)) return;
+            if (message.Channel is SocketDMChannel) return;
             if (message.Source != MessageSource.User) return;
+
 
             var argPos = 0;
             //if no value on left, it will use "value" as prefix instead
