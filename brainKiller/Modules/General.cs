@@ -24,14 +24,14 @@ namespace brainKiller.Modules
             _ranksHelper = ranksHelper;
         }
 
-        [Command("ping")]
+        [Command("ping", RunMode = RunMode.Async)]
         [Summary("Ping the bot")]
         public async Task Ping()
         {
             await Context.Channel.SendSuccessAsync("Ping", "Pong!");
         }
 
-        [Command("info")]
+        [Command("info", RunMode = RunMode.Async)]
         [Summary("See information about a fellow member")]
         public async Task Info(SocketGuildUser user = null)
         {
@@ -66,8 +66,25 @@ namespace brainKiller.Modules
             }
         }
 
+        [Command("botinfo")]
+        [Summary("Display info about this bot")]
+        public async Task BotInfo()
+        {
+            var builder = new EmbedBuilder()
+                .WithThumbnailUrl($"{Context.Client.CurrentUser.GetAvatarUrl()}")
+                .WithColor(new Color(0, 0, 0))
+                .AddField("Name:", $"{Context.Client.CurrentUser.Username}")
+                .AddField("Developer:", "BlackLung#6950")
+                .AddField("Bot created on:", $"{Context.Client.CurrentUser.CreatedAt.ToString("yyyy/MM/dd")}", true)
+                .AddField("Written with:", "C# Discord.NET 3.0.2", true)
+                .WithCurrentTimestamp();
+            var embed = builder.Build();
 
-        [Command("server")]
+            await Context.Channel.SendMessageAsync(null, false, embed);
+        }
+
+
+        [Command("server", RunMode = RunMode.Async)]
         [Summary("View information about the server")]
         public async Task Server()
         {
@@ -94,7 +111,8 @@ namespace brainKiller.Modules
             File.Delete(path);
         }
 
-        [Command("say")]
+
+        [Command("say", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
         [Summary("Make the bot say something. Admin perms required")]
         public async Task Say([Remainder] string msg)

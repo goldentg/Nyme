@@ -20,7 +20,7 @@ namespace brainKiller.Modules
 
         public InteractivityService Interactivity { get; set; }
 
-        [Command("paginator")]
+        [Command("paginator", RunMode = RunMode.Async)]
         [RequireOwner]
         public Task StaticPaginatorAsync()
         {
