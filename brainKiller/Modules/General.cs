@@ -25,12 +25,14 @@ namespace brainKiller.Modules
         }
 
         [Command("ping")]
+        [Summary("Ping the bot")]
         public async Task Ping()
         {
             await Context.Channel.SendSuccessAsync("Ping", "Pong!");
         }
 
         [Command("info")]
+        [Summary("See information about a fellow member")]
         public async Task Info(SocketGuildUser user = null)
         {
             if (user == null)
@@ -66,6 +68,7 @@ namespace brainKiller.Modules
 
 
         [Command("server")]
+        [Summary("View information about the server")]
         public async Task Server()
         {
             var builder = new EmbedBuilder()
@@ -93,6 +96,7 @@ namespace brainKiller.Modules
 
         [Command("say")]
         [RequireUserPermission(GuildPermission.Administrator)]
+        [Summary("Make the bot say something. Admin perms required")]
         public async Task Say([Remainder] string msg)
         {
             await ReplyAsync(msg);
@@ -101,6 +105,7 @@ namespace brainKiller.Modules
 
         [Command("rank", RunMode = RunMode.Async)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
+        [Summary("Add a rank/role to yourself")]
         public async Task Rank([Remainder] string identifier)
         {
             await Context.Channel.TriggerTypingAsync();

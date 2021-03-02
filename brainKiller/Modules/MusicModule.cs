@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using brainKiller.Common;
 using Discord;
@@ -23,6 +22,7 @@ namespace brainKiller.Modules
 
 
         [Command("Join", RunMode = RunMode.Async)]
+        [Summary("Adds the bot to a voice channel")]
         public async Task JoinAsync()
         {
             if (_lavaNode.HasPlayer(Context.Guild))
@@ -52,6 +52,7 @@ namespace brainKiller.Modules
         }
 
         [Command("disconnect", RunMode = RunMode.Async)]
+        [Summary("Disconnects the bot from a voice channel")]
         public async Task DisconnectAsync()
         {
             if (!_lavaNode.HasPlayer(Context.Guild))
@@ -81,6 +82,7 @@ namespace brainKiller.Modules
         }
 
         [Command("Play", RunMode = RunMode.Async)]
+        [Summary("Plays music")]
         public async Task PlayAsync([Remainder] string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -129,6 +131,7 @@ namespace brainKiller.Modules
         }
 
         [Command("skip", RunMode = RunMode.Async)]
+        [Summary("Skips a song")]
         public async Task Skip()
         {
             var voiceState = Context.User as IVoiceState;
@@ -168,6 +171,7 @@ namespace brainKiller.Modules
         }
 
         [Command("pause", RunMode = RunMode.Async)]
+        [Summary("pauses a song")]
         public async Task Pause()
         {
             var voiceState = Context.User as IVoiceState;
@@ -206,6 +210,7 @@ namespace brainKiller.Modules
         }
 
         [Command("resume", RunMode = RunMode.Async)]
+        [Summary("Resumes a song")]
         public async Task Resume()
         {
             var voiceState = Context.User as IVoiceState;
@@ -241,44 +246,6 @@ namespace brainKiller.Modules
             await player.ResumeAsync();
             await Context.Channel.SendSuccessAsync("Resumed", $"I have resumed playing {player.Track.Title}");
             //await ReplyAsync("Resuming the music!");
-        }
-
-        [Command("lyrics", RunMode = RunMode.Async)]
-        public async Task ShowGeniusLyrics()
-        {
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
-            {
-                await ReplyAsync("I'm not connected to a voice channel.");
-                return;
-            }
-
-            if (player.PlayerState != PlayerState.Playing)
-            {
-                await ReplyAsync("Woaaah there, I'm not playing any tracks.");
-                return;
-            }
-
-            var lyrics = await player.Track.FetchLyricsFromGeniusAsync();
-            if (string.IsNullOrWhiteSpace(lyrics))
-            {
-                await ReplyAsync($"No lyrics found for {player.Track.Title}");
-                return;
-            }
-
-            var splitLyrics = lyrics.Split('\n');
-            var stringBuilder = new StringBuilder();
-            foreach (var line in splitLyrics)
-                if (Range.Contains(stringBuilder.Length))
-                {
-                    await ReplyAsync($"```{stringBuilder}```");
-                    stringBuilder.Clear();
-                }
-                else
-                {
-                    stringBuilder.AppendLine(line);
-                }
-
-            await ReplyAsync($"```{stringBuilder}```");
         }
     }
 }

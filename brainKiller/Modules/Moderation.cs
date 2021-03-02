@@ -19,6 +19,7 @@ namespace brainKiller.Modules
 
         [Command("purge")]
         [RequireUserPermission(GuildPermission.ManageMessages)]
+        [Summary("Deletes x amount of masseages from a channel. moderator perms only")]
         public async Task Purge(int amount)
         {
             var messages = await Context.Channel.GetMessagesAsync(amount + 1).FlattenAsync();
@@ -34,6 +35,7 @@ namespace brainKiller.Modules
         [Command("kick")]
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.KickMembers)]
+        [Summary("Kicks a member from the server. kick perms required")]
         public async Task Kick([Remainder] SocketGuildUser user)
         {
             await ReplyAsync($"Cya {user.Mention}");

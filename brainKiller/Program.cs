@@ -4,9 +4,11 @@ using brainKiller.Services;
 using brainKiller.Utilities;
 using Discord;
 using Discord.Addons.Hosting;
+using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
 using Infrastructure;
+using Interactivity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -59,12 +61,15 @@ namespace brainKiller
                         .AddHostedService<CommandHandler>()
                         .AddDbContext<brainKillerContext>()
                         .AddLavaNode(x => { x.SelfDeaf = true; })
+                        .AddSingleton<InteractiveService>()
                         .AddSingleton<Servers>()
                         .AddSingleton<Images>()
                         .AddSingleton<Ranks>()
                         .AddSingleton<AutoRoles>()
                         .AddSingleton<RanksHelper>()
-                        .AddSingleton<AutoRolesHelper>();
+                        .AddSingleton<AutoRolesHelper>()
+                        .AddSingleton<InteractivityService>()
+                        .BuildServiceProvider();
                 })
                 .UseConsoleLifetime();
 

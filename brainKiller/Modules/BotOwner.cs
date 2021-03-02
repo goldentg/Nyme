@@ -1,4 +1,6 @@
-﻿using brainKiller.Utilities;
+﻿using System.Threading.Tasks;
+using brainKiller.Common;
+using brainKiller.Utilities;
 using Discord.Commands;
 using Infrastructure;
 using Microsoft.Extensions.Logging;
@@ -17,5 +19,22 @@ namespace brainKiller.Modules
             _servers = servers;
             _images = images;
         }
+
+        [Command("test")]
+        [RequireOwner]
+        [Summary("a secret thing for bot owner only")]
+        public async Task OwnerTest()
+        {
+            await Context.Channel.SendSuccessAsync("Success!", "Owner Test has been completed successfully!");
+        }
+
+        /*
+        [Command("stats")]
+        [RequireOwner]
+        public async Task Stats()
+        {
+            //await Context.Channel.SendStats("Bot Stats", $"Total servers: {}")
+        }
+        */
     }
 }

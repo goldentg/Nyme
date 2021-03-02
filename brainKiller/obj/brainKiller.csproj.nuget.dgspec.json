@@ -48,6 +48,14 @@
               "target": "Package",
               "version": "[3.1.1, )"
             },
+            "Discord.Addons.Interactive": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "Discord.InteractivityAddon": {
+              "target": "Package",
+              "version": "[2.4.0-dev-20210218.1, )"
+            },
             "Discord.Net": {
               "target": "Package",
               "version": "[2.3.0, )"

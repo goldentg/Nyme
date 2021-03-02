@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "7msf6MMvm1tcdgeeSQUkOOB87H8GnPb9exG5I89leLuImu+TBLImX6U4OFt8SaV1YbJ2Qvc1mAVxAXvhM2f04Q==",
+  "dgSpecHash": "brYhnuspHVdlptuDDpoqV323+g6zUnYyu/cajU3a9b2iR8D2yK3cPRrOmYQzwX6599imMyCPtI2jX/yy0Y48gA==",
   "success": true,
   "projectFilePath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\evann\\.nuget\\packages\\discord.addons.hosting\\3.1.1\\discord.addons.hosting.3.1.1.nupkg.sha512",
+    "C:\\Users\\evann\\.nuget\\packages\\discord.addons.interactive\\2.0.0\\discord.addons.interactive.2.0.0.nupkg.sha512",
+    "C:\\Users\\evann\\.nuget\\packages\\discord.interactivityaddon\\2.4.0-dev-20210218.1\\discord.interactivityaddon.2.4.0-dev-20210218.1.nupkg.sha512",
     "C:\\Users\\evann\\.nuget\\packages\\discord.net\\2.3.0\\discord.net.2.3.0.nupkg.sha512",
     "C:\\Users\\evann\\.nuget\\packages\\discord.net.commands\\2.3.0\\discord.net.commands.2.3.0.nupkg.sha512",
     "C:\\Users\\evann\\.nuget\\packages\\discord.net.core\\2.3.0\\discord.net.core.2.3.0.nupkg.sha512",

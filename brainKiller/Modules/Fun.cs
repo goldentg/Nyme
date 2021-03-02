@@ -18,6 +18,7 @@ namespace brainKiller.Modules
 
         [Command("meme")]
         [Alias("reddit")]
+        [Summary("sends a meme or an image from a specified subreddit")]
         public async Task Meme(string subreddit = null)
         {
             var client = new HttpClient();
