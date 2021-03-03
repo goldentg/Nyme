@@ -106,7 +106,7 @@ namespace brainKiller.Services
 
         private async Task OnReadyAsync()
         {
-            await _client.SetGameAsync("Online");
+            await _client.SetGameAsync("!help for help");
 
 
             if (!_lavaNode.IsConnected) await _lavaNode.ConnectAsync();
