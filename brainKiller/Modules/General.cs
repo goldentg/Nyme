@@ -88,7 +88,24 @@ namespace brainKiller.Modules
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
 
-        [Command("help")]
+        [Command("Invite")]
+        [Summary("Information on how to add this bot to your own server")]
+        public async Task Invite()
+        {
+            var builder = new EmbedBuilder()
+                .WithThumbnailUrl(Context.Client.CurrentUser.GetAvatarUrl())
+                .WithColor(new Color(114, 137, 218))
+                .WithTitle($"Add {Context.Client.CurrentUser.Username} To Your Server")
+                .WithDescription(
+                    $"**Invite {Context.Client.CurrentUser.Username} to your server by clicking the following link https://discord.com/api/oauth2/authorize?client_id=808888674900508723&permissions=8&scope=bot \nJoin the Official {Context.Client.CurrentUser.Username} discord server here https://discord.gg/WpEMeycgqa**")
+                .WithFooter("Bot developed by: BlackLung#6950")
+                .WithCurrentTimestamp();
+            var embed = builder.Build();
+
+            await Context.Channel.SendMessageAsync(null, false, embed);
+        }
+
+        [Command("help", RunMode = RunMode.Async)]
         [Summary("Displays a list of commands")]
         public async Task Help()
         {
