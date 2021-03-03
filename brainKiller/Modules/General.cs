@@ -71,7 +71,7 @@ namespace brainKiller.Modules
             }
         }
 
-        [Command("botinfo")]
+        [Command("botinfo", RunMode = RunMode.Async)]
         [Summary("Display info about this bot")]
         public async Task BotInfo()
         {
@@ -88,7 +88,7 @@ namespace brainKiller.Modules
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
 
-        [Command("Invite")]
+        [Command("Invite", RunMode = RunMode.Async)]
         [Summary("Information on how to add this bot to your own server")]
         public async Task Invite()
         {

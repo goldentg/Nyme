@@ -57,7 +57,7 @@ namespace brainKiller.Modules
             await user.BanAsync();
         }
 
-        [Command("mute")]
+        [Command("mute", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
         [Summary("Mute a user for specified time\n(Kick permissions required)")]
@@ -106,7 +106,7 @@ namespace brainKiller.Modules
                 $"Duration: {minutes} minuets\nReason: {reason ?? "None"}");
         }
 
-        [Command("unmute")]
+        [Command("unmute", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
         [Summary("Unmute a muted user\n(Kick permissions required)")]

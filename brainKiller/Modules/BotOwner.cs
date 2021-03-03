@@ -34,7 +34,7 @@ namespace brainKiller.Modules
             await Context.Channel.SendSuccessAsync("Success!", "Owner Test has been completed successfully!");
         }
 
-        [Command("random")]
+        [Command("random", RunMode = RunMode.Async)]
         [RequireOwner]
         [Summary("For bot owner testing only")]
         public async Task Random()
