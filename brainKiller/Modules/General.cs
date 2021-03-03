@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using brainKiller.Common;
@@ -7,6 +6,7 @@ using brainKiller.Utilities;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Infrastructure;
 using Microsoft.Extensions.Logging;
 
 namespace brainKiller.Modules
@@ -16,12 +16,17 @@ namespace brainKiller.Modules
         private readonly Images _images;
         private readonly ILogger<General> _logger;
         private readonly RanksHelper _ranksHelper;
+        private readonly Servers _servers;
+        private readonly CommandService _service;
 
-        public General(ILogger<General> logger, Images images, RanksHelper ranksHelper)
+        public General(ILogger<General> logger, Images images, RanksHelper ranksHelper, CommandService service,
+            Servers servers)
         {
             _logger = logger;
             _images = images;
             _ranksHelper = ranksHelper;
+            _service = service;
+            _servers = servers;
         }
 
         [Command("ping", RunMode = RunMode.Async)]
@@ -83,6 +88,41 @@ namespace brainKiller.Modules
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
 
+        [Command("help")]
+        [Summary("Displays a list of commands")]
+        public async Task Help()
+        {
+            var guildPrefix = await _servers.GetGuildPrefix(Context.Guild.Id) ?? "!";
+
+            var builder = new EmbedBuilder
+            {
+                Color = new Color(114, 137, 218),
+                Description = "These are the commands you can use"
+            };
+
+            foreach (var module in _service.Modules)
+            {
+                string description = null;
+                foreach (var cmd in module.Commands)
+                {
+                    var result = await cmd.CheckPreconditionsAsync(Context);
+                    if (result.IsSuccess)
+
+                        description += $"**{guildPrefix}{cmd.Aliases.First()}**\n*{cmd.Summary}*\n";
+                }
+
+                if (!string.IsNullOrWhiteSpace(description))
+                    builder.AddField(x =>
+                    {
+                        x.Name = $"__**{module.Name}**__";
+                        x.Value = description;
+                        x.IsInline = false;
+                    });
+            }
+
+            await ReplyAsync("", false, builder.Build());
+        }
+
 
         [Command("server", RunMode = RunMode.Async)]
         [Summary("View information about the server")]
@@ -103,18 +143,9 @@ namespace brainKiller.Modules
         }
 
 
-        [Command("image", RunMode = RunMode.Async)]
-        public async Task Image(SocketGuildUser user)
-        {
-            var path = await _images.CreateImageAsync(user);
-            await Context.Channel.SendFileAsync(path);
-            File.Delete(path);
-        }
-
-
         [Command("say", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Make the bot say something. Admin perms required")]
+        [Summary("Make the bot say something\n(Admin permissions required)")]
         public async Task Say([Remainder] string msg)
         {
             await ReplyAsync(msg);

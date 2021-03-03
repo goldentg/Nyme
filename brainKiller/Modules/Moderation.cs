@@ -22,7 +22,7 @@ namespace brainKiller.Modules
 
         [Command("purge", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.ManageMessages)]
-        [Summary("Deletes x amount of messages from a channel. moderator perms only")]
+        [Summary("Deletes x amount of messages from a channel\n(ManageMessages permissions required)")]
         public async Task Purge(int amount)
         {
             var messages = await Context.Channel.GetMessagesAsync(amount + 1).FlattenAsync();
@@ -38,7 +38,7 @@ namespace brainKiller.Modules
         [Command("kick", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.KickMembers)]
-        [Summary("Kicks a member from the server. kick perms required")]
+        [Summary("Kicks a member from the server\n(Kick permissions required)")]
         public async Task Kick([Remainder] SocketGuildUser user)
         {
             await Context.Channel.SendSuccessAsync("Success!",
@@ -49,7 +49,7 @@ namespace brainKiller.Modules
         [Command("ban", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.BanMembers)]
         [RequireBotPermission(GuildPermission.BanMembers)]
-        [Summary("Bans a member")]
+        [Summary("Bans a member\n(Ban permissions required)")]
         public async Task Ban([Remainder] SocketGuildUser user)
         {
             await Context.Channel.SendSuccessAsync("Success!",
@@ -60,7 +60,7 @@ namespace brainKiller.Modules
         [Command("mute")]
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        [Summary("Mute a user for specified time. Kick perms required")]
+        [Summary("Mute a user for specified time\n(Kick permissions required)")]
         public async Task Mute(SocketGuildUser user, int minutes, [Remainder] string reason = null)
         {
             if (user.Hierarchy > Context.Guild.CurrentUser.Hierarchy)
@@ -109,7 +109,7 @@ namespace brainKiller.Modules
         [Command("unmute")]
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        [Summary("Unmute a muted user. Kick perms required")]
+        [Summary("Unmute a muted user\n(Kick permissions required)")]
         public async Task UnMute(SocketGuildUser user)
         {
             var role = (Context.Guild as IGuild).Roles.FirstOrDefault(x => x.Name == "Muted");

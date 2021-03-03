@@ -28,7 +28,7 @@ namespace brainKiller.Modules
 
         [Command("prefix", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Set the bot prefix for this server. Admin perms required")]
+        [Summary("Set the bot prefix for this server\n(Admin permissions required)")]
         public async Task Prefix(string prefix = null)
         {
             if (prefix == null)
@@ -67,7 +67,7 @@ namespace brainKiller.Modules
         [Command("addrank", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        [Summary("Add a rank/self role for this server. Admin perms required")]
+        [Summary("Add a rank/self role for this server\n(Admin permissions required)")]
         public async Task AddRank([Remainder] string name)
         {
             await Context.Channel.TriggerTypingAsync();
@@ -100,7 +100,7 @@ namespace brainKiller.Modules
         [Command("delrank", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        [Summary("Delete a rank/selfrole from this server")]
+        [Summary("Delete a rank/selfrole from this server\n(Admin permissions required)")]
         public async Task DelRank([Remainder] string name)
         {
             await Context.Channel.TriggerTypingAsync();
@@ -146,7 +146,7 @@ namespace brainKiller.Modules
         [Command("addautorole", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        [Summary("Add an autorole for this server. Admin perms required")]
+        [Summary("Add an autorole for this server\n(Admin permissions required)")]
         public async Task AddAutoRole([Remainder] string name)
         {
             await Context.Channel.TriggerTypingAsync();
@@ -179,7 +179,7 @@ namespace brainKiller.Modules
         [Command("delautorole", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        [Summary("Delete an autorole from this server. Admin perms required")]
+        [Summary("Delete an autorole from this server\n(Admin permissions required)")]
         public async Task DelAutoRole([Remainder] string name)
         {
             await Context.Channel.TriggerTypingAsync();
@@ -204,7 +204,7 @@ namespace brainKiller.Modules
 
         [Command("welcome")]
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Settings/Setup for welcoming a new member. Admin perms required")]
+        [Summary("Settings/Setup for welcoming a new member\n(Admin permissions required)")]
         public async Task Welcome(string option = null, string value = null)
         {
             if (option == null && value == null)
