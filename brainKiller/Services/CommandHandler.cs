@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +20,7 @@ namespace brainKiller.Services
 {
     public class CommandHandler : InitializedService
     {
+        public static List<Mute> Mutes = new List<Mute>();
         private readonly AutoRolesHelper _autoRolesHelper;
         private readonly DiscordSocketClient _client;
         private readonly IConfiguration _config;
@@ -26,7 +29,6 @@ namespace brainKiller.Services
         private readonly IServiceProvider _provider;
         private readonly Servers _servers;
         private readonly CommandService _service;
-
 
         public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
             IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
@@ -47,6 +49,9 @@ namespace brainKiller.Services
 
             _client.UserJoined += OnMemberJoin;
 
+            var newTask = new Task(async () => await MuteHandler());
+            newTask.Start();
+
             _service.CommandExecuted += OnCommandExecuted;
 
             _lavaNode.OnTrackEnded += OnTrackEnded;
@@ -54,6 +59,49 @@ namespace brainKiller.Services
             _client.Ready += OnReadyAsync;
 
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
+        }
+
+        private async Task MuteHandler()
+        {
+            var Remove = new List<Mute>();
+            foreach (var mute in Mutes)
+            {
+                if (DateTime.Now < mute.End)
+                    continue;
+
+                var guild = _client.GetGuild(mute.Guild.Id);
+
+
+                if (guild.GetRole(mute.Role.Id) == null)
+                {
+                    Remove.Add(mute);
+                    continue;
+                }
+
+                var role = guild.GetRole(mute.Role.Id);
+
+                if (guild.GetUser(mute.User.Id) == null)
+                {
+                    Remove.Add(mute);
+                    continue;
+                }
+
+                var user = guild.GetUser(mute.User.Id);
+
+                if (role.Position > guild.CurrentUser.Hierarchy)
+                {
+                    Remove.Add(mute);
+                    continue;
+                }
+
+                await user.RemoveRoleAsync(mute.Role);
+                Remove.Add(mute);
+            }
+
+            Mutes = Mutes.Except(Remove).ToList();
+
+            await Task.Delay(1 * 60 * 1000);
+            await MuteHandler();
         }
 
         private async Task OnReadyAsync()
