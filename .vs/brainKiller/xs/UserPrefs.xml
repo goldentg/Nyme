@@ -1,0 +1,49 @@
+﻿<Properties StartupConfiguration="{BC86FA92-A9D5-46C4-A284-76C8ACA1F33A}|Default">
+  <MonoDevelop.Ide.ItemProperties.brainKiller PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="brainKiller/Services/CommandHandler.cs">
+    <Files>
+      <File FileName="brainKiller/Program.cs" Line="56" Column="56" />
+      <File FileName="Infrastructure/Servers.cs" />
+      <File FileName="Infrastructure/brainKillerContext.cs" />
+      <File FileName="../../../../usr/local/share/dotnet/sdk/3.1.402/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets" />
+      <File FileName="brainKiller/Modules/BotOwner.cs" />
+      <File FileName="brainKiller/Modules/Configuration.cs" />
+      <File FileName="brainKiller/Utilities/RanksHelper.cs" />
+      <File FileName="brainKiller/Modules/Fun.cs" />
+      <File FileName="brainKiller/Common/Extensions.cs" />
+      <File FileName="brainKiller/Modules/General.cs" />
+      <File FileName="brainKiller/Services/CommandHandler.cs" Line="146" Column="10" />
+      <File FileName="brainKiller/Modules/MusicModule.cs" />
+      <File FileName="brainKiller/Modules/Moderation.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="brainKiller" expanded="True">
+            <Node name="brainKiller" expanded="True">
+              <Node name="Common" expanded="True" />
+              <Node name="Lavalink" expanded="True" />
+              <Node name="Modules" expanded="True" />
+              <Node name="Services" expanded="True">
+                <Node name="CommandHandler.cs" selected="True" />
+              </Node>
+              <Node name="Utilities" expanded="True" />
+            </Node>
+            <Node name="Infrastructure" expanded="True">
+              <Node name="Migrations" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <Debugger.DebugSourceFolders>
+    <String>/Users/goldencodex/Documents</String>
+  </Debugger.DebugSourceFolders>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

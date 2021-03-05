@@ -47,7 +47,7 @@ namespace brainKiller.Services
         {
             _client.MessageReceived += OnMessageReceived;
 
-            _client.UserJoined += OnMemberJoin;
+            //_client.UserJoined += OnMemberJoin;
 
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
@@ -144,7 +144,7 @@ namespace brainKiller.Services
             //await args.Player.TextChannel.SendMessageAsync(
             //    $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
         }
-
+        /*
         private async Task OnMemberJoin(SocketGuildUser arg)
         {
             var newTask = new Task(async () => await HandleUserJoined(arg));
@@ -176,7 +176,7 @@ namespace brainKiller.Services
             File.Delete(path);
         }
 
-
+        */
         private async Task OnMessageReceived(SocketMessage arg)
         {
             if (!(arg is SocketUserMessage message)) return;

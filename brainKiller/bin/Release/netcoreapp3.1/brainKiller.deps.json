@@ -9,6 +9,8 @@
       "brainKiller/1.0.0": {
         "dependencies": {
           "Discord.Addons.Hosting": "3.1.1",
+          "Discord.Addons.Interactive": "2.0.0",
+          "Discord.InteractivityAddon": "2.4.0-dev-20210218.1",
           "Discord.Net": "2.3.0",
           "Discord.Net.Commands": "2.3.0",
           "Discord.Net.Core": "2.3.0",
@@ -41,6 +43,30 @@
           "lib/netstandard2.1/Discord.Addons.Hosting.dll": {
             "assemblyVersion": "3.1.1.0",
             "fileVersion": "3.1.1.0"
+          }
+        }
+      },
+      "Discord.Addons.Interactive/2.0.0": {
+        "dependencies": {
+          "Discord.Net.Commands": "2.3.0",
+          "Discord.Net.WebSocket": "2.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Discord.Addons.Interactive.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "Discord.InteractivityAddon/2.4.0-dev-20210218.1": {
+        "dependencies": {
+          "Discord.Net.Core": "2.3.0",
+          "Discord.Net.WebSocket": "2.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Discord.InteractivityAddon.dll": {
+            "assemblyVersion": "2.4.0.0",
+            "fileVersion": "2.4.0.0"
           }
         }
       },
@@ -1497,6 +1523,20 @@
       "sha512": "sha512-WlAGPwCsUglOOxDMxe5AAx3ebJZb/uT/P1uzCRG1BlRDCG/gO/CR+DcBgB21r64oQFP5jnxheltd4PR2QsZPyg==",
       "path": "discord.addons.hosting/3.1.1",
       "hashPath": "discord.addons.hosting.3.1.1.nupkg.sha512"
+    },
+    "Discord.Addons.Interactive/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-j/bkGeDniPuODOOC+3ZpKvLmoG0z1NHSZrVu6bnaUEYd0tMY4TxaIwl36ue7fK9MXrqQc8VcjcDnvM6JX+V6HA==",
+      "path": "discord.addons.interactive/2.0.0",
+      "hashPath": "discord.addons.interactive.2.0.0.nupkg.sha512"
+    },
+    "Discord.InteractivityAddon/2.4.0-dev-20210218.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-znITFZtT6qzhVXv3UnXJOLKTuw77Hc38kR5bG/lMWdIaovnU8EFh4825PeaxlSAQUUUEwmKTi9QAkTkrB1k1uw==",
+      "path": "discord.interactivityaddon/2.4.0-dev-20210218.1",
+      "hashPath": "discord.interactivityaddon.2.4.0-dev-20210218.1.nupkg.sha512"
     },
     "Discord.Net/2.3.0": {
       "type": "package",
