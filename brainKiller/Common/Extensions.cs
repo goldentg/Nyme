@@ -143,5 +143,20 @@ namespace brainKiller.Common
             var message = await channel.SendMessageAsync(embed: embed);
             return message;
         }
+
+        public static async Task<IMessage> SlapAsync(this ISocketMessageChannel channel, string title,
+            string description)
+        {
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(43, 182, 115))
+                .WithDescription(description)
+                .WithTitle(title)
+                .WithThumbnailUrl(
+                    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.thenounproject.com%2Fpng%2F641819-200.png&f=1&nofb=1")
+                .Build();
+
+            var message = await channel.SendMessageAsync(embed: embed);
+            return message;
+        }
     }
 }

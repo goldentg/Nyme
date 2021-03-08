@@ -99,3 +99,5 @@ C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.csproj.CopyComp
 C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.dll
 C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.pdb
 C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.genruntimeconfig.cache
+C:\brainKiller\brainKiller\bin\Release\netcoreapp3.1\Discord.Addons.Interactive.dll
+C:\brainKiller\brainKiller\bin\Release\netcoreapp3.1\Discord.InteractivityAddon.dll

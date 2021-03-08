@@ -51,5 +51,12 @@ namespace brainKiller.Modules
         {
             await Context.Channel.HugAsync("Hugs", $"{Context.User.Mention} gave {user.Mention} a hug");
         }
+
+        [Command("slap", RunMode = RunMode.Async)]
+        [Summary("Slap a member")]
+        public async Task Slap([Remainder] SocketGuildUser user)
+        {
+            await Context.Channel.SlapAsync("Slap", $"{Context.User.Mention} slapped {user.Mention}");
+        }
     }
 }

@@ -55,6 +55,7 @@ namespace brainKiller.Modules
         }
         */
 
+
         [Command("announce")]
         [RequireOwner]
         [Summary("Send an announcement to all guilds\nBOT OWNER ONLY")]
