@@ -1,2 +1,2 @@
-2021-03-04 16:58:19.578  INFO 50051 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50290 -- CloseStatus[code=1006, reason=]
-2021-03-04 16:58:20.650  INFO 50051 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-03-08 13:42:37.481  INFO 50051 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:56834 -- CloseStatus[code=1006, reason=]
+2021-03-08 13:42:37.639  INFO 50051 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
