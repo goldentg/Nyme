@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\evann\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\evann\\.nuget\\packages"
+      "/Users/goldencodex/.dotnet/store/|arch|/|tfm|",
+      "/Users/goldencodex/.nuget/packages"
     ]
   }
 }

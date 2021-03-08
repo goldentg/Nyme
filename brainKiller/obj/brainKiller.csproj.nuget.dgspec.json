@@ -1,35 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\brainKiller\\brainKiller\\brainKiller.csproj": {}
+    "/Users/goldencodex/Documents/brainKiller/brainKiller/brainKiller.csproj": {}
   },
   "projects": {
-    "C:\\brainKiller\\brainKiller\\brainKiller.csproj": {
+    "/Users/goldencodex/Documents/brainKiller/brainKiller/brainKiller.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
+        "projectUniqueName": "/Users/goldencodex/Documents/brainKiller/brainKiller/brainKiller.csproj",
         "projectName": "brainKiller",
-        "projectPath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
-        "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
-        "outputPath": "C:\\brainKiller\\brainKiller\\obj\\",
+        "projectPath": "/Users/goldencodex/Documents/brainKiller/brainKiller/brainKiller.csproj",
+        "packagesPath": "/Users/goldencodex/.nuget/packages/",
+        "outputPath": "/Users/goldencodex/Documents/brainKiller/brainKiller/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/goldencodex/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj"
+              "/Users/goldencodex/Documents/brainKiller/Infrastructure/Infrastructure.csproj": {
+                "projectPath": "/Users/goldencodex/Documents/brainKiller/Infrastructure/Infrastructure.csproj"
               }
             }
           }
@@ -42,7 +39,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Discord.Addons.Hosting": {
               "target": "Package",
@@ -140,33 +136,30 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.402/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
+    "/Users/goldencodex/Documents/brainKiller/Infrastructure/Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "/Users/goldencodex/Documents/brainKiller/Infrastructure/Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
-        "outputPath": "C:\\brainKiller\\Infrastructure\\obj\\",
+        "projectPath": "/Users/goldencodex/Documents/brainKiller/Infrastructure/Infrastructure.csproj",
+        "packagesPath": "/Users/goldencodex/.nuget/packages/",
+        "outputPath": "/Users/goldencodex/Documents/brainKiller/Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/goldencodex/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -178,7 +171,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -220,7 +212,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.402/RuntimeIdentifierGraph.json"
         }
       }
     }
