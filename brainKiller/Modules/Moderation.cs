@@ -137,5 +137,54 @@ namespace brainKiller.Modules
             await Context.Channel.SendSuccessAsync($"Unmuted {user.Username}",
                 "Successfully unmuted the user");
         }
+
+
+        [Command("lock", RunMode = RunMode.Async)]
+        [RequireUserPermission(GuildPermission.ManageRoles)]
+        [Summary("Lock a channel\n(Manage Roles permissions required)")]
+        public async Task Lock(SocketTextChannel channel = null)
+        {
+            if (channel == null)
+            {
+                var ch = Context.Channel as SocketTextChannel;
+                var currentPerms = ch.GetPermissionOverwrite(Context.Guild.EveryoneRole) ??
+                                   new OverwritePermissions();
+                await ch.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,
+                    currentPerms.Modify(sendMessages: PermValue.Deny));
+                await Context.Channel.SendSuccessAsync("Locked", $"{ch.Mention} has been locked");
+            }
+            else
+            {
+                var currentPerms = channel.GetPermissionOverwrite(Context.Guild.EveryoneRole) ??
+                                   new OverwritePermissions();
+                await channel.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,
+                    currentPerms.Modify(sendMessages: PermValue.Deny));
+                await Context.Channel.SendSuccessAsync("Locked", $"{channel.Mention} has been locked");
+            }
+        }
+
+        [Command("unlock", RunMode = RunMode.Async)]
+        [RequireUserPermission(GuildPermission.ManageRoles)]
+        [Summary("Unlock a locked channel\n(Manage Roles permissions required)")]
+        public async Task Unlock(SocketTextChannel channel = null)
+        {
+            if (channel == null)
+            {
+                var ch = Context.Channel as SocketTextChannel;
+                var currentPerms = ch.GetPermissionOverwrite(Context.Guild.EveryoneRole) ??
+                                   new OverwritePermissions();
+                await ch.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,
+                    currentPerms.Modify(sendMessages: PermValue.Allow));
+                await Context.Channel.SendSuccessAsync("Locked", $"{ch.Mention} has been unlocked");
+            }
+            else
+            {
+                var currentPerms = channel.GetPermissionOverwrite(Context.Guild.EveryoneRole) ??
+                                   new OverwritePermissions();
+                await channel.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,
+                    currentPerms.Modify(sendMessages: PermValue.Allow));
+                await Context.Channel.SendSuccessAsync("Locked", $"{channel.Mention} has been unlocked");
+            }
+        }
     }
 }
