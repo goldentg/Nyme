@@ -23,7 +23,7 @@ Once you have downloaded the bot files, you must now create a file named `appset
 }
 ```
 
-You will also need XAMPP in order for the database to function.
+You will also need XAMPP and Java JDK in order for the database and music abilities to function.
 
 
 ### - Discord - 
