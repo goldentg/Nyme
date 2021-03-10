@@ -12,7 +12,7 @@ https://discord.com/api/oauth2/authorize?client_id=808888674900508723&permission
 This bot is still in early development and frequent updates will be rolling out often. Check back in often to see what is new. Suggerstions for future implementations are appreciated and can be left in the discussions tab.
 
 **- Add Required Information -**
-Once you have downloaded the bot files, you must now create a file named `appsettings.json` and add the following into that file: 
+Once you have downloaded the bot files, you must now create a file named `appsettings.json` in the brainKiller folder and add the following into that file: 
 
 ```
 {
@@ -20,7 +20,9 @@ Once you have downloaded the bot files, you must now create a file named `appset
 }
 ```
 
+You will also need XAMPP in order for the database to function.
+
 
 ### - Discord - 
-If you wish to join my community you can do so here
+If you wish to join the Nyme community you can do so here
 [Nyme](https://discord.gg/a5SmPbSGEJ)
