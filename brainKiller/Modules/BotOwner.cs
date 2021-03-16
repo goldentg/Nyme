@@ -77,5 +77,20 @@ namespace brainKiller.Modules
                 }
             }
         }
+
+        [Command("guilds")]
+        [RequireOwner]
+        [Summary("BOT OWNER ONLY")]
+        public async Task glds()
+        {
+            foreach (var guild in Context.Client.Guilds)
+            {
+                var guildName = guild.Name;
+                var owner = guild.Owner.Username;
+                var totalUsers = guild.Users.Count();
+                Context.Channel.SendMessageAsync(
+                    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{totalUsers}**");
+            }
+        }
     }
 }
