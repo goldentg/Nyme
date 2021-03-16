@@ -88,8 +88,11 @@ namespace brainKiller.Modules
                 var guildName = guild.Name;
                 var owner = guild.Owner.Username;
                 var totalUsers = guild.Users.Count();
+                var totalBots = guild.Users.Where(x => x.IsBot != true).Count();
+                var actualUsers = totalUsers - totalBots;
+
                 Context.Channel.SendMessageAsync(
-                    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{totalUsers}**");
+                    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**");
             }
         }
     }
