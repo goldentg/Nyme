@@ -86,7 +86,7 @@ namespace brainKiller.Modules
             var builder = new EmbedBuilder
             {
                 Color = new Color(114, 137, 218),
-                Description = "These are the commands you can use"
+                Description = "Here is a list of guilds that the bot is connected to"
             };
             foreach (var guild in Context.Client.Guilds)
             {
@@ -98,13 +98,14 @@ namespace brainKiller.Modules
                 var actualUsers = totalUsers - totalBots;
 
                 description +=
-                    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**";
+                    $"__*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**";
                 // Context.Channel.SendMessageAsync(
                 //    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**");
 
                 if (!string.IsNullOrWhiteSpace(description))
                     builder.AddField(x =>
                     {
+                        x.Name = $"__**{guildName}**__";
                         x.Value = description;
                         x.IsInline = false;
                     });
