@@ -83,17 +83,34 @@ namespace brainKiller.Modules
         [Summary("BOT OWNER ONLY")]
         public async Task glds()
         {
+            var builder = new EmbedBuilder
+            {
+                Color = new Color(114, 137, 218),
+                Description = "These are the commands you can use"
+            };
             foreach (var guild in Context.Client.Guilds)
             {
+                string description = null;
                 var guildName = guild.Name;
                 var owner = guild.Owner.Username;
                 var totalUsers = guild.Users.Count();
                 var totalBots = guild.Users.Where(x => x.IsBot != true).Count();
                 var actualUsers = totalUsers - totalBots;
 
-                Context.Channel.SendMessageAsync(
-                    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**");
+                description +=
+                    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**";
+                // Context.Channel.SendMessageAsync(
+                //    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**");
+
+                if (!string.IsNullOrWhiteSpace(description))
+                    builder.AddField(x =>
+                    {
+                        x.Value = description;
+                        x.IsInline = false;
+                    });
             }
+
+            await ReplyAsync("", false, builder.Build());
         }
     }
 }
