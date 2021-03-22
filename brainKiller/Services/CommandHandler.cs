@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -47,7 +46,7 @@ namespace brainKiller.Services
         {
             _client.MessageReceived += OnMessageReceived;
 
-            //_client.UserJoined += OnMemberJoin;
+            _client.UserJoined += OnMemberJoin;
 
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
@@ -144,7 +143,7 @@ namespace brainKiller.Services
             //await args.Player.TextChannel.SendMessageAsync(
             //    $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
         }
-        /*
+
         private async Task OnMemberJoin(SocketGuildUser arg)
         {
             var newTask = new Task(async () => await HandleUserJoined(arg));
@@ -158,25 +157,25 @@ namespace brainKiller.Services
             if (roles.Count > 0)
                 await arg.AddRolesAsync(roles);
 
-            var channelId = await _servers.GetWelcomeAsync(arg.Guild.Id);
-            if (channelId == 0)
-                return;
+            // var channelId = await _servers.GetWelcomeAsync(arg.Guild.Id);
+            // if (channelId == 0)
+            //    return;
 
-            var channel = arg.Guild.GetTextChannel(channelId);
-            if (channel == null)
-            {
-                await _servers.ClearWelcomeAsync(arg.Guild.Id);
-                return;
-            }
+            //  var channel = arg.Guild.GetTextChannel(channelId);
+            //   if (channel == null)
+            //  {
+            //      await _servers.ClearWelcomeAsync(arg.Guild.Id);
+            //        return;
+            //    }
 
-            var background = await _servers.GetBackgroundAsync(arg.Guild.Id) ??
-                             "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
-            var path = await _images.CreateImageAsync(arg, background);
-            await channel.SendFileAsync(path, null);
-            File.Delete(path);
+            //  var background = await _servers.GetBackgroundAsync(arg.Guild.Id) ??
+            //                    "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+            //  var path = await _images.CreateImageAsync(arg, background);
+            //  await channel.SendFileAsync(path, null);
+            // File.Delete(path);
         }
 
-        */
+
         private async Task OnMessageReceived(SocketMessage arg)
         {
             if (!(arg is SocketUserMessage message)) return;
