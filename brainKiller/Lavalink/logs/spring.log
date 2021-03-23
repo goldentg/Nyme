@@ -42,3 +42,4 @@
 2021-03-22 17:33:01.076  INFO 27500 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: the gnome pink floyd
 2021-03-22 17:33:01.266  INFO 27500 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbQIACVRoZSBHbm9tZQAKUGluayBGbG95ZAAAAAAAAgtwAAtXazdmZXphcnVUawABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PVdrN2ZlemFydVRrAAd5b3V0dWJlAAAAAAAAAAA=","noReplace":false,"startTime":0,"guildId":"816523758231486505","op":"play"}
 2021-03-22 17:33:17.120  INFO 27500 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:6688 -- CloseStatus[code=1006, reason=]
+2021-03-22 17:33:17.126  INFO 27500 --- [XNIO-1 I/O-4] lavalink.server.io.SocketContext         : Shutting down 1 playing players.

@@ -160,15 +160,6 @@ namespace brainKiller.Modules
         }
 
 
-        [Command("say", RunMode = RunMode.Async)]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Make the bot say something\n(Admin permissions required)")]
-        public async Task Say([Remainder] string msg)
-        {
-            await ReplyAsync(msg);
-            await Context.Message.DeleteAsync();
-        }
-
         [Command("rank", RunMode = RunMode.Async)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
         [Summary("Add a rank/role to yourself")]
