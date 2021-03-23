@@ -1,2 +1,44 @@
-2021-03-04 16:58:19.578  INFO 50051 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50290 -- CloseStatus[code=1006, reason=]
-2021-03-04 16:58:20.650  INFO 50051 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-03-22 17:32:05.069  INFO 27500 --- [main] lavalink.server.Launcher                 : 
+
+[32m       .  [31m _                  _ _       _    [32m__ _ _
+[32m      /\\ [31m| | __ ___   ____ _| (_)_ __ | | __[32m\ \ \ \
+[32m     ( ( )[31m| |/ _` \ \ / / _` | | | '_ \| |/ /[32m \ \ \ \
+[32m      \\/ [31m| | (_| |\ V / (_| | | | | | |   < [32m  ) ) ) )
+[32m       '  [31m|_|\__,_| \_/ \__,_|_|_|_| |_|_|\_\[32m / / / /
+[0m    =========================================[32m/_/_/_/[0m
+
+	Version:        3.3.2.3
+	Build:          1176
+	Build time:     28.12.2020 18:59:16 UTC
+	Branch          master
+	Commit:         68d398a
+	Commit time:    28.12.2020 18:56:23 UTC
+	JVM:            15.0.2
+	Lavaplayer      1.3.65
+
+2021-03-22 17:32:05.353  INFO 27500 --- [main] lavalink.server.Launcher                 : Starting Launcher on Codexs-Laptop with PID 27500 (C:\brainKiller\brainKiller\Lavalink\Lavalink.jar started by evann in C:\brainKiller\brainKiller\Lavalink)
+2021-03-22 17:32:05.354  INFO 27500 --- [main] lavalink.server.Launcher                 : No active profile set, falling back to default profiles: default
+2021-03-22 17:32:05.520  WARN 27500 --- [background-preinit] o.s.h.c.j.Jackson2ObjectMapperBuilder    : For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2021-03-22 17:32:07.642  WARN 27500 --- [main] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2021-03-22 17:32:07.684  INFO 27500 --- [main] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2021-03-22 17:32:07.684  INFO 27500 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2230 ms
+2021-03-22 17:32:08.545  WARN 27500 --- [main] l.server.config.SentryConfiguration      : Turning off sentry
+2021-03-22 17:32:09.337  INFO 27500 --- [main] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2021-03-22 17:32:09.779  INFO 27500 --- [main] lavalink.server.config.KoeConfiguration  : OS: Windows 10, Arch: amd64
+2021-03-22 17:32:09.780  WARN 27500 --- [main] lavalink.server.config.KoeConfiguration  : This system and architecture appears to not support native audio sending! GC pauses may cause your bot to stutter during playback.
+2021-03-22 17:32:10.101  INFO 27500 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-03-22 17:32:10.531  INFO 27500 --- [main] org.xnio                                 : XNIO version 3.3.8.Final
+2021-03-22 17:32:10.550  INFO 27500 --- [main] org.xnio.nio                             : XNIO NIO Implementation Version 3.3.8.Final
+2021-03-22 17:32:10.622  INFO 27500 --- [main] o.s.b.w.e.u.UndertowServletWebServer     : Undertow started on port(s) 2333 (http) with context path ''
+2021-03-22 17:32:10.627  INFO 27500 --- [main] lavalink.server.Launcher                 : Started Launcher in 6.642 seconds (JVM running for 9.38)
+2021-03-22 17:32:10.629  INFO 27500 --- [main] lavalink.server.Launcher                 : You can safely ignore the big red warning about illegal reflection. See https://github.com/Frederikam/Lavalink/issues/295
+2021-03-22 17:32:43.124  INFO 27500 --- [XNIO-1 task-1] io.undertow.servlet                      : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-03-22 17:32:43.125  INFO 27500 --- [XNIO-1 task-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-03-22 17:32:43.167  INFO 27500 --- [XNIO-1 task-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 42 ms
+2021-03-22 17:32:43.246  INFO 27500 --- [XNIO-1 task-1] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:6688
+2021-03-22 17:32:43.419  INFO 27500 --- [XNIO-1 task-1] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:6688
+2021-03-22 17:32:50.634  INFO 27500 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"guildId":"816523758231486505","sessionId":"ab6ca97a486b934755debf8b7bc55fe2","event":{"token":"f0f5a107b9aa69ac","endpoint":"us-west724.discord.media:443"},"op":"voiceUpdate"}
+2021-03-22 17:32:59.792  INFO 27500 --- [XNIO-1 task-2] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:the gnome pink floyd"
+2021-03-22 17:33:01.076  INFO 27500 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: the gnome pink floyd
+2021-03-22 17:33:01.266  INFO 27500 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbQIACVRoZSBHbm9tZQAKUGluayBGbG95ZAAAAAAAAgtwAAtXazdmZXphcnVUawABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PVdrN2ZlemFydVRrAAd5b3V0dWJlAAAAAAAAAAA=","noReplace":false,"startTime":0,"guildId":"816523758231486505","op":"play"}
+2021-03-22 17:33:17.120  INFO 27500 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:6688 -- CloseStatus[code=1006, reason=]

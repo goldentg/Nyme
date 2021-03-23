@@ -138,6 +138,15 @@ namespace brainKiller.Modules
                 "Successfully unmuted the user");
         }
 
+        [Command("say", RunMode = RunMode.Async)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [Summary("Make the bot say something\n(Admin permissions required)")]
+        public async Task Say([Remainder] string msg)
+        {
+            await ReplyAsync(msg);
+            await Context.Message.DeleteAsync();
+        }
+
 
         [Command("lock", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.ManageRoles)]

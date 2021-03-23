@@ -43,18 +43,6 @@ namespace brainKiller.Modules
             await ReplyAsync(responses[new Random().Next(0, responses.Count())]);
         }
 
-        /*
-        
-        [Command("stats")]
-        [RequireOwner]
-        public async Task Stats()
-        {
-            var ser = Context.Client.Guilds.Count;
-            foreach(IGuild )
-            //await Context.Channel.SendStats("Bot Stats", $"Total servers: {}")
-        }
-        */
-
 
         [Command("announce")]
         [RequireOwner]
