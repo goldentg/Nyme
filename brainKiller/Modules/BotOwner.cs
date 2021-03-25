@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using brainKiller.Common;
 using brainKiller.Utilities;
 using Discord;
 using Discord.Commands;
@@ -26,13 +25,6 @@ namespace brainKiller.Modules
             _images = images;
         }
 
-        [Command("test")]
-        [RequireOwner]
-        [Summary("a secret thing for bot owner only")]
-        public async Task OwnerTest()
-        {
-            await Context.Channel.SendSuccessAsync("Success!", "Owner Test has been completed successfully!");
-        }
 
         [Command("random", RunMode = RunMode.Async)]
         [RequireOwner]
@@ -71,22 +63,26 @@ namespace brainKiller.Modules
         [Summary("BOT OWNER ONLY")]
         public async Task glds()
         {
+            var totalGuilds = Context.Client.Guilds.Count();
             var builder = new EmbedBuilder
             {
                 Color = new Color(114, 137, 218),
-                Description = "Here is a list of guilds that the bot is connected to"
+                Description =
+                    $"*Total Guilds:* **{totalGuilds}**\n> ***Here is a list of guilds that the bot is connected to!***"
             };
             foreach (var guild in Context.Client.Guilds)
             {
                 string description = null;
                 var guildName = guild.Name;
+                var guildId = guild.Id;
                 var owner = guild.Owner.Username;
                 var totalUsers = guild.Users.Count();
+                var onlineUsers = guild.Users.Where(x => x.Status != UserStatus.Offline).Count();
                 var totalBots = guild.Users.Where(x => x.IsBot != true).Count();
                 var actualUsers = totalUsers - totalBots;
 
                 description +=
-                    $"__*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**";
+                    $"__*Guild ID:*__ **{guildId}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}** __*Total Online:*__ **{onlineUsers}**";
                 // Context.Channel.SendMessageAsync(
                 //    $"__*Server Name:*__ **{guildName}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}**");
 

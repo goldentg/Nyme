@@ -60,6 +60,7 @@ namespace brainKiller.Services
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
 
+
         private async Task MuteHandler()
         {
             var Remove = new List<Mute>();

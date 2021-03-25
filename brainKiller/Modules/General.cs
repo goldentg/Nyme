@@ -158,7 +158,23 @@ namespace brainKiller.Modules
 
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
-
+        /*
+        [Command("Poll", RunMode = RunMode.Async)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [Summary("Create a poll\n(Administrator permissions required)")]
+        public async Task Poll([Remainder] string pollmsg)
+        {
+            var builder = new EmbedBuilder()
+                .WithTitle("Poll")
+                .WithColor(new Color(33, 176, 252))
+                .WithDescription(pollmsg)
+                .WithCurrentTimestamp()
+                .WithFooter($"Poll started by {Context.User.Mention}");
+            var embed = builder.Build();
+            await Context.Channel.SendMessageAsync(null, false, embed);
+            Context.Message.AddReactionsAsync()
+        }
+        */
 
         [Command("rank", RunMode = RunMode.Async)]
         [RequireBotPermission(GuildPermission.ManageRoles)]

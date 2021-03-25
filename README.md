@@ -1,13 +1,20 @@
 # Nyme
 <p align="center">
 <img src="https://i.imgur.com/a6boLPg.png" alt="drawing" width="150"/>
-  </p>
-  
-[![Add Nyme to your server here](https://img.shields.io/badge/Bot-Add%20Nyme-brightgreen)](https://discord.com/api/oauth2/authorize?client_id=808888674900508723&permissions=8&scope=bot)
+ </p>
+
+<p align="center">
+<a href="https://top.gg/bot/808888674900508723">
+    <img src="https://top.gg/api/widget/808888674900508723.svg" alt="Nyme" />
+</a>
+</p>
+ 
+
 
 ## **Add Flame To Your Server Using This Link:**
 https://discord.com/api/oauth2/authorize?client_id=808888674900508723&permissions=8&scope=bot
 
+[![Add Nyme to your server here](https://img.shields.io/badge/Bot-Add%20Nyme-brightgreen)](https://discord.com/api/oauth2/authorize?client_id=808888674900508723&permissions=8&scope=bot)
 
 ## **Notes**
 
