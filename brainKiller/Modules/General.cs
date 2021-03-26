@@ -82,6 +82,8 @@ namespace brainKiller.Modules
                 .AddField("Developer:", "BlackLung#6950")
                 .AddField("Bot created on:", $"{Context.Client.CurrentUser.CreatedAt.ToString("yyyy/MM/dd")}", true)
                 .AddField("Written with:", "C# Discord.NET 3.0.2", true)
+                .AddField("Top.gg", "[Click here to go to the Nyme top.gg](https://top.gg/bot/808888674900508723)",
+                    true)
                 .WithCurrentTimestamp();
             var embed = builder.Build();
 
@@ -97,7 +99,7 @@ namespace brainKiller.Modules
                 .WithColor(new Color(114, 137, 218))
                 .WithTitle($"Add {Context.Client.CurrentUser.Username} To Your Server")
                 .WithDescription(
-                    $"**Invite {Context.Client.CurrentUser.Username} to your server by clicking the following link https://discord.com/api/oauth2/authorize?client_id=808888674900508723&permissions=8&scope=bot \nJoin the Official {Context.Client.CurrentUser.Username} discord server here https://discord.gg/WpEMeycgqa**")
+                    $"**Invite {Context.Client.CurrentUser.Username} to your server by [Clicking here](https://top.gg/bot/808888674900508723) \nJoin the Official {Context.Client.CurrentUser.Username} discord server [Here](https://discord.gg/WpEMeycgqa)**")
                 .WithFooter("Bot developed by: BlackLung#6950")
                 .WithCurrentTimestamp();
             var embed = builder.Build();
@@ -114,7 +116,8 @@ namespace brainKiller.Modules
             var builder = new EmbedBuilder
             {
                 Color = new Color(114, 137, 218),
-                Description = "These are the commands you can use"
+                Description =
+                    "Here is a list of the commands you can use. Further documentation can be found [Here](https://top.gg/bot/808888674900508723)"
             };
 
             foreach (var module in _service.Modules)
@@ -158,12 +161,17 @@ namespace brainKiller.Modules
 
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
+
         /*
         [Command("Poll", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
         [Summary("Create a poll\n(Administrator permissions required)")]
         public async Task Poll([Remainder] string pollmsg)
         {
+
+            var emoteUp = new Emoji("U+2B06");
+            var emoteDown = new Emoji("U+2B07");
+                //new Emoji("\uD83D\uDC4C");
             var builder = new EmbedBuilder()
                 .WithTitle("Poll")
                 .WithColor(new Color(33, 176, 252))
@@ -171,8 +179,9 @@ namespace brainKiller.Modules
                 .WithCurrentTimestamp()
                 .WithFooter($"Poll started by {Context.User.Mention}");
             var embed = builder.Build();
+
             await Context.Channel.SendMessageAsync(null, false, embed);
-            Context.Message.AddReactionsAsync()
+            //    Context.Message.AddReactionsAsync()
         }
         */
 
