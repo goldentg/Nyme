@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using brainKiller.Common;
 using brainKiller.Services;
+using brainKiller.Utilities;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -13,10 +14,12 @@ namespace brainKiller.Modules
     public class Moderation : ModuleBase<SocketCommandContext>
     {
         private readonly ILogger<Moderation> _logger;
+        private readonly ServerHelper _serverHelper;
 
-        public Moderation(ILogger<Moderation> logger)
+        public Moderation(ILogger<Moderation> logger, ServerHelper serverHelper)
         {
             _logger = logger;
+            _serverHelper = serverHelper;
         }
 
 
@@ -32,6 +35,8 @@ namespace brainKiller.Modules
                 await Context.Channel.SendMessageAsync($"{messages.Count() - 1} messages deleted successfully");
             await Task.Delay(2500);
             await message.DeleteAsync();
+            await _serverHelper.SendLogAsync(Context.Guild, "Messages Purged",
+                $"{Context.User.Mention} purged `{messages.Count() - 1}` messages from `{Context.Channel}`");
         }
 
 
@@ -43,6 +48,8 @@ namespace brainKiller.Modules
         {
             await Context.Channel.SendSuccessAsync("Success!",
                 $"{Context.User.Mention} has successfully kicked {user.Mention}");
+            await _serverHelper.SendLogAsync(Context.Guild, "Kicked User",
+                $"{Context.User.Mention} has kicked {user.Mention}");
             await user.KickAsync();
         }
 
@@ -54,6 +61,8 @@ namespace brainKiller.Modules
         {
             await Context.Channel.SendSuccessAsync("Success!",
                 $"{Context.User.Mention} has successfully banned {user.Mention}");
+            await _serverHelper.SendLogAsync(Context.Guild, "Banned User",
+                $"{Context.User.Mention} has kicked {user.Mention}");
             await user.BanAsync();
         }
 
@@ -102,8 +111,10 @@ namespace brainKiller.Modules
                 Role = role
             });
             await user.AddRoleAsync(role);
-            await Context.Channel.SendSuccessAsync($"Muted {user.Username}",
+            await Context.Channel.SendSuccessAsync($"Muted {user.Mention}",
                 $"Duration: {minutes} minuets\nReason: {reason ?? "None"}");
+            await _serverHelper.SendLogAsync(Context.Guild, "User Muted",
+                $"{Context.User.Mention} has muted {user.Mention} for `{minutes}. Reason: {reason ?? "None"}`");
         }
 
         [Command("unmute", RunMode = RunMode.Async)]
@@ -134,8 +145,10 @@ namespace brainKiller.Modules
             }
 
             await user.RemoveRoleAsync(role);
-            await Context.Channel.SendSuccessAsync($"Unmuted {user.Username}",
+            await Context.Channel.SendSuccessAsync($"Unmuted {user.Mention}",
                 "Successfully unmuted the user");
+            await _serverHelper.SendLogAsync(Context.Guild, "User Un-muted",
+                $"{Context.User.Mention} has unmuted {user.Mention}");
         }
 
         [Command("say", RunMode = RunMode.Async)]
@@ -161,6 +174,8 @@ namespace brainKiller.Modules
                 await ch.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Deny));
                 await Context.Channel.SendSuccessAsync("Locked", $"{ch.Mention} has been locked");
+                await _serverHelper.SendLogAsync(Context.Guild, "Channel Locked",
+                    $"{Context.User.Mention} has locked {ch.Mention}");
             }
             else
             {
@@ -169,6 +184,8 @@ namespace brainKiller.Modules
                 await channel.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Deny));
                 await Context.Channel.SendSuccessAsync("Locked", $"{channel.Mention} has been locked");
+                await _serverHelper.SendLogAsync(Context.Guild, "Channel Locked",
+                    $"{Context.User.Mention} has unlocked {channel.Mention}");
             }
         }
 
@@ -185,6 +202,8 @@ namespace brainKiller.Modules
                 await ch.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Allow));
                 await Context.Channel.SendSuccessAsync("Locked", $"{ch.Mention} has been unlocked");
+                await _serverHelper.SendLogAsync(Context.Guild, "Channel Unlocked",
+                    $"{Context.User.Mention} has unlocked {ch.Mention}");
             }
             else
             {
@@ -193,6 +212,8 @@ namespace brainKiller.Modules
                 await channel.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Allow));
                 await Context.Channel.SendSuccessAsync("Locked", $"{channel.Mention} has been unlocked");
+                await _serverHelper.SendLogAsync(Context.Guild, "Channel Unlocked",
+                    $"{Context.User.Mention} has unlocked {channel.Mention}");
             }
         }
     }

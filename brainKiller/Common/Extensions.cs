@@ -63,23 +63,6 @@ namespace brainKiller.Common
             return message;
         }
 
-        public static async Task<IMessage> SendLogAsync(this ITextChannel channel, string title, string description)
-        {
-            var embed = new EmbedBuilder()
-                .WithColor(new Color(26, 155, 226))
-                .WithDescription(description)
-                .WithAuthor(author =>
-                {
-                    author
-                        .WithIconUrl("https://i.imgur.com/gLR4k7d.png")
-                        .WithName(title);
-                })
-                .Build();
-
-            var message = await channel.SendMessageAsync(embed: embed);
-            return message;
-        }
-
         public static async Task<IMessage> Music(this ISocketMessageChannel channel, string title, string song,
             string thumb)
         {
@@ -153,6 +136,25 @@ namespace brainKiller.Common
                 .WithTitle(title)
                 .WithThumbnailUrl(
                     "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.thenounproject.com%2Fpng%2F641819-200.png&f=1&nofb=1")
+                .Build();
+
+            var message = await channel.SendMessageAsync(embed: embed);
+            return message;
+        }
+
+        public static async Task<IMessage> SendLogAsync(this ITextChannel channel, string title,
+            string description)
+        {
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(26, 155, 233))
+                .WithDescription(description)
+                .WithAuthor(author =>
+                {
+                    author
+                        .WithIconUrl(
+                            "https://www.shareicon.net/data/2016/12/12/862832_internet_512x512.png")
+                        .WithName(title);
+                })
                 .Build();
 
             var message = await channel.SendMessageAsync(embed: embed);

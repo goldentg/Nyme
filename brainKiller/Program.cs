@@ -68,6 +68,7 @@ namespace brainKiller
                         .AddSingleton<AutoRoles>()
                         .AddSingleton<RanksHelper>()
                         .AddSingleton<AutoRolesHelper>()
+                        .AddSingleton<ServerHelper>()
                         .AddSingleton<InteractivityService>()
                         .BuildServiceProvider();
                 })

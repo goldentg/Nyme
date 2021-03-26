@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using brainKiller.Common;
 using brainKiller.Utilities;
 using Discord;
 using Discord.Commands;
@@ -14,34 +15,42 @@ namespace brainKiller.Modules
         private readonly AutoRolesHelper _autoRolesHelper;
         private readonly Ranks _ranks;
         private readonly RanksHelper _ranksHelper;
+        private readonly ServerHelper _serverHelper;
         private readonly Servers _servers;
 
         public Configuration(RanksHelper ranksHelper, Servers servers, Ranks ranks, AutoRolesHelper autoRolesHelper,
-            AutoRoles autoRoles)
+            AutoRoles autoRoles, ServerHelper serverHelper)
         {
             _ranksHelper = ranksHelper;
             _autoRolesHelper = autoRolesHelper;
             _servers = servers;
             _ranks = ranks;
             _autoRoles = autoRoles;
+            _serverHelper = serverHelper;
         }
 
         [Command("prefix", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Set the bot prefix for this server\n(Admin permissions required)")]
+        [Summary("Sets the prefix for this bot\n(Administrator permissions required)")]
         public async Task Prefix(string prefix = null)
         {
             if (prefix == null)
             {
                 var guildPrefix = await _servers.GetGuildPrefix(Context.Guild.Id) ?? "!";
-                await Context.Channel.SendMessageAsync($"The current prefix of this bot is `{guildPrefix}`");
+                await ReplyAsync($"The current prefix of this bot is `{guildPrefix}`.");
                 return;
             }
 
-            if (prefix.Length > 8) await ReplyAsync("The length of the new prefix is too long!");
+            if (prefix.Length > 8)
+            {
+                await Context.Channel.SendErrorAsync("Error", "The length of the new prefix is too long!");
+                return;
+            }
 
             await _servers.ModifyGuildPrefix(Context.Guild.Id, prefix);
-            await ReplyAsync($"The prefix of this bot has been changed to `{prefix}`");
+            await ReplyAsync($"The prefix has been adjusted to `{prefix}`.");
+            await _serverHelper.SendLogAsync(Context.Guild, "Prefix adjusted",
+                $"{Context.User.Mention} modifed the prefix to `{prefix}`.");
         }
 
         [Command("ranks", RunMode = RunMode.Async)]
@@ -51,7 +60,7 @@ namespace brainKiller.Modules
             var ranks = await _ranksHelper.GetRanksAsync(Context.Guild);
             if (ranks.Count == 0)
             {
-                await ReplyAsync("This server doesn't have any ranks!");
+                await Context.Channel.SendErrorAsync("Error", "This server doesn't have any ranks!");
                 return;
             }
 
@@ -77,24 +86,26 @@ namespace brainKiller.Modules
                 string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
             if (role == null)
             {
-                await ReplyAsync("That role does not exist!");
+                await Context.Channel.SendErrorAsync("Error", "That role does not exist!");
                 return;
             }
 
             if (role.Position > Context.Guild.CurrentUser.Hierarchy)
             {
-                await ReplyAsync("That role has a higher position then the bot");
+                await Context.Channel.SendErrorAsync("Error", "That role has a higher position then the bot");
                 return;
             }
 
             if (ranks.Any(x => x.Id == role.Id))
             {
-                await ReplyAsync("That role is already a rank");
+                await Context.Channel.SendErrorAsync("Error", "That role is already a rank");
                 return;
             }
 
             await _ranks.AddRankAsync(Context.Guild.Id, role.Id);
-            await ReplyAsync($"The role {role.Mention} has been added to the ranks!");
+            await Context.Channel.SendSuccessAsync("Success", $"The role {role.Mention} has been added to the ranks!");
+            await _serverHelper.SendLogAsync(Context.Guild, "Rank Added",
+                $"{Context.User.Mention} has added the `{role.Mention}` rank to the rank list");
         }
 
         [Command("delrank", RunMode = RunMode.Async)]
@@ -109,18 +120,21 @@ namespace brainKiller.Modules
                 string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
             if (role == null)
             {
-                await ReplyAsync("That role does not exist!");
+                await Context.Channel.SendErrorAsync("Error", "That role does not exist!");
                 return;
             }
 
             if (ranks.Any(x => x.Id != role.Id))
             {
-                await ReplyAsync("That role isnt a rank yet!");
+                await Context.Channel.SendErrorAsync("Error", "That role isnt a rank yet!");
                 return;
             }
 
             await _ranks.RemoveRankAsync(Context.Guild.Id, role.Id);
-            await ReplyAsync($"The role {role.Mention} has been removed from the ranks");
+            await Context.Channel.SendSuccessAsync("Success",
+                $"The role {role.Mention} has been removed from the ranks");
+            await _serverHelper.SendLogAsync(Context.Guild, "Rank Removed",
+                $"{Context.User.Mention} has removed `{role.Mention}` from the rank list");
         }
 
 
@@ -131,7 +145,7 @@ namespace brainKiller.Modules
             var autoRoles = await _autoRolesHelper.GetAutoRolesAsync(Context.Guild);
             if (autoRoles.Count == 0)
             {
-                await ReplyAsync("This server doesn't have any auto roles!");
+                await Context.Channel.SendErrorAsync("Error", "This server doesn't have any auto roles!");
                 return;
             }
 
@@ -156,24 +170,27 @@ namespace brainKiller.Modules
                 string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
             if (role == null)
             {
-                await ReplyAsync("That role does not exist!");
+                await Context.Channel.SendErrorAsync("Error", "That role does not exist!");
                 return;
             }
 
             if (role.Position > Context.Guild.CurrentUser.Hierarchy)
             {
-                await ReplyAsync("That role has a higher position then the bot");
+                await Context.Channel.SendErrorAsync("Error", "That role has a higher position then the bot");
                 return;
             }
 
             if (autoRoles.Any(x => x.Id == role.Id))
             {
-                await ReplyAsync("That role is already an autorole");
+                await Context.Channel.SendErrorAsync("Error", "That role is already an autorole");
                 return;
             }
 
             await _autoRoles.AddAutoRoleAsync(Context.Guild.Id, role.Id);
-            await ReplyAsync($"The role {role.Mention} has been added to the autoroles!");
+            await Context.Channel.SendSuccessAsync("Success",
+                $"The role {role.Mention} has been added to the autoroles!");
+            await _serverHelper.SendLogAsync(Context.Guild, "Auto-Role Added",
+                $"{Context.User.Mention} has added the `{role.Mention} role to the auto-role list`");
         }
 
         [Command("delautorole", RunMode = RunMode.Async)]
@@ -188,18 +205,21 @@ namespace brainKiller.Modules
                 string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
             if (role == null)
             {
-                await ReplyAsync("That role does not exist!");
+                await Context.Channel.SendErrorAsync("Error", "That role does not exist!");
                 return;
             }
 
             if (autoRoles.Any(x => x.Id != role.Id))
             {
-                await ReplyAsync("That role isnt an autorole yet!");
+                await Context.Channel.SendErrorAsync("Error", "That role isnt an autorole yet!");
                 return;
             }
 
             await _autoRoles.RemoveAutoRoleAsync(Context.Guild.Id, role.Id);
-            await ReplyAsync($"The role {role.Mention} has been removed from the autoroles");
+            await Context.Channel.SendSuccessAsync("Success",
+                $"The role {role.Mention} has been removed from the autorole list");
+            await _serverHelper.SendLogAsync(Context.Guild, "Auto-Role Deleted",
+                $"{Context.User.Mention} has removed the `{role.Mention} autorole from the autoroles list`");
         }
 
         [Command("welcome")]
@@ -228,8 +248,8 @@ namespace brainKiller.Modules
 
                 if (fetchedBackground != null)
                     await ReplyAsync(
-                        $"The channel used for the welcome mudule is {fetchedChannel.Mention}.\nThe background is set to {fetchedBackground}");
-                else await ReplyAsync($"The channel used for the welcome mudule is {fetchedChannel.Mention}.");
+                        $"The channel used for the welcome module is {fetchedChannel.Mention}.\nThe background is set to {fetchedBackground}");
+                else await ReplyAsync($"The channel used for the welcome module is {fetchedChannel.Mention}.");
 
                 return;
             }
@@ -277,6 +297,65 @@ namespace brainKiller.Modules
             }
 
             await ReplyAsync("You did not use this command properly!");
+        }
+
+
+        [Command("logs")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [Summary("Settings/Setup for setting up logs\n(Admin permissions required)")]
+        public async Task Logs(string value = null)
+        {
+            if (value == null)
+            {
+                var fetchedChannelId = await _servers.GetLogsAsync(Context.Guild.Id);
+                if (fetchedChannelId == 0)
+                {
+                    await Context.Channel.SendErrorAsync("Error", "There has not been set a logs channel yet!");
+                    return;
+                }
+
+                var fetchedChannel = Context.Guild.GetTextChannel(fetchedChannelId);
+                if (fetchedChannel == null)
+                {
+                    await Context.Channel.SendErrorAsync("Error", "There has not been set a logs channel yet!");
+                    await _servers.ClearLogsAsync(Context.Guild.Id);
+                    return;
+                }
+
+                await ReplyAsync($"The channel used for the logs is set to {fetchedChannel.Mention}.");
+
+                return;
+            }
+
+            if (value != "clear")
+            {
+                if (!MentionUtils.TryParseChannel(value, out var parsedId))
+                {
+                    await Context.Channel.SendErrorAsync("Error", "Please pass in a valid channel!");
+                    return;
+                }
+
+                var parsedChannel = Context.Guild.GetTextChannel(parsedId);
+                if (parsedChannel == null)
+                {
+                    await ReplyAsync("Please pass in a valid channel!");
+                    return;
+                }
+
+                await _servers.ModifyLogsAsync(Context.Guild.Id, parsedId);
+                await Context.Channel.SendSuccessAsync("Success",
+                    $"Successfully modified the logs channel to {parsedChannel.Mention}.");
+                return;
+            }
+
+            if (value == "clear")
+            {
+                await _servers.ClearLogsAsync(Context.Guild.Id);
+                await Context.Channel.SendSuccessAsync("Success", "Successfully cleared the logs channel.");
+                return;
+            }
+
+            await Context.Channel.SendErrorAsync("Error", "You did not use this command properly.");
         }
     }
 }

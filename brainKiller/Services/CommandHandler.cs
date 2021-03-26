@@ -26,11 +26,13 @@ namespace brainKiller.Services
         private readonly Images _images;
         private readonly LavaNode _lavaNode;
         private readonly IServiceProvider _provider;
+        private readonly ServerHelper _serverHelper;
         private readonly Servers _servers;
         private readonly CommandService _service;
 
         public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
-            IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
+            IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode,
+            ServerHelper serverHelper)
         {
             _provider = provider;
             _client = client;
@@ -40,6 +42,7 @@ namespace brainKiller.Services
             _images = images;
             _autoRolesHelper = autoRolesHelper;
             _lavaNode = lavaNode;
+            _serverHelper = serverHelper;
         }
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
