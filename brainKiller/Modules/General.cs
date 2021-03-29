@@ -200,7 +200,7 @@ namespace brainKiller.Modules
                 var roleById = Context.Guild.Roles.FirstOrDefault(x => x.Id == roleId);
                 if (roleById == null)
                 {
-                    await Context.Channel.SendErrorAsync("Error", "That role does not exist!");
+                    await ReplyAsync("That role does not exist!");
                     return;
                 }
 
@@ -212,23 +212,28 @@ namespace brainKiller.Modules
                     string.Equals(x.Name, identifier, StringComparison.CurrentCultureIgnoreCase));
                 if (roleByName == null)
                 {
-                    await Context.Channel.SendErrorAsync("Error", "That role does not exist!");
+                    await ReplyAsync("That role does not exist!");
                     return;
                 }
 
                 role = roleByName;
             }
 
+            if (!ranks.All(x => x.Id == role.Id))
+            {
+                await ReplyAsync("That rank does not exist!");
+                return;
+            }
+
             if ((Context.User as SocketGuildUser).Roles.Any(x => x.Id == role.Id))
             {
                 await (Context.User as SocketGuildUser).RemoveRoleAsync(role);
-                await Context.Channel.SendSuccessAsync("Success",
-                    $"Succesfully removed the rank {role.Mention} from you.");
+                await ReplyAsync($"Succesfully removed the rank {role.Mention} from you.");
                 return;
             }
 
             await (Context.User as SocketGuildUser).AddRoleAsync(role);
-            await Context.Channel.SendSuccessAsync("Success", $"Succesfully added the rank {role.Mention} to you.");
+            await ReplyAsync($"Succesfully added the rank {role.Mention} to you.");
         }
     }
 }
