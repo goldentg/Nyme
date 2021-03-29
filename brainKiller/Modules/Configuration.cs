@@ -154,7 +154,7 @@ namespace brainKiller.Modules
             var description = "This message lists all auto roles \nIn order to remove an autorole, use the name or ID";
             foreach (var autoRole in autoRoles) description += $"\n{autoRole.Mention} ({autoRole.Id})";
 
-            await ReplyAsync(description);
+            await Context.Channel.SendSuccessAsync("Autoroles", $"{description}");
         }
 
         [Command("addautorole", RunMode = RunMode.Async)]
