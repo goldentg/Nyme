@@ -117,7 +117,7 @@ namespace brainKiller.Modules
             {
                 Color = new Color(114, 137, 218),
                 Description =
-                    "Here is a list of the commands you can use. [Further documentation can be found here](https://top.gg/bot/808888674900508723). [Join the support server here](https://discord.gg/a5SmPbSGEJ)"
+                    "Here is a list of the commands you can use.\n[Further documentation can be found here](https://top.gg/bot/808888674900508723)\n[Join the support server here](https://discord.gg/a5SmPbSGEJ)"
             };
 
             foreach (var module in _service.Modules)
