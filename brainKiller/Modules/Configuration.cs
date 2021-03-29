@@ -70,7 +70,7 @@ namespace brainKiller.Modules
                 "This message lists all available ranks \nIn order to add a rank you can use the name or ID of the rank";
             foreach (var rank in ranks) description += $"\n{rank.Mention} ({rank.Id})";
 
-            await ReplyAsync(description);
+            await Context.Channel.SendSuccessAsync("Ranks", $"{description}");
         }
 
         [Command("addrank", RunMode = RunMode.Async)]
