@@ -201,7 +201,7 @@ namespace brainKiller.Services
         {
             if (command.IsSpecified && !result.IsSuccess)
                 await context.Channel.SendMessageAsync(
-                    $"Error: {result}.\n*If you think this error is a bug or issue with the bot please let me know on the [support server](https://discord.gg/a5SmPbSGEJ)*");
+                    $"Error: {result}.\n*If you think this error is a bug or issue with the bot please let me know on the support server https://discord.gg/a5SmPbSGEJ*");
         }
     }
 }
