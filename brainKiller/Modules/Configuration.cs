@@ -105,7 +105,7 @@ namespace brainKiller.Modules
             await _ranks.AddRankAsync(Context.Guild.Id, role.Id);
             await Context.Channel.SendSuccessAsync("Success", $"The role {role.Mention} has been added to the ranks!");
             await _serverHelper.SendLogAsync(Context.Guild, "Rank Added",
-                $"{Context.User.Mention} has added the `{role.Mention}` rank to the rank list");
+                $"{Context.User.Mention} has added the `{role.Name}` rank to the rank list");
         }
 
         [Command("delrank", RunMode = RunMode.Async)]
@@ -134,7 +134,7 @@ namespace brainKiller.Modules
             await Context.Channel.SendSuccessAsync("Success",
                 $"The role {role.Mention} has been removed from the ranks");
             await _serverHelper.SendLogAsync(Context.Guild, "Rank Removed",
-                $"{Context.User.Mention} has removed `{role.Mention}` from the rank list");
+                $"{Context.User.Mention} has removed `{role.Name}` from the rank list");
         }
 
 
@@ -190,7 +190,7 @@ namespace brainKiller.Modules
             await Context.Channel.SendSuccessAsync("Success",
                 $"The role {role.Mention} has been added to the autoroles!");
             await _serverHelper.SendLogAsync(Context.Guild, "Auto-Role Added",
-                $"{Context.User.Mention} has added the `{role.Mention} role to the auto-role list`");
+                $"{Context.User.Mention} has added the `{role.Name} role to the auto-role list`");
         }
 
         [Command("delautorole", RunMode = RunMode.Async)]
@@ -219,7 +219,7 @@ namespace brainKiller.Modules
             await Context.Channel.SendSuccessAsync("Success",
                 $"The role {role.Mention} has been removed from the autorole list");
             await _serverHelper.SendLogAsync(Context.Guild, "Auto-Role Deleted",
-                $"{Context.User.Mention} has removed the `{role.Mention} autorole from the autoroles list`");
+                $"{Context.User.Mention} has removed the `{role.Name} autorole from the autoroles list`");
         }
 
         [Command("welcome")]
