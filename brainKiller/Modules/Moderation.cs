@@ -25,6 +25,7 @@ namespace brainKiller.Modules
 
         [Command("purge", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.ManageMessages)]
+        [Alias("clear")]
         [Summary("Deletes x amount of messages from a channel\n(ManageMessages permissions required)")]
         public async Task Purge(int amount)
         {

@@ -160,5 +160,21 @@ namespace brainKiller.Common
             var message = await channel.SendMessageAsync(embed: embed);
             return message;
         }
+
+        public static async Task<IMessage> CoinflipMessageAsync(this ISocketMessageChannel channel, string output,
+            string author)
+        {
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(216, 206, 13))
+                .WithTitle("Coinflip")
+                .WithDescription($"The coin landed on __**{output}**__")
+                .WithThumbnailUrl("http://clipart-library.com/data_images/296207.png")
+                .WithCurrentTimestamp()
+                .WithFooter($"Coin flipped by {author}")
+                .Build();
+
+            var message = await channel.SendMessageAsync(embed: embed);
+            return message;
+        }
     }
 }

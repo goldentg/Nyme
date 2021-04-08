@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using brainKiller.Common;
 using Discord;
@@ -57,6 +58,22 @@ namespace brainKiller.Modules
         public async Task Slap([Remainder] SocketGuildUser user)
         {
             await Context.Channel.SlapAsync("Slap", $"{Context.User.Mention} slapped {user.Mention}");
+        }
+
+        [Command("coinflip", RunMode = RunMode.Async)]
+        [Summary("Flip a coin")]
+        public async Task CoinFlip()
+        {
+            string[] coin =
+            {
+                "Heads",
+                "Tails"
+            };
+
+            var r = new Random();
+            var index = r.Next(coin.Length);
+
+            await Context.Channel.CoinflipMessageAsync($"{coin[index]}", $"{Context.User.Username}");
         }
     }
 }
