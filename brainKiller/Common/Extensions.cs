@@ -183,12 +183,12 @@ namespace brainKiller.Common
                 .WithColor(new Color(43, 182, 115))
                 .WithTitle($"Hello {guildName}!")
                 .WithDescription(
-                    $"Hello members and staff of {guildName}. Thank you for\ngiving Nyme a try. Nyme is an extremely advanced and fast public discord bot packed with features.\nNyme is being worked upon and improved often and will continue to be. You can see\nsome of what Nyme has to offer by running **!help**\aalthough Nyme has a lot more to offer but you can read that in the [documentation](https://top.gg/bot/808888674900508723)\nif you are interested. I recommend that staff of {guildName} read the Nyme documentation\nbefore doing any configuration")
+                    $"Hello members and staff of {guildName}. Thank you for\ngiving Nyme a try. Nyme is an extremely advanced and fast public discord bot packed with features.\nNyme is being worked upon and improved often and will continue to be. You can see\nsome of what Nyme has to offer by running **!help**\aalthough Nyme has a lot more to offer but you can read that in the [documentation](https://top.gg/bot/808888674900508723)\nif you are interested. I recommend that staff of {guildName} read the Nyme documentation\nbefore doing any configuration\n\n[Nyme Documentation](https://top.gg/bot/808888674900508723) [Support Server](https://discord.gg/RJ4kMhKvM3)")
                 .WithThumbnailUrl(
                     "https://images.discordapp.net/avatars/808888674900508723/ba4ef16cc7e6905bde2a91f7cab19b3e.png?size=128")
                 .WithCurrentTimestamp()
                 .WithFooter(
-                    "Developed by BlackLung#6950. [Nyme Documentation](https://top.gg/bot/808888674900508723) [Support Server](https://discord.gg/RJ4kMhKvM3)")
+                    "Developed by BlackLung#6950")
                 .Build();
 
             var message = await channel.SendMessageAsync(embed: embed);
