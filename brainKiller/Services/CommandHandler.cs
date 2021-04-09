@@ -30,6 +30,7 @@ namespace brainKiller.Services
         private readonly Servers _servers;
         private readonly CommandService _service;
 
+
         public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
             IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode,
             ServerHelper serverHelper)
@@ -51,6 +52,25 @@ namespace brainKiller.Services
 
             _client.UserJoined += OnMemberJoin;
 
+            _client.ChannelCreated += OnChannelCreated;
+
+            _client.ChannelDestroyed += OnChannelDestroyed;
+
+            _client.RoleCreated += OnRoleCreated;
+
+            _client.RoleDeleted += OnRoleDeleted;
+
+            _client.RoleUpdated += OnRoleUpdated;
+
+            _client.UserBanned += OnUserBan;
+
+            _client.UserUnbanned += OnUserUnban;
+
+            _client.ChannelUpdated += OnChannelUpdated;
+
+            _client.GuildUpdated += OnGuildUpdate;
+
+
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
 
@@ -63,6 +83,157 @@ namespace brainKiller.Services
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
 
+        private async Task OnGuildUpdate(SocketGuild arg1, SocketGuild arg2)
+        {
+            if (arg1 is SocketGuild gld1)
+                if (arg2 is SocketGuild gld2)
+                {
+                    if (arg1.Name != arg2.Name)
+                    {
+                        var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.GuildUpdated)
+                            .FlattenAsync();
+                        foreach (var audit in auditlogs)
+                            if (audit.User is IUser data)
+                                await _serverHelper.SendLogAsync(gld2, "Guild Updated",
+                                    $"Guild **{gld1.Name}** has been updated to **{gld2.Name}** by **{audit.User.Username + "#" + audit.User.Discriminator}**");
+                    }
+                    else
+                    {
+                        var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.GuildUpdated)
+                            .FlattenAsync();
+                        foreach (var audit in auditlogs)
+                            if (audit.User is IUser data)
+                                await _serverHelper.SendLogAsync(gld2, "Guild Updated",
+                                    $"Guild **{gld1.Name}** has been updated by **{audit.User.Username + "#" + audit.User.Discriminator}**");
+                    }
+                }
+        }
+
+        private async Task OnChannelCreated(SocketChannel arg)
+        {
+            if (arg is SocketGuildChannel guildChannel)
+            {
+                var g = guildChannel.Guild;
+                var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.ChannelCreated)
+                    .FlattenAsync();
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data)
+                        await _serverHelper.SendLogAsync(g, "Channel Created",
+                            $"Channel **#{guildChannel.Name}** has been created by **{audit.User.Username + "#" + audit.User.Discriminator}**");
+            }
+        }
+
+        private async Task OnChannelDestroyed(SocketChannel arg)
+        {
+            if (arg is SocketGuildChannel guildChannel)
+            {
+                var g = guildChannel.Guild;
+                var auditlogs = await g.GetAuditLogsAsync(1, null, guildChannel.Id, null, ActionType.ChannelDeleted)
+                    .FlattenAsync();
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data)
+                        await _serverHelper.SendLogAsync(g, "Channel Deleted",
+                            $"Channel **#{guildChannel.Name}** has been deleted by __**{audit.User.Username + "#" + audit.User.Discriminator}**__");
+            }
+        }
+
+        private async Task OnChannelUpdated(SocketChannel arg1, SocketChannel arg2)
+        {
+            if (arg2 is SocketGuildChannel guildChannel)
+                if (arg1 is SocketGuildChannel gld2Channel)
+                {
+                    if (guildChannel.Name != gld2Channel.Name)
+                    {
+                        var g = guildChannel.Guild;
+                        var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
+                            .FlattenAsync();
+
+
+                        foreach (var audit in auditlogs)
+                            if (audit.User is IUser data)
+                                await _serverHelper.SendLogAsync(g, "Channel Updated",
+                                    $"The **#{gld2Channel.Name}** channel has been updated to **#{guildChannel.Name}** by __**{audit.User.Username + "#" + audit.User.Discriminator}**__");
+                    }
+                    else
+                    {
+                        var g = guildChannel.Guild;
+                        var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
+                            .FlattenAsync();
+
+
+                        foreach (var audit in auditlogs)
+                            if (audit.User is IUser data)
+                                await _serverHelper.SendLogAsync(g, "Channel Updated",
+                                    $"The **#{gld2Channel.Name}** channel has been updated by **{audit.User.Username + "#" + audit.User.Discriminator}**");
+                    }
+                }
+        }
+
+        private async Task OnUserBan(SocketUser arg1, SocketGuild arg2)
+        {
+            var auditlogs = await arg2.GetAuditLogsAsync(1, null, null, arg1.Id, ActionType.Ban)
+                .FlattenAsync();
+            foreach (var audit in auditlogs)
+                if (audit.User is IUser data)
+                    await _serverHelper.SendLogAsync(arg2, "User Banned",
+                        $"User **{arg1.Username + "#" + arg1.Discriminator}** has been banned by **{audit.User.Username + "#" + audit.User.Discriminator}**");
+        }
+
+        private async Task OnUserUnban(SocketUser arg1, SocketGuild arg2)
+        {
+            var auditlogs = await arg2.GetAuditLogsAsync(1, null, null, arg1.Id, ActionType.Unban)
+                .FlattenAsync();
+            foreach (var audit in auditlogs)
+                if (audit.User is IUser data)
+                    await _serverHelper.SendLogAsync(arg2, "User Un-Banned",
+                        $"User **{arg1.Username + "#" + arg1.Discriminator}** has been unbanned by __**{audit.User.Username + "#" + audit.User.Discriminator}**__");
+        }
+
+        private async Task OnRoleCreated(SocketRole arg)
+        {
+            var g = arg.Guild;
+            var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.RoleCreated)
+                .FlattenAsync();
+            foreach (var audit in auditlogs)
+                if (audit.User is IUser data)
+                    await _serverHelper.SendLogAsync(g, "Role Created",
+                        $"Role **{arg.Name}** has been created by __**{audit.User.Username + "#" + audit.User.Discriminator}**__");
+        }
+
+        private async Task OnRoleDeleted(SocketRole arg)
+        {
+            var g = arg.Guild;
+            var auditlogs = await g.GetAuditLogsAsync(1, null, arg.Id, null, ActionType.RoleDeleted)
+                .FlattenAsync();
+            foreach (var audit in auditlogs)
+                if (audit.User is IUser data)
+                    await _serverHelper.SendLogAsync(g, "Role Deleted",
+                        $"Role **{arg.Name}** has been deleted by __**{audit.User.Username + "#" + audit.User.Discriminator}**__");
+        }
+
+        private async Task OnRoleUpdated(SocketRole arg1, SocketRole arg2)
+        {
+            if (arg1.Name != arg2.Name)
+            {
+                var g = arg2.Guild;
+                var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.RoleUpdated)
+                    .FlattenAsync();
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data)
+                        await _serverHelper.SendLogAsync(g, "Role Updated",
+                            $"Role **{arg1.Name}** has been updated to **{arg2.Name}** by __**{audit.User.Username + "#" + audit.User.Discriminator}**__");
+            }
+            else
+            {
+                var g = arg2.Guild;
+                var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.RoleUpdated)
+                    .FlattenAsync();
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data)
+                        await _serverHelper.SendLogAsync(g, "Role Updated",
+                            $"Role **{arg2.Name}** has been updated by __**{audit.User.Username + "#" + audit.User.Discriminator}**__");
+            }
+        }
 
         private async Task MuteHandler()
         {
@@ -107,14 +278,12 @@ namespace brainKiller.Services
             await MuteHandler();
         }
 
+
         private async Task OnReadyAsync()
         {
             await _client.SetGameAsync("!help for help");
 
-
             if (!_lavaNode.IsConnected) await _lavaNode.ConnectAsync();
-
-            // Other ready related stuff
         }
 
 

@@ -62,8 +62,9 @@ namespace brainKiller.Modules
         {
             await Context.Channel.SendSuccessAsync("Success!",
                 $"{Context.User.Mention} has successfully banned {user.Mention}");
-            await _serverHelper.SendLogAsync(Context.Guild, "Banned User",
-                $"{Context.User.Mention} has kicked {user.Mention}");
+            //this log is no longer used since it is already on a onban event
+            // await _serverHelper.SendLogAsync(Context.Guild, "Banned User",
+            //     $"{Context.User.Mention} has kicked {user.Mention}");
             await user.BanAsync();
         }
 
