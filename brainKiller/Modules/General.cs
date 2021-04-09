@@ -82,7 +82,8 @@ namespace brainKiller.Modules
                 .AddField("Developer:", "BlackLung#6950")
                 .AddField("Bot created on:", $"{Context.Client.CurrentUser.CreatedAt.ToString("yyyy/MM/dd")}", true)
                 .AddField("Written with:", "C# Discord.NET 3.0.2", true)
-                .AddField("Top.gg", "[Click here to go to the Nyme top.gg](https://top.gg/bot/808888674900508723)",
+                .AddField("Documentation",
+                    "[Click here to go to the Nyme documentation](https://top.gg/bot/808888674900508723)",
                     true)
                 .WithCurrentTimestamp();
             var embed = builder.Build();
@@ -229,12 +230,12 @@ namespace brainKiller.Modules
             {
                 await (Context.User as SocketGuildUser).RemoveRoleAsync(role);
                 await Context.Channel.SendSuccessAsync("Success",
-                    $"Succesfully removed the rank {role.Mention} from you.");
+                    $"Successfully removed the rank {role.Mention} from you.");
                 return;
             }
 
             await (Context.User as SocketGuildUser).AddRoleAsync(role);
-            await Context.Channel.SendSuccessAsync("Success", $"Succesfully added the rank {role.Mention} to you.");
+            await Context.Channel.SendSuccessAsync("Success", $"Successfully added the rank {role.Mention} to you.");
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Infrastructure
         public ulong Id { get; set; }
         public string Prefix { get; set; }
         public ulong Welcome { get; set; }
+        public ulong WelcomeDm { get; set; }
+        public string WelcomeDmMessage { get; set; }
         public string Background { get; set; }
         public ulong Logs { get; set; }
     }

@@ -38,6 +38,62 @@ namespace Infrastructure
             return await Task.FromResult(prefix);
         }
 
+        public async Task ModifyWelcomeDm(ulong id, ulong msg)
+        {
+            var server = await _context.Servers.FindAsync(id);
+            if (server == null)
+                _context.Add(new Server {Id = id, WelcomeDm = msg});
+            else
+                server.WelcomeDm = msg;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ClearWelcomeDmAsync(ulong id)
+        {
+            var server = await _context.Servers.FindAsync(id);
+
+            server.WelcomeDm = 0;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<ulong> GetWelcomeDmAsync(ulong id)
+        {
+            var server = await _context.Servers.FindAsync(id);
+
+            return await Task.FromResult(server.WelcomeDm);
+        }
+
+        public async Task ModifyDmChannelAsync(ulong id, string msg)
+        {
+            var server = await _context.Servers
+                .FindAsync(id);
+
+            if (server == null)
+                _context.Add(new Server {Id = id, WelcomeDmMessage = msg});
+            else
+                server.WelcomeDmMessage = msg;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ClearWelcomeDmMessageAsync(ulong id)
+        {
+            var server = await _context.Servers
+                .FindAsync(id);
+
+            server.WelcomeDmMessage = null;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<string> GetDmMessageAsync(ulong id)
+        {
+            var server = await _context.Servers
+                .FindAsync(id);
+
+            return await Task.FromResult(server.WelcomeDmMessage);
+        }
+
         public async Task ModifyWelcomeAsync(ulong id, ulong channelId)
         {
             var server = await _context.Servers

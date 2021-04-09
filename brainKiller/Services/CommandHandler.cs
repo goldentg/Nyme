@@ -69,6 +69,7 @@ namespace brainKiller.Services
 
             _client.GuildUpdated += OnGuildUpdate;
 
+
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
 
@@ -104,7 +105,7 @@ namespace brainKiller.Services
                     }
                     else
                     {
-                        var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.GuildUpdated)
+                        var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.EmojiCreated)
                             .FlattenAsync();
                         foreach (var audit in auditlogs)
                             if (audit.User is IUser data)
@@ -113,6 +114,41 @@ namespace brainKiller.Services
                     }
                 }
         }
+
+
+        // private async Task OnGuildUpdate(SocketGuild arg1, SocketGuild arg2)
+        //  {
+        // if (arg1 is SocketGuild gld1)
+        //   if (arg2 is SocketGuild gld2)
+        // {
+        /*
+        if (arg1.Name != arg2.Name)
+        {
+            var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.GuildUpdated)
+                .FlattenAsync();
+            foreach (var audit in auditlogs)
+                if (audit.User is IUser data)
+                    await _serverHelper.SendLogAsync(gld2, "Guild Updated",
+                        $"Guild **{gld1.Name}** has been updated to **{gld2.Name}** by **{audit.User.Username + "#" + audit.User.Discriminator}**");
+        }
+        else
+        {
+        */
+        /*
+        var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.EmojiCreated)
+            .FlattenAsync();
+        foreach (var audit in auditlogs)
+            if (audit.Data is IEmote data)
+            {
+                await _serverHelper.SendLogAsync(arg2, "Emote Added",
+                    $"Emoji {audit.Data} Has been created");
+                return;
+            }
+    }
+        
+    }
+        */
+
 
         private async Task OnChannelCreated(SocketChannel arg)
         {
@@ -334,6 +370,21 @@ namespace brainKiller.Services
             var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);
             if (roles.Count > 0)
                 await arg.AddRolesAsync(roles);
+
+            var guildId = await _servers.GetWelcomeDmAsync(arg.Guild.Id);
+            var wlcmdmmsg = await _servers.GetDmMessageAsync(arg.Guild.Id);
+
+            if (guildId == 0)
+                return;
+
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(43, 182, 115))
+                .WithTitle("**Welcome**")
+                .WithDescription(wlcmdmmsg)
+                .WithCurrentTimestamp()
+                .Build();
+
+            await arg.SendMessageAsync(embed: embed);
 
             // var channelId = await _servers.GetWelcomeAsync(arg.Guild.Id);
             // if (channelId == 0)

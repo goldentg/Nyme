@@ -194,5 +194,19 @@ namespace brainKiller.Common
             var message = await channel.SendMessageAsync(embed: embed);
             return message;
         }
+
+        public static async Task<IUserMessage> WelcomeDm(this IUserMessage user, IGuild guild, string msg)
+        {
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(43, 182, 115))
+                .WithTitle($"**Welcome to {guild.Name}**")
+                .WithDescription(msg)
+                .WithThumbnailUrl(guild.IconUrl)
+                .WithCurrentTimestamp()
+                .Build();
+
+            var message = await user.ReplyAsync(embed: embed);
+            return message;
+        }
     }
 }

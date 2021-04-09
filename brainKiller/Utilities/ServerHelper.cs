@@ -29,5 +29,22 @@ namespace brainKiller.Utilities
 
             await fetchedChannel.SendLogAsync(title, description);
         }
+
+        /*
+        public static async Task<IUserMessage> SendWelcomeDmAsync(IUserMessage user, string description)
+        {
+            //var guildId = await _servers.GetWelcomeDmAsync(id);
+
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(43, 182, 115))
+                .WithTitle($"**Welcome**")
+                .WithDescription(description)
+                .WithCurrentTimestamp()
+                .Build();
+
+           var msg =  await user.ReplyAsync(embed: embed);
+           return msg;
+        }
+        */
     }
 }
