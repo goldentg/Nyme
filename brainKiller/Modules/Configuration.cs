@@ -302,7 +302,9 @@ namespace brainKiller.Modules
 
         [Command("logs")]
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Settings/Setup for setting up logs\n(Admin permissions required)")]
+        [RequireBotPermission(GuildPermission.ViewAuditLog)]
+        [Summary(
+            "Settings/Setup for setting up logs\n(Admin permissions required.\nbot requires View Audit Log permissions)")]
         public async Task Logs(string value = null)
         {
             if (value == null)

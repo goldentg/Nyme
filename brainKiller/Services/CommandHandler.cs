@@ -30,7 +30,6 @@ namespace brainKiller.Services
         private readonly Servers _servers;
         private readonly CommandService _service;
 
-
         public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
             IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode,
             ServerHelper serverHelper)
@@ -70,7 +69,6 @@ namespace brainKiller.Services
 
             _client.GuildUpdated += OnGuildUpdate;
 
-
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
 
@@ -80,7 +78,14 @@ namespace brainKiller.Services
 
             _client.Ready += OnReadyAsync;
 
+            _client.JoinedGuild += OnJoinedGuild;
+
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
+        }
+
+        private async Task OnJoinedGuild(SocketGuild arg)
+        {
+            await arg.DefaultChannel.WelcomeGuildAsync(arg.Name);
         }
 
         private async Task OnGuildUpdate(SocketGuild arg1, SocketGuild arg2)
