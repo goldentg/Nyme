@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using brainKiller.Utilities;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
+using Discord.Net;
 using Discord.WebSocket;
 using Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -362,17 +364,10 @@ namespace brainKiller.Services
         {
             var newTask = new Task(async () => await HandleUserJoined(arg));
             newTask.Start();
-        }
-
-
-        private async Task HandleUserJoined(SocketGuildUser arg)
-        {
-            var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);
-            if (roles.Count > 0)
-                await arg.AddRolesAsync(roles);
 
             var guildId = await _servers.GetWelcomeDmAsync(arg.Guild.Id);
             var wlcmdmmsg = await _servers.GetDmMessageAsync(arg.Guild.Id);
+
 
             if (guildId == 0)
                 return;
@@ -384,7 +379,29 @@ namespace brainKiller.Services
                 .WithCurrentTimestamp()
                 .Build();
 
-            await arg.SendMessageAsync(embed: embed);
+            if (arg is IUser iu)
+            {
+                var userch = await iu.GetOrCreateDMChannelAsync();
+                try
+                {
+                    await userch.SendMessageAsync(embed: embed);
+                }
+                catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
+                {
+                    Console.WriteLine($"Cannot DM {iu.Username + "#" + iu.Discriminator}.");
+                }
+
+                //iu.SendMessageAsync(embed: embed);
+            }
+        }
+
+
+        private async Task HandleUserJoined(SocketGuildUser arg)
+        {
+            var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);
+            if (roles.Count > 0)
+                await arg.AddRolesAsync(roles);
+
 
             // var channelId = await _servers.GetWelcomeAsync(arg.Guild.Id);
             // if (channelId == 0)

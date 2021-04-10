@@ -53,6 +53,30 @@ namespace brainKiller.Modules
                 $"{Context.User.Mention} modifed the prefix to `{prefix}`.");
         }
 
+        [Command("dmwelcome")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [Summary("Sets up a event that will auto dm all new members of server")]
+        public async Task DmSetup(string message = null)
+        {
+            if (message == null)
+            {
+                var GuildDmMessage = await _servers.GetDmMessageAsync(Context.Guild.Id);
+                await ReplyAsync($"The current dm welcome message is `{GuildDmMessage}`");
+                return;
+            }
+
+            if (message.Length > 200)
+            {
+                await Context.Channel.SendErrorAsync("Error", "This message is too long");
+                return;
+            }
+
+            await _servers.ModifyDmChannelAsync(Context.Guild.Id, message);
+            await Context.Channel.SendSuccessAsync("Success", "Welcome dm message has been changed");
+            await _serverHelper.SendLogAsync(Context.Guild, "Dm Welcome Message Changed",
+                $"{Context.User.Mention} modified the welcome dm message to `{message}`");
+        }
+
         [Command("ranks", RunMode = RunMode.Async)]
         [Summary("Lists all the inputted self roles on this server")]
         public async Task Ranks()

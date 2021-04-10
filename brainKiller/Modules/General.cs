@@ -163,28 +163,31 @@ namespace brainKiller.Modules
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
 
-        /*
+
         [Command("Poll", RunMode = RunMode.Async)]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Create a poll\n(Administrator permissions required)")]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
+        [Summary("Create a poll\n(Manage Messages permissions required)")]
         public async Task Poll([Remainder] string pollmsg)
         {
+            //var emoteUp = new Emoji("U+2B06");
+            var emoteDown = new Emoji("⬇️");
+            var emoteUp = new Emoji("⬆️");
+            //var emoteDown = new Emoji("U+2B07");
 
-            var emoteUp = new Emoji("U+2B06");
-            var emoteDown = new Emoji("U+2B07");
-                //new Emoji("\uD83D\uDC4C");
             var builder = new EmbedBuilder()
-                .WithTitle("Poll")
+                .WithTitle("__**Poll**__")
                 .WithColor(new Color(33, 176, 252))
-                .WithDescription(pollmsg)
+                .WithDescription("**pollmsg**")
+                .WithThumbnailUrl(
+                    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pinclipart.com%2Fpicdir%2Fmiddle%2F107-1071607_polls-icon-png-clipart.png&f=1&nofb=1")
                 .WithCurrentTimestamp()
-                .WithFooter($"Poll started by {Context.User.Mention}");
+                .WithFooter($"*Poll started by {Context.User.Username + "#" + Context.User.Discriminator}*");
             var embed = builder.Build();
-
-            await Context.Channel.SendMessageAsync(null, false, embed);
-            //    Context.Message.AddReactionsAsync()
+            var message = await Context.Channel.SendMessageAsync(null, false, embed);
+            await message.AddReactionAsync(emoteUp);
+            await message.AddReactionAsync(emoteDown);
         }
-        */
+
 
         [Command("rank", RunMode = RunMode.Async)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
