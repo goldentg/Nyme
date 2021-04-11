@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +9,6 @@ using brainKiller.Utilities;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
-using Discord.Net;
 using Discord.WebSocket;
 using Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -364,7 +362,7 @@ namespace brainKiller.Services
         {
             var newTask = new Task(async () => await HandleUserJoined(arg));
             newTask.Start();
-
+            /*
             var guildId = await _servers.GetWelcomeDmAsync(arg.Guild.Id);
             var wlcmdmmsg = await _servers.GetDmMessageAsync(arg.Guild.Id);
 
@@ -393,6 +391,7 @@ namespace brainKiller.Services
 
                 //iu.SendMessageAsync(embed: embed);
             }
+            */
         }
 
 

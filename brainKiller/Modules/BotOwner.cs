@@ -64,6 +64,9 @@ namespace brainKiller.Modules
         public async Task glds()
         {
             var totalGuilds = Context.Client.Guilds.Count();
+            
+
+
             var builder = new EmbedBuilder
             {
                 Color = new Color(114, 137, 218),
@@ -80,6 +83,7 @@ namespace brainKiller.Modules
                 var onlineUsers = guild.Users.Where(x => x.Status != UserStatus.Offline).Count();
                 var totalBots = guild.Users.Where(x => x.IsBot != true).Count();
                 var actualUsers = totalUsers - totalBots;
+                
 
                 description +=
                     $"__*Guild ID:*__ **{guildId}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}** __*Total Online:*__ **{onlineUsers}**";
@@ -94,6 +98,7 @@ namespace brainKiller.Modules
                         x.IsInline = false;
                     });
             }
+
 
             await ReplyAsync("", false, builder.Build());
         }

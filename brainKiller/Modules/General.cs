@@ -169,10 +169,8 @@ namespace brainKiller.Modules
         [Summary("Create a poll\n(Manage Messages permissions required)")]
         public async Task Poll([Remainder] string pollmsg)
         {
-            //var emoteUp = new Emoji("U+2B06");
             var emoteDown = new Emoji("⬇️");
             var emoteUp = new Emoji("⬆️");
-            //var emoteDown = new Emoji("U+2B07");
 
             var builder = new EmbedBuilder()
                 .WithTitle("__**Poll**__")
