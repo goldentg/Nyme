@@ -45,27 +45,28 @@ namespace brainKiller.Modules
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.KickMembers)]
         [Summary("Kicks a member from the server\n(Kick permissions required)")]
-        public async Task Kick([Remainder] SocketGuildUser user)
+        public async Task Kick([Remainder] SocketGuildUser user, string reason = null)
         {
             await Context.Channel.SendSuccessAsync("Success!",
                 $"{Context.User.Mention} has successfully kicked {user.Mention}");
             await _serverHelper.SendLogAsync(Context.Guild, "Kicked User",
                 $"{Context.User.Mention} has kicked {user.Mention}");
-            await user.KickAsync();
+            await user.KickAsync(reason);
         }
 
         [Command("ban", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.BanMembers)]
         [RequireBotPermission(GuildPermission.BanMembers)]
         [Summary("Bans a member\n(Ban permissions required)")]
-        public async Task Ban([Remainder] SocketGuildUser user)
+        public async Task Ban([Remainder] SocketGuildUser user, string reason = null)
         {
             await Context.Channel.SendSuccessAsync("Success!",
                 $"{Context.User.Mention} has successfully banned {user.Mention}");
             //this log is no longer used since it is already on a onban event
             // await _serverHelper.SendLogAsync(Context.Guild, "Banned User",
             //     $"{Context.User.Mention} has kicked {user.Mention}");
-            await user.BanAsync();
+            //await user.BanAsync();
+            await Context.Guild.AddBanAsync(user, 0, reason);
         }
 
         [Command("mute", RunMode = RunMode.Async)]
