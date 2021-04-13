@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/Users/goldencodex/.dotnet/store/|arch|/|tfm|",
-      "/Users/goldencodex/.nuget/packages"
-    ]
-  }
-}

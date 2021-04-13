@@ -201,3 +201,9 @@ C:/brainKiller/brainKiller/obj/Release/netcoreapp3.1/brainKiller.genruntimeconfi
 /Users/goldencodex/Documents/brainKiller/brainKiller/obj/Release/netcoreapp3.1/brainKiller.dll
 /Users/goldencodex/Documents/brainKiller/brainKiller/obj/Release/netcoreapp3.1/brainKiller.pdb
 /Users/goldencodex/Documents/brainKiller/brainKiller/obj/Release/netcoreapp3.1/brainKiller.genruntimeconfig.cache
+C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.csprojAssemblyReference.cache
+C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.AssemblyInfoInputs.cache
+C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.AssemblyInfo.cs
+C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.csproj.CoreCompileInputs.cache
+C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.dll
+C:\brainKiller\brainKiller\obj\Release\netcoreapp3.1\brainKiller.pdb

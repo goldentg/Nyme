@@ -101,3 +101,4 @@ C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Victoria.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Discord.Addons.Interactive.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Discord.InteractivityAddon.dll
+C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\DiscordBotsList.Api.dll

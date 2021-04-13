@@ -19,6 +19,11 @@ namespace brainKiller
 {
     internal class Program
     {
+        //public const ulong BotListBotId = 808888674900508723;
+        //  public static bool IsBotListBot { get; private set; }
+        //public static string BotListToken { get; private set; }
+        //public static BotList BotList { get; private set; }
+
         private static async Task Main()
         {
             var builder = new HostBuilder()
@@ -69,6 +74,7 @@ namespace brainKiller
                         .AddSingleton<RanksHelper>()
                         .AddSingleton<AutoRolesHelper>()
                         .AddSingleton<ServerHelper>()
+                        //.AddSingleton<BotList>()
                         .AddSingleton<InteractivityService>()
                         .BuildServiceProvider();
                 })

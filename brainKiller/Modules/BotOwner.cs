@@ -17,13 +17,14 @@ namespace brainKiller.Modules
         private readonly ILogger<General> _logger;
         private readonly Servers _servers;
 
-
         public BotOwner(ILogger<General> logger, Servers servers, Images images)
         {
             _logger = logger;
             _servers = servers;
             _images = images;
         }
+
+        // public BotList BotList { get; private set; }
 
 
         [Command("random", RunMode = RunMode.Async)]
@@ -57,6 +58,29 @@ namespace brainKiller.Modules
                 }
             }
         }
+        /*
+
+        [Command("votes")]
+        [RequireOwner]
+        public async Task SendVotes(ISocketMessageChannel channel)
+        {
+            BotList = await BotList.Instantiate(Program.BotListBotId, Program.BotListToken);
+            if (Program.BotList == null)
+                await Context.Channel.SendErrorAsync("Error", "Bot is not allowed to see this information");
+            var voters = await BotList.ThisBot.GetVotersAsync();
+            var countedVotes = voters.GroupBy(voter => voter.Id).Select(voter =>
+                new {voter.First().Id, Count = voter.Count(), voter.First().Username});
+
+            var countedVotesList = countedVotes.ToList();
+            var message =
+                $"Total Votes: {BotList.ThisBot.Points}\nThis Month Votes: coming soon\nVoters Count: {countedVotesList.Count}\nTheir total votes: {voters.Count}";
+            message = countedVotesList.Aggregate(message,
+                (current, voter) => current + $"\n{voter.Username} ({voter.Count})");
+            //await Messaging.Instance.SendMessage(channel, message);
+            //await Context.Channel.SendMessageAsync(channel, message);
+            await Context.Channel.SendSuccessAsync("Votes", $"{message}");
+        }
+        */
 
         [Command("guilds")]
         [RequireOwner]
@@ -64,7 +88,6 @@ namespace brainKiller.Modules
         public async Task glds()
         {
             var totalGuilds = Context.Client.Guilds.Count();
-            
 
 
             var builder = new EmbedBuilder
@@ -83,7 +106,7 @@ namespace brainKiller.Modules
                 var onlineUsers = guild.Users.Where(x => x.Status != UserStatus.Offline).Count();
                 var totalBots = guild.Users.Where(x => x.IsBot != true).Count();
                 var actualUsers = totalUsers - totalBots;
-                
+
 
                 description +=
                     $"__*Guild ID:*__ **{guildId}** __*Server Owner:*__ **{owner}** __*Total Users:*__ **{actualUsers}** __*Total Bots:*__ **{totalBots}** __*Total All:*__  **{totalUsers}** __*Total Online:*__ **{onlineUsers}**";
