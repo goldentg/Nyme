@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using brainKiller.Common;
@@ -74,6 +75,50 @@ namespace brainKiller.Modules
             var index = r.Next(coin.Length);
 
             await Context.Channel.CoinflipMessageAsync($"{coin[index]}", $"{Context.User.Username}");
+        }
+
+        [Command("8ball", RunMode = RunMode.Async)]
+        [RequireOwner]
+        [Summary("Ask the magical 8-Ball for their wisdom\nYou must input your question")]
+        public async Task eightBall([Remainder] string question = null)
+        {
+            if (question == null)
+            {
+                await Context.Channel.SendErrorAsync("Error", "You must include a question for the magical 8-Ball");
+                return;
+            }
+
+            string[] responses =
+            {
+                //no responses
+                "My reply is no",
+                "Don’t count on it",
+                "Very doubtful",
+                "Outlook not so good",
+                "My sources say no",
+
+                //affirmative responses
+                "Yes",
+                "Most likely",
+                "It is certain",
+                "Signs point to yes",
+                "Outlook good",
+                "As I see it, yes",
+                "Yes, definitely",
+                "It is decidedly so",
+                "Without a doubt",
+                "You may rely on it",
+
+                //non commital responses
+                "Better not tell you now",
+                "Reply hazy try again",
+                "Concentrate and ask again",
+                "Cannot predict now",
+                "Ask again later"
+            };
+            // await ReplyAsync(responses[new Random().Next(0, responses.Count())]);
+            var rndmResponse = responses[new Random().Next(0, responses.Count())];
+            await Context.Channel.eightBallMsgAsync(question, rndmResponse, Context.User);
         }
     }
 }

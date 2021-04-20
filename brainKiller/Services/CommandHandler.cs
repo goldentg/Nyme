@@ -243,23 +243,50 @@ namespace brainKiller.Services
                 {
                     if (arg2 is ITextChannel)
                     {
+                        var g = guildChannel.Guild;
+                        var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
+                            .FlattenAsync();
                         if (guildChannel.Name != gld2Channel.Name)
                         {
-                            var g = guildChannel.Guild;
-                            var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
-                                .FlattenAsync();
-
-
                             foreach (var audit in auditlogs)
                                 if (audit.User is IUser data)
                                     await _serverHelper.SendLogAsync(g, "Channel Updated",
                                         $"The `#{gld2Channel.Name}` channel has been updated to `#{guildChannel.Name}` by {audit.User.Mention}");
+                            return;
                         }
-                        else
+
+                        foreach (var audit in auditlogs)
+                            if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
+
+                                if (d1.After.Topic != d1.Before.Topic)
+                                {
+                                    await _serverHelper.SendLogAsync(g, "Channel Topic Updated",
+                                        $"The `#{gld2Channel.Name}` channel's topic has been changed to `{d1.After.Topic}` by {audit.User.Mention}");
+                                    return;
+                                }
+
+                        foreach (var audit in auditlogs)
+                            if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
+                                if (d1.After.IsNsfw != d1.Before.IsNsfw)
+                                {
+                                    await _serverHelper.SendLogAsync(g, "Channel Made NSFW",
+                                        $"The `#{gld2Channel.Name} channel has been made NSFW by {audit.User.Mention}`");
+                                    return;
+                                }
+
+                        foreach (var audit in auditlogs)
+                            if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
+                                if (d1.After.SlowModeInterval != d1.Before.SlowModeInterval)
+                                {
+                                    await _serverHelper.SendLogAsync(g, "Slowmode Modified",
+                                        $"The slowmode for `#{gld2Channel.Name}` has been modified by {audit.User.Mention}");
+                                    return;
+                                }
+
                         {
-                            var g = guildChannel.Guild;
-                            var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
-                                .FlattenAsync();
+                            //var g = guildChannel.Guild;
+                            // var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
+                            //   .FlattenAsync();
 
 
                             foreach (var audit in auditlogs)

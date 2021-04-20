@@ -208,5 +208,24 @@ namespace brainKiller.Common
             var message = await user.ReplyAsync(embed: embed);
             return message;
         }
+
+        public static async Task<IMessage> eightBallMsgAsync(this ISocketMessageChannel channel, string question,
+            string eightResponse,
+            IUser user)
+        {
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(0, 0, 0))
+                .WithTitle("Magic 8-Ball")
+                .WithDescription(
+                    $"{user.Mention}'s Question For The Magical 8-Ball: `{question}`\n\nThe Magical 8-Ball's Response Is: `{eightResponse}\n`")
+                .WithFooter($"8-Ball response for: {user.Username + "#" + user.Discriminator}")
+                .WithThumbnailUrl(
+                    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1001freedownloads.s3.amazonaws.com%2Fvector%2Fthumb%2F110366%2F8_Ball.png&f=1&nofb=1")
+                .WithCurrentTimestamp()
+                .Build();
+
+            var message = await channel.SendMessageAsync(embed: embed);
+            return message;
+        }
     }
 }
