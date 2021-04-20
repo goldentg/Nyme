@@ -78,7 +78,6 @@ namespace brainKiller.Modules
         }
 
         [Command("8ball", RunMode = RunMode.Async)]
-        [RequireOwner]
         [Summary("Ask the magical 8-Ball for their wisdom\nYou must input your question")]
         public async Task eightBall([Remainder] string question = null)
         {
