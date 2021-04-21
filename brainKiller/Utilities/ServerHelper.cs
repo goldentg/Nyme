@@ -31,6 +31,15 @@ namespace brainKiller.Utilities
         }
 
         /*
+        public async Task GuildHasLogAsyncTask(IGuild guild)
+        {
+            var channelId = await _servers.GetLogsAsync(guild.Id);
+            if (channelId == 0)
+                return;
+
+        }
+        */
+        /*
         public static async Task<IUserMessage> SendWelcomeDmAsync(IUserMessage user, string description)
         {
             //var guildId = await _servers.GetWelcomeDmAsync(id);
