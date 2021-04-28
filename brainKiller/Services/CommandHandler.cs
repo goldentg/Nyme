@@ -197,8 +197,6 @@ namespace brainKiller.Services
                             return;
                         }
 
-                        //if (ReferenceEquals(d1.After.ExplicitContentFilter.Value.ToString(),
-                        //   d1.Before.ExplicitContentFilter.Value.ToString())
                         if (arg1.ExplicitContentFilter != arg2.ExplicitContentFilter
                         ) //Check if explit content filter has been modified
                         {
@@ -211,6 +209,21 @@ namespace brainKiller.Services
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Banner Modified",
                                 $"{audit.User.Mention} has changed the guilds banner from {arg1.BannerUrl} to {arg2.BannerUrl}");
+                            return;
+                        }
+
+                        if (arg1.PublicUpdatesChannel != arg2.PublicUpdatesChannel
+                        ) //Check for modified PublicUpdatesChannel
+                        {
+                            await _serverHelper.SendLogAsync(arg2, "Public Updates Channel Modified",
+                                $"This guilds public updates channel has been modified to {arg2.PublicUpdatesChannel.Mention} by {audit.User.Mention}");
+                            return;
+                        }
+
+                        if (arg1.RulesChannel != arg2.RulesChannel) //Check for modified rules channel
+                        {
+                            await _serverHelper.SendLogAsync(arg2, "Rules Channel Modified",
+                                $"This guilds rules channel has been modified to {arg2.RulesChannel.Mention} by {audit.User.Mention}");
                             return;
                         }
                     }
