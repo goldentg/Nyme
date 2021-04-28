@@ -129,47 +129,35 @@ namespace brainKiller.Services
                 foreach (var audit in auditlogs)
                     if (audit.User is IUser data && audit.Data is GuildUpdateAuditLogData d1)
                     {
-                        //if (ReferenceEquals(d1.After.Name, d1.After.Name))      //Check for guild name change
-                        // {
-                        //     await _serverHelper.SendLogAsync(arg2, "Guild Name Changed",
-                        //        $"The guild name has been changed to `{ig.Name}` by {audit.User.Mention}");
-                        //    return;
-                        //} else 
-
-                        if (d1.Before.Name != d1.After.Name)
+                        if (d1.Before.Name != d1.After.Name) //Check for modified guild name
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Name Changed",
                                 $"The guild name has been changed from `{arg1.Name}` to `{arg2.Name}` by {audit.User.Mention}");
                             return;
                         }
 
-                        if (arg1.OwnerId.ToString() != arg2.OwnerId.ToString()
-                        ) //Check for server ownership transfer
+                        if (arg1.OwnerId.ToString() != arg2.OwnerId.ToString()) //Check for server ownership transfer
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Ownership Transfered",
                                 $"{audit.User.Mention} has transfered this guilds ownership to {arg2.Owner.Mention}");
                             return;
                         }
 
-                        // if (ReferenceEquals(d1.After.IconHash, d1.Before.IconHash)) //Check for guild icon change
-                        if (arg1.IconUrl != arg2.IconUrl)
+                        if (arg1.IconUrl != arg2.IconUrl) //Check for guild icon change
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Icon Changed",
                                 $"{audit.User.Mention} has changed the guild icon to {ig.IconUrl}");
                             return;
                         }
 
-                        if (arg1.AFKChannel.Id != arg2.AFKChannel.Id
-                        ) //Check if AFK channel moved
+                        if (arg1.AFKChannel.Id != arg2.AFKChannel.Id) //Check for modified AFK channel
                         {
                             await _serverHelper.SendLogAsync(arg2, "AFK Channel Changed",
                                 $"The AFK channel has been changed to `{arg2.AFKChannel.Name}` by {audit.User.Mention}");
                             return;
                         }
 
-                        // if (ReferenceEquals(d1.After.AfkTimeout.Value.ToString(),
-                        // d1.After.AfkTimeout.Value.ToString())) //Check if AFK timeout has changed
-                        if (arg1.AFKTimeout != arg2.AFKTimeout)
+                        if (arg1.AFKTimeout != arg2.AFKTimeout) //Check for modified afk timeout interval
                         {
                             var beforetimeinmins = arg1.AFKTimeout / 60;
                             var aftertimeinmins = arg2.AFKTimeout / 60;
@@ -178,7 +166,6 @@ namespace brainKiller.Services
                             return;
                         }
 
-                        //if (ReferenceEquals(d1.After.RegionId, d1.Before.RegionId)
                         if (arg1.VoiceRegionId != arg2.VoiceRegionId
                         ) //Check if guild server voice region has been changed
                         {
@@ -187,7 +174,6 @@ namespace brainKiller.Services
                             return;
                         }
 
-                        // if (ReferenceEquals(d1.After.VerificationLevel.Value, d1.Before.VerificationLevel.Value)
                         if (arg1.VerificationLevel.ToString() != arg2.VerificationLevel.ToString()
                         ) //Check if verification level has been changed 
                         {
@@ -196,7 +182,6 @@ namespace brainKiller.Services
                             return;
                         }
 
-                        // if (ReferenceEquals(d1.After.MfaLevel.Value, d1.Before.MfaLevel.Value)
                         if (arg1.MfaLevel != arg2.MfaLevel
                         ) //Check if Multi-Factor Authentication protocol has been modified
                         {
@@ -205,20 +190,29 @@ namespace brainKiller.Services
                             return;
                         }
 
-                        //if (ReferenceEquals(d1.After.SystemChannelId.Value.ToString(),
-                        //  d1.Before.SystemChannelId.Value.ToString())) //Check if System Channel has been changed
-                        if (arg1.SystemChannel.Id != arg2.SystemChannel.Id)
+                        if (arg1.SystemChannel.Id != arg2.SystemChannel.Id) //Check for modified system Channel
                         {
                             await _serverHelper.SendLogAsync(arg2, "System Channel Changed",
-                                $"The system Channel has been modified to `{ig.SystemChannelId.Value}` by {audit.User.Mention}");
+                                $"The system Channel has been modified from {arg1.SystemChannel.Mention} to {arg2.SystemChannel.Mention} by {audit.User.Mention}");
                             return;
                         }
 
-                        if (ReferenceEquals(d1.After.ExplicitContentFilter.Value.ToString(),
-                            d1.Before.ExplicitContentFilter.Value.ToString())
+                        //if (ReferenceEquals(d1.After.ExplicitContentFilter.Value.ToString(),
+                        //   d1.Before.ExplicitContentFilter.Value.ToString())
+                        if (arg1.ExplicitContentFilter != arg2.ExplicitContentFilter
                         ) //Check if explit content filter has been modified
+                        {
                             await _serverHelper.SendLogAsync(arg2, "Explit Content Filter Has Been Modified",
-                                $"The explit content filer has been changed to `{ig.ExplicitContentFilter.ToString()}`");
+                                $"The explit content filer has been changed from {arg1.ExplicitContentFilter.ToString()} to `{arg2.ExplicitContentFilter.ToString()}`");
+                            return;
+                        }
+
+                        if (arg1.BannerUrl != arg2.BannerUrl) //Check for modified guild banner
+                        {
+                            await _serverHelper.SendLogAsync(arg2, "Guild Banner Modified",
+                                $"{audit.User.Mention} has changed the guilds banner from {arg1.BannerUrl} to {arg2.BannerUrl}");
+                            return;
+                        }
                     }
             }
         }
