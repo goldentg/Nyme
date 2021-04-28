@@ -72,9 +72,14 @@ namespace brainKiller.Services
 
             _client.GuildUpdated += OnGuildUpdate;
 
-
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
+
+
+            //  public void HookChannelUpdated(BaseSocketClient client)
+            // {
+            // _client.ChannelUpdated += HandleChannelRename;
+            // }
 
             _service.CommandExecuted += OnCommandExecuted;
 
@@ -86,6 +91,7 @@ namespace brainKiller.Services
 
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
+
 
         private async Task OnJoinedGuild(SocketGuild arg)
         {
@@ -114,9 +120,11 @@ namespace brainKiller.Services
                     return;
                 }
 
-                var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.GuildUpdated)
+                var auditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.GuildUpdated)
                     .FlattenAsync();
 
+                //var newTask = new Task(async () => await HandleEmoteAdd(arg1, arg2));
+                //newTask.Start();
 
                 foreach (var audit in auditlogs)
                     if (audit.User is IUser data && audit.Data is GuildUpdateAuditLogData d1)
@@ -127,7 +135,15 @@ namespace brainKiller.Services
                         //        $"The guild name has been changed to `{ig.Name}` by {audit.User.Mention}");
                         //    return;
                         //} else 
-                        if (ReferenceEquals(d1.After.Owner.Id, d1.Before.Owner.Id)
+
+                        if (d1.Before.Name != d1.After.Name)
+                        {
+                            await _serverHelper.SendLogAsync(arg2, "Guild Name Changed",
+                                $"The guild name has been changed from `{arg1.Name}` to `{arg2.Name}` by {audit.User.Mention}");
+                            return;
+                        }
+
+                        if (arg1.OwnerId.ToString() != arg2.OwnerId.ToString()
                         ) //Check for server ownership transfer
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Ownership Transfered",
@@ -135,14 +151,15 @@ namespace brainKiller.Services
                             return;
                         }
 
-                        if (ReferenceEquals(d1.After.IconHash, d1.Before.IconHash)) //Check for guild icon change
+                        // if (ReferenceEquals(d1.After.IconHash, d1.Before.IconHash)) //Check for guild icon change
+                        if (arg1.IconUrl != arg2.IconUrl)
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Icon Changed",
                                 $"{audit.User.Mention} has changed the guild icon to {ig.IconUrl}");
                             return;
                         }
 
-                        if (ReferenceEquals(d1.After.AfkChannelId.ToString(), d1.Before.AfkChannelId.ToString())
+                        if (arg1.AFKChannel.Id != arg2.AFKChannel.Id
                         ) //Check if AFK channel moved
                         {
                             await _serverHelper.SendLogAsync(arg2, "AFK Channel Changed",
@@ -150,40 +167,47 @@ namespace brainKiller.Services
                             return;
                         }
 
-                        if (ReferenceEquals(d1.After.AfkTimeout.Value.ToString(),
-                            d1.After.AfkTimeout.Value.ToString())) //Check if AFK timeout has changed
+                        // if (ReferenceEquals(d1.After.AfkTimeout.Value.ToString(),
+                        // d1.After.AfkTimeout.Value.ToString())) //Check if AFK timeout has changed
+                        if (arg1.AFKTimeout != arg2.AFKTimeout)
                         {
+                            var beforetimeinmins = arg1.AFKTimeout / 60;
+                            var aftertimeinmins = arg2.AFKTimeout / 60;
                             await _serverHelper.SendLogAsync(arg2, "AFK Timeout Has Been Modified",
-                                $"AFK Timeout has been changed to `{ig.AFKTimeout.ToString()} seconds` by {audit.User.Mention}");
+                                $"AFK Timeout has been changed from `{beforetimeinmins.ToString()} minuets` to `{aftertimeinmins.ToString()} minuets` by {audit.User.Mention}");
                             return;
                         }
 
-                        if (ReferenceEquals(d1.After.RegionId, d1.Before.RegionId)
-                        ) //Check if guild server region has been changed
+                        //if (ReferenceEquals(d1.After.RegionId, d1.Before.RegionId)
+                        if (arg1.VoiceRegionId != arg2.VoiceRegionId
+                        ) //Check if guild server voice region has been changed
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Server Region Changed",
-                                $"This guilds server region has been changed to by {audit.User.Mention}");
+                                $"This guilds server region has been changed to `<{arg2.VoiceRegionId}>` by {audit.User.Mention}");
                             return;
                         }
 
-                        if (ReferenceEquals(d1.After.VerificationLevel.Value, d1.Before.VerificationLevel.Value)
+                        // if (ReferenceEquals(d1.After.VerificationLevel.Value, d1.Before.VerificationLevel.Value)
+                        if (arg1.VerificationLevel.ToString() != arg2.VerificationLevel.ToString()
                         ) //Check if verification level has been changed 
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Verification Level Modified",
-                                $"{audit.User.Mention} has changed the guild verification level to `{ig.VerificationLevel.ToString()}`");
+                                $"{audit.User.Mention} has changed the guild verification level from `{arg1.VerificationLevel.ToString()}` to `{arg2.VerificationLevel.ToString()}`");
                             return;
                         }
 
-                        if (ReferenceEquals(d1.After.MfaLevel.Value, d1.Before.MfaLevel.Value)
+                        // if (ReferenceEquals(d1.After.MfaLevel.Value, d1.Before.MfaLevel.Value)
+                        if (arg1.MfaLevel != arg2.MfaLevel
                         ) //Check if Multi-Factor Authentication protocol has been modified
                         {
                             await _serverHelper.SendLogAsync(arg2, "Multi-Factor Authentication Policy Modified",
-                                $"{audit.User.Mention} has modified the Multi-Factor Authentication policy to `{ig.MfaLevel.ToString()}`");
+                                $"{audit.User.Mention} has modified the Multi-Factor Authentication policy from `{arg1.MfaLevel.ToString()}` to `{arg2.MfaLevel.ToString()}`");
                             return;
                         }
 
-                        if (ReferenceEquals(d1.After.SystemChannelId.Value.ToString(),
-                            d1.Before.SystemChannelId.Value.ToString())) //Check if System Channel has been changed
+                        //if (ReferenceEquals(d1.After.SystemChannelId.Value.ToString(),
+                        //  d1.Before.SystemChannelId.Value.ToString())) //Check if System Channel has been changed
+                        if (arg1.SystemChannel.Id != arg2.SystemChannel.Id)
                         {
                             await _serverHelper.SendLogAsync(arg2, "System Channel Changed",
                                 $"The system Channel has been modified to `{ig.SystemChannelId.Value}` by {audit.User.Mention}");
@@ -198,8 +222,44 @@ namespace brainKiller.Services
                     }
             }
         }
+        /*
+        private async Task HandleEmoteAdd(SocketGuild beforeSocketGuild, SocketGuild afterSocketGuild)
+        {
+            var auditlogs = await afterSocketGuild
+                .GetAuditLogsAsync(1, null, beforeSocketGuild.Id, null, ActionType.EmojiCreated)
+                .FlattenAsync();
+
+            foreach (var audit in auditlogs)
+                if (audit.User is IUser data && audit.Data is EmoteCreateAuditLogData d1)
+                {
+                    //var newemote = $"<:{d1.Name + ":" + d1.EmoteId.ToString()}:>";
+                    await _serverHelper.SendLogAsync(afterSocketGuild, "New Emote Added",
+                        $"{audit.User.Mention} has added a new emote to the guild");
+                    return;
+
+                    // var afterEmo = afterSocketGuild.Emotes;
+                    //var beforeEmo = beforeSocketGuild.Emotes;
+
+                    //if (ReferenceEquals(afterEmo, beforeEmo).)
+                    // if ()
+                    // {
+                    // var newEmotes = ReferenceEquals(afterEmo, beforeEmo).
+
+                    // List<IEmote> nums = new List<IEmote>();
+
+                    //  foreach (var   )
+                    //   {
+
+                    //   }
 
 
+                    // }
+                }
+
+            ;
+        }
+
+        */
         /*
         private async Task OnGuildUpdate(SocketGuild arg1, SocketGuild arg2)
         {
@@ -376,7 +436,6 @@ namespace brainKiller.Services
                 {
                     var g = guildChannel.Guild;
 
-
                     var channelId = await _servers.GetLogsAsync(g.Id);
                     var chnlIdInt = Convert.ToInt64(channelId);
                     if (chnlIdInt == 0) return;
@@ -388,30 +447,34 @@ namespace brainKiller.Services
                         return;
                     }
 
-                    var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
+                    var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.ChannelUpdated)
                         .FlattenAsync();
 
+                    // var newTask = new Task(async () => await HandleChannelRename(arg1, arg2));
+                    // newTask.Start();
 
                     if (arg2 is ITextChannel)
                     {
                         foreach (var audit in auditlogs)
                             if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
-
-                                if (d1.After.Name.ToLowerInvariant() != d1.Before.Name.ToLowerInvariant()
-                                ) //Check for channel name changes
+                            {
+                                if (guildChannel.Name != gld2Channel.Name)
                                 {
                                     await _serverHelper.SendLogAsync(g, "Channel Name Updated",
                                         $"The `#{gld2Channel.Name}` channel has been updated to `#{guildChannel.Name}` by {audit.User.Mention}");
                                     return;
                                 }
-                                else if (ReferenceEquals(d1.Before.Topic, d1.After.Topic)) //Check for topic changes
+
+
+                                if (ReferenceEquals(d1.Before.Topic, d1.After.Topic)) //Check for topic changes
                                 {
                                     if (arg2 is ITextChannel itChannel)
                                         await _serverHelper.SendLogAsync(g, "Channel Topic Updated",
                                             $"The `#{gld2Channel.Name}` channel's topic has been changed to `{itChannel.Topic}` by {audit.User.Mention}");
                                     return;
                                 }
-                                else if (ReferenceEquals(d1.Before.IsNsfw,
+
+                                if (ReferenceEquals(d1.Before.IsNsfw,
                                     d1.After.IsNsfw)
                                 ) //Check for NSFW toggle change
                                 {
@@ -419,7 +482,8 @@ namespace brainKiller.Services
                                         $"The `#{gld2Channel.Name} channel's NSFW has been toggled by {audit.User.Mention}`");
                                     return;
                                 }
-                                else if (ReferenceEquals(d1.Before.SlowModeInterval.Value.ToString(),
+
+                                if (ReferenceEquals(d1.Before.SlowModeInterval.Value.ToString(),
                                     d1.After.SlowModeInterval.Value.ToString())) //Check for slowmode changes
                                 {
                                     await _serverHelper.SendLogAsync(g,
@@ -427,30 +491,73 @@ namespace brainKiller.Services
                                         $"The slowmode for `#{gld2Channel.Name}` has been modified by {audit.User.Mention}");
                                     return;
                                 }
+                            }
                     }
                     else
                     {
                         foreach (var audit in auditlogs)
                             if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
-                                if (arg2 is SocketVoiceChannel vc)
-                                    //    if (d1.After.Name != d1.Before.Name)
-                                    //   {
-                                    //     await _serverHelper.SendLogAsync(g, "Voice Channel Name Updated",
-                                    //         $"The `{gld2Channel.Name}` voice channel has been updated to `{guildChannel.Name}` by {audit.User.Mention}");
-                                    //     return;
-                                    //  }
+                                if (arg1 is SocketVoiceChannel vc1 && arg2 is SocketVoiceChannel vc2)
+                                {
+                                    if (vc1.Name != vc2.Name)
+                                    {
+                                        await _serverHelper.SendLogAsync(g, "Voice Channel Name Updated",
+                                            $"The `#{vc1.Name}` voice channel has been updated to `{vc2.Name}` by {audit.User.Mention}");
+                                        return;
+                                    }
 
                                     if (ReferenceEquals(d1.After.Bitrate,
                                         d1.Before.Bitrate))
                                     {
                                         await _serverHelper.SendLogAsync(g, "Voice Channel Bitrate Changed",
-                                            $"The bitrate for the `{gld2Channel.Name}` voice channel has been changed to `{vc.Bitrate / 1000}kbps` by {audit.User.Mention}`");
+                                            $"The bitrate for the `{gld2Channel.Name}` voice channel has been changed to `{vc2.Bitrate / 1000}kbps` by {audit.User.Mention}`");
                                         return;
                                     }
+                                }
                     }
                 }
         }
 
+        /*
+        private async Task HandleChannelRename(SocketChannel beforeChannel, SocketChannel afterChannel)
+        {
+            if (afterChannel is ITextChannel)
+                if (beforeChannel is SocketGuildChannel beforeGuildChannel &&
+                    afterChannel is SocketGuildChannel afterGuildChannel)
+                {
+                    var g = afterGuildChannel.Guild;
+                    var auditlogs = await g
+                        .GetAuditLogsAsync(1, null, beforeChannel.Id, null, ActionType.ChannelUpdated)
+                        .FlattenAsync();
+                    foreach (var audit in auditlogs)
+                        if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
+                            if (beforeGuildChannel.Name != afterGuildChannel.Name)
+                            {
+                                await _serverHelper.SendLogAsync(g, "Channel Name Updated",
+                                    $"The `#{beforeGuildChannel.Name}` channel has been updated to `#{afterGuildChannel.Name}` by {audit.User.Mention}");
+                                return;
+                            }
+                }
+
+            if (afterChannel is IVoiceChannel)
+                if (beforeChannel is SocketVoiceChannel b4GuildChannel &&
+                    afterChannel is SocketVoiceChannel aftrGuildChannel)
+                {
+                    var gld = aftrGuildChannel.Guild;
+                    var auditlogs = await gld
+                        .GetAuditLogsAsync(1, null, beforeChannel.Id, null, ActionType.ChannelUpdated)
+                        .FlattenAsync();
+                    foreach (var audit in auditlogs)
+                        if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
+                            if (b4GuildChannel.Name != aftrGuildChannel.Name)
+                            {
+                                await _serverHelper.SendLogAsync(gld, "Voice Channel Name Updated",
+                                    $"The `#{b4GuildChannel.Name}` voice channel has been updated to `{aftrGuildChannel.Name}` by {audit.User.Mention}");
+                                return;
+                            }
+                }
+        }
+        */
 
         /*
         private async Task OnChannelUpdated(SocketChannel arg1, SocketChannel arg2)
@@ -679,6 +786,35 @@ namespace brainKiller.Services
                 .FlattenAsync();
             foreach (var audit in auditlogs)
                 if (audit.User is IUser data && audit.Data is RoleUpdateAuditLogData d1)
+                {
+                    if (arg1.Name != arg2.Name)
+                    {
+                        await _serverHelper.SendLogAsync(g, "Role Name Updated",
+                            $"Role `{arg1.Name}`'s name has been changed to `{arg2.Name}`");
+                        return;
+                    }
+
+                    if (arg1.Color.RawValue != arg2.Color.RawValue)
+                    {
+                        await _serverHelper.SendLogAsync(g, "Role Color Modified",
+                            $"Role `{arg2.Name}`'s color has been changed");
+                        return;
+                    }
+
+                    if (arg1.Position != arg2.Position)
+                    {
+                        await _serverHelper.SendLogAsync(g, "Role Hiarchy Position Modified",
+                            $"Role `{arg2.Name}`'s position on the hierarchy has been modified by {audit.User.Mention}");
+                        return;
+                    }
+
+                    if (d1.Before.Mentionable.Value != d1.After.Mentionable.Value)
+                    {
+                        await _serverHelper.SendLogAsync(g, "Role Mentionability Modified",
+                            $"Role `{arg2.Name}`'s mentionability has been toggled to `{arg2.IsMentionable.ToString()}`");
+                        return;
+                    }
+
                     if (ReferenceEquals(d1.After.Permissions.Value.ToString(),
                         d1.Before.Permissions.Value.ToString())) //Check for modified permissions for the role
                     {
@@ -686,6 +822,7 @@ namespace brainKiller.Services
                             $"Permissions for the {arg2.Mention} role have been modified by {audit.User.Mention}");
                         return;
                     }
+                }
         }
 
         private async Task MuteHandler()
