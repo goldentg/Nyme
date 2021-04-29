@@ -306,15 +306,27 @@ namespace brainKiller.Services
 
                 var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.MessagePinned)
                     .FlattenAsync();
+
+                var unauditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.MessageUnpinned)
+                    .FlattenAsync();
+
                 foreach (var audit in auditlogs)
                     if (audit.User is IUser data && audit.Data is MessagePinAuditLogData d1)
-
                         if (arg2.IsPinned) //Check for message pinned
                         {
                             await _serverHelper.SendLogAsync(g, "Message Pinned",
                                 $"{audit.User.Mention} has pinned a message in `#{arg3.Name}`.\nMessage: `{arg2.Content}`");
                             return;
                         }
+
+                foreach (var unaudit in unauditlogs)
+                    if (unaudit.User is IUser data && unaudit.Data is MessageUnpinAuditLogData d2)
+
+                    {
+                        await _serverHelper.SendLogAsync(g, "Message Unpinned",
+                            $"{unaudit.User.Mention} has unpinned a message in `#{arg3.Name}`\nMessage: `{arg2.Content}`");
+                        return;
+                    }
             }
         }
 
