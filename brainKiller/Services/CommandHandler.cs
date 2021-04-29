@@ -68,6 +68,8 @@ namespace brainKiller.Services
 
             _client.UserLeft += OnUserLeft;
 
+            _client.GuildMemberUpdated += OnGuildMemberUpdated;
+
             _client.UserUnbanned += OnUserUnban;
 
             _client.ChannelUpdated += OnChannelUpdated;
@@ -312,7 +314,7 @@ namespace brainKiller.Services
 
                 foreach (var audit in auditlogs)
                     if (audit.User is IUser data && audit.Data is MessagePinAuditLogData d1)
-                        if (arg2.IsPinned) //Check for message pinned
+                        if (arg2.IsPinned) //Check if message was pinned
                         {
                             await _serverHelper.SendLogAsync(g, "Message Pinned",
                                 $"{audit.User.Mention} has pinned a message in `#{arg3.Name}`.\nMessage: `{arg2.Content}`");
@@ -320,7 +322,8 @@ namespace brainKiller.Services
                         }
 
                 foreach (var unaudit in unauditlogs)
-                    if (unaudit.User is IUser data && unaudit.Data is MessageUnpinAuditLogData d2)
+                    if (unaudit.User is IUser data && unaudit.Data is MessageUnpinAuditLogData d2
+                    ) //Check if message was unpinned
 
                     {
                         await _serverHelper.SendLogAsync(g, "Message Unpinned",
@@ -678,6 +681,62 @@ namespace brainKiller.Services
                         return;
                     }
                 }
+        }
+
+        private async Task OnGuildMemberUpdated(SocketGuildUser arg1, SocketGuildUser arg2)
+        {
+            var g = arg2.Guild;
+            var channelId = await _servers.GetLogsAsync(g.Id);
+            var chnlIdInt = Convert.ToInt64(channelId);
+            if (chnlIdInt == 0) return;
+            if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
+            {
+                await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
+                    "A event logger has failed its task because I do\nnot have `View Audit Log` permissions. To solve this error please\ngive me that permission");
+                return;
+            }
+
+            var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.MemberUpdated)
+                .FlattenAsync();
+            foreach (var audit in auditlogs)
+                if (audit.User is IUser data && audit.Data is MemberUpdateAuditLogData d1)
+                    if (arg1 is IGuildUser guildUser && arg2 is IGuildUser guildUser2)
+                    {
+                        if (arg1.IsMuted != arg2.IsMuted) //Check for is muted
+                        {
+                            await _serverHelper.SendLogAsync(g, "Member Muted",
+                                $"User {arg2.Mention} has been muted by {audit.User.Mention}");
+                            return;
+                        }
+
+                        if (arg1.IsDeafened != arg2.IsDeafened) //check for is deafened
+                        {
+                            await _serverHelper.SendLogAsync(g, "Member Deafened",
+                                $"User {arg2.Mention} has been deafened by {audit.User.Mention}");
+                            return;
+                        }
+
+                        if (arg1.Username != arg2.Username) //Check for new username
+                        {
+                            await _serverHelper.SendLogAsync(g, "Username Changed",
+                                $"`{arg1.Username + "#" + arg1.Discriminator}` has changed their username to `{arg2.Username + "#" + arg1.Discriminator}`");
+                            return;
+                        }
+
+                        if (arg1.AvatarId != arg2.AvatarId) //Check for new profile pic
+                        {
+                            await _serverHelper.SendLogAsync(g, "User Profile Pic Modified",
+                                $"User {arg2.Mention} has changed their profile pic.\nNew Profile pic: {guildUser2.GetAvatarUrl()}");
+                            return;
+                        }
+
+                        if (arg1.Nickname != arg2.Nickname) //Check for new nickname
+                        {
+                            await _serverHelper.SendLogAsync(g, "Nickname Modified",
+                                $"User `{arg1.Username + "#" + arg1.Discriminator}` has changed their nickname to `{arg2.Nickname}`");
+                            return;
+                        }
+                    }
         }
 
         private async Task MuteHandler()
