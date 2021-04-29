@@ -529,6 +529,16 @@ namespace brainKiller.Services
         private async Task OnUserLeft(SocketGuildUser arg)
         {
             var g = arg.Guild;
+            var channelId = await _servers.GetLogsAsync(g.Id);
+            var chnlIdInt = Convert.ToInt64(channelId);
+            if (chnlIdInt == 0) return;
+            if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
+            {
+                await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
+                    "A event logger has failed its task because I do\nnot have `View Audit Log` permissions. To solve this error please\ngive me that permission");
+                return;
+            }
+
             if (arg is IGuildUser guildUser)
             {
                 var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.Kick)
