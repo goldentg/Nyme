@@ -66,6 +66,8 @@ namespace brainKiller.Services
 
             _client.UserBanned += OnUserBan;
 
+            _client.UserLeft += OnUserLeft;
+
             _client.UserUnbanned += OnUserUnban;
 
             _client.ChannelUpdated += OnChannelUpdated;
@@ -86,6 +88,23 @@ namespace brainKiller.Services
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
 
+        private async Task OnUserLeft(SocketGuildUser arg)
+        {
+            var g = arg.Guild;
+            if (arg is IGuildUser guildUser)
+            {
+                var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.Kick)
+                    .FlattenAsync();
+
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data && audit.Data is KickAuditLogData d1) //Check if user was kicked
+                    {
+                        await _serverHelper.SendLogAsync(g, "User Kicked",
+                            $"User `{d1.Target.Username + "#" + d1.Target.Discriminator}` has been kicked by {audit.User.Mention}. Reason: `{audit.Reason}`");
+                        return;
+                    }
+            }
+        }
 
         private async Task OnJoinedGuild(SocketGuild arg)
         {
