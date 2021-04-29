@@ -75,12 +75,6 @@ namespace brainKiller.Services
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
 
-
-            //  public void HookChannelUpdated(BaseSocketClient client)
-            // {
-            // _client.ChannelUpdated += HandleChannelRename;
-            // }
-
             _service.CommandExecuted += OnCommandExecuted;
 
             _lavaNode.OnTrackEnded += OnTrackEnded;
@@ -123,8 +117,6 @@ namespace brainKiller.Services
                 var auditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.GuildUpdated)
                     .FlattenAsync();
 
-                //var newTask = new Task(async () => await HandleEmoteAdd(arg1, arg2));
-                //newTask.Start();
 
                 foreach (var audit in auditlogs)
                     if (audit.User is IUser data && audit.Data is GuildUpdateAuditLogData d1)
@@ -229,133 +221,6 @@ namespace brainKiller.Services
                     }
             }
         }
-        /*
-        private async Task HandleEmoteAdd(SocketGuild beforeSocketGuild, SocketGuild afterSocketGuild)
-        {
-            var auditlogs = await afterSocketGuild
-                .GetAuditLogsAsync(1, null, beforeSocketGuild.Id, null, ActionType.EmojiCreated)
-                .FlattenAsync();
-
-            foreach (var audit in auditlogs)
-                if (audit.User is IUser data && audit.Data is EmoteCreateAuditLogData d1)
-                {
-                    //var newemote = $"<:{d1.Name + ":" + d1.EmoteId.ToString()}:>";
-                    await _serverHelper.SendLogAsync(afterSocketGuild, "New Emote Added",
-                        $"{audit.User.Mention} has added a new emote to the guild");
-                    return;
-
-                    // var afterEmo = afterSocketGuild.Emotes;
-                    //var beforeEmo = beforeSocketGuild.Emotes;
-
-                    //if (ReferenceEquals(afterEmo, beforeEmo).)
-                    // if ()
-                    // {
-                    // var newEmotes = ReferenceEquals(afterEmo, beforeEmo).
-
-                    // List<IEmote> nums = new List<IEmote>();
-
-                    //  foreach (var   )
-                    //   {
-
-                    //   }
-
-
-                    // }
-                }
-
-            ;
-        }
-
-        */
-        /*
-        private async Task OnGuildUpdate(SocketGuild arg1, SocketGuild arg2)
-        {
-            if (arg1 is SocketGuild gld1)
-                if (arg2 is SocketGuild gld2)
-                {
-                    var channelId = await _servers.GetLogsAsync(gld2.Id);
-                    if (channelId == 0) return;
-                    if (!gld2.CurrentUser.GuildPermissions.ViewAuditLog)
-                    {
-                        await _serverHelper.SendLogAsync(gld2, "Bot Does Not Have Sufficient Permissions",
-                            "A event logger has failed its task because I do\nnot have `View Audit Log` permissions. To solve this error please\ngive me that permission");
-                        return;
-                    }
-
-                    if (arg1.Name != arg2.Name)
-                    {
-                        var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.GuildUpdated)
-                            .FlattenAsync();
-                        foreach (var audit in auditlogs)
-                            if (audit.User is IUser data)
-                                await _serverHelper.SendLogAsync(gld2, "Guild Updated",
-                                    $"Guild **{gld1.Name}** has been updated to **{gld2.Name}** by **{audit.User.Username + "#" + audit.User.Discriminator}**");
-                    }
-                    else
-                    {
-                        var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.EmojiCreated)
-                            .FlattenAsync();
-                        foreach (var audit in auditlogs)
-                            if (audit.User is IUser data)
-                                await _serverHelper.SendLogAsync(gld2, "Guild Updated",
-                                    $"Guild **{gld1.Name}** has been updated by **{audit.User.Username + "#" + audit.User.Discriminator}**");
-                    }
-                }
-        }
-        */
-        /*
-        private static async void RefreshBotListDocs()
-        {
-            if (BotListToken == null)
-            {
-                return;
-            }
-
-            BotList = await BotList.Instantiate(BotListBotId, BotListToken);
-
-            if (!IsBotListBot)
-            {
-                return;
-            }
-
-
-            //_client.JoinedNewGuild += () => { BotList.ThisBot.UpdateStatsAsync(Client.Guilds.Count); };
-        }
-        */
-
-        // private async Task OnGuildUpdate(SocketGuild arg1, SocketGuild arg2)
-        //  {
-        // if (arg1 is SocketGuild gld1)
-        //   if (arg2 is SocketGuild gld2)
-        // {
-        /*
-        if (arg1.Name != arg2.Name)
-        {
-            var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.GuildUpdated)
-                .FlattenAsync();
-            foreach (var audit in auditlogs)
-                if (audit.User is IUser data)
-                    await _serverHelper.SendLogAsync(gld2, "Guild Updated",
-                        $"Guild **{gld1.Name}** has been updated to **{gld2.Name}** by **{audit.User.Username + "#" + audit.User.Discriminator}**");
-        }
-        else
-        {
-        */
-        /*
-        var auditlogs = await arg2.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.EmojiCreated)
-            .FlattenAsync();
-        foreach (var audit in auditlogs)
-            if (audit.Data is IEmote data)
-            {
-                await _serverHelper.SendLogAsync(arg2, "Emote Added",
-                    $"Emoji {audit.Data} Has been created");
-                return;
-            }
-    }
-        
-    }
-        */
-
 
         private async Task OnChannelCreated(SocketChannel arg)
         {
@@ -372,7 +237,7 @@ namespace brainKiller.Services
                     return;
                 }
 
-                if (arg is ITextChannel)
+                if (arg is ITextChannel) //if channel was a text channel
                 {
                     var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.ChannelCreated)
                         .FlattenAsync();
@@ -383,15 +248,12 @@ namespace brainKiller.Services
                             await _serverHelper.SendLogAsync(g, "Channel Created",
                                 $"Channel `#{guildChannel.Name}` has been created by {audit.User.Mention}");
                 }
-                else
+                else //if channel was a voice channel
                 {
-                    // var g = guildChannel.Guild;
                     var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.ChannelCreated)
                         .FlattenAsync();
                     foreach (var audit in auditlogs)
                         if (audit.User is IUser data)
-                            // await _serverHelper.SendLogAsync(g, "Channel Created",
-                            //   $"Channel **#{guildChannel.Name}** has been created by **{audit.User.Username + "#" + audit.User.Discriminator}**");
                             await _serverHelper.SendLogAsync(g, "Channel Created",
                                 $"Voice Channel `{guildChannel.Name}` has been created by {audit.User.Mention}");
                 }
@@ -413,7 +275,7 @@ namespace brainKiller.Services
                     return;
                 }
 
-                if (arg is ITextChannel)
+                if (arg is ITextChannel) //if channel was a text channel
                 {
                     var auditlogs = await g.GetAuditLogsAsync(1, null, guildChannel.Id, null, ActionType.ChannelDeleted)
                         .FlattenAsync();
@@ -422,9 +284,8 @@ namespace brainKiller.Services
                             await _serverHelper.SendLogAsync(g, "Channel Deleted",
                                 $"Channel `#{guildChannel.Name}` has been deleted by{audit.User.Mention}");
                 }
-                else
+                else //if channel was a voice channel
                 {
-                    // var g = guildChannel.Guild;
                     var auditlogs = await g.GetAuditLogsAsync(1, null, guildChannel.Id, null, ActionType.ChannelDeleted)
                         .FlattenAsync();
                     foreach (var audit in auditlogs)
@@ -457,8 +318,6 @@ namespace brainKiller.Services
                     var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.ChannelUpdated)
                         .FlattenAsync();
 
-                    // var newTask = new Task(async () => await HandleChannelRename(arg1, arg2));
-                    // newTask.Start();
 
                     if (arg2 is ITextChannel)
                     {
@@ -466,15 +325,13 @@ namespace brainKiller.Services
                             foreach (var audit in auditlogs)
                                 if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
                                 {
-                                    if (guildChannel.Name != gld2Channel.Name)
+                                    if (guildChannel.Name != gld2Channel.Name) //Check for modified channel name
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Name Updated",
                                             $"The `#{gld2Channel.Name}` channel's name has been updated to `#{guildChannel.Name}` by {audit.User.Mention}");
                                         return;
                                     }
 
-
-                                    //if (ReferenceEquals(d1.Before.Topic, d1.After.Topic)) //Check for topic changes
                                     if (itChannel.Topic != itChannel2.Topic) //Check for channel topic modification
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Topic Updated",
@@ -482,8 +339,6 @@ namespace brainKiller.Services
                                         return;
                                     }
 
-                                    // if (ReferenceEquals(d1.Before.IsNsfw,
-                                    //   d1.After.IsNsfw)
                                     if (itChannel.IsNsfw != itChannel2.IsNsfw
                                     ) //Check for NSFW toggle change
                                     {
@@ -492,8 +347,6 @@ namespace brainKiller.Services
                                         return;
                                     }
 
-                                    // if (ReferenceEquals(d1.Before.SlowModeInterval.Value.ToString(),
-                                    //  d1.After.SlowModeInterval.Value.ToString())) 
                                     if (itChannel.SlowModeInterval != itChannel2.SlowModeInterval
                                     ) //Check for slowmode changes
                                     {
@@ -503,14 +356,16 @@ namespace brainKiller.Services
                                         return;
                                     }
 
-                                    if (itChannel.PermissionOverwrites != itChannel2.PermissionOverwrites)
+                                    if (itChannel.PermissionOverwrites != itChannel2.PermissionOverwrites
+                                    ) //Check for modified channel permissions
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Permissions Modified",
                                             $"{itChannel2.Mention}'s permissions have been modified by {audit.User.Mention}");
                                         return;
                                     }
 
-                                    if (itChannel.Position != itChannel2.Position)
+                                    if (itChannel.Position != itChannel2.Position
+                                    ) //Check for modifiied channel position
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Position Modified",
                                             $"{itChannel2.Mention}'s position has been changed by {audit.User.Mention}");
@@ -532,8 +387,6 @@ namespace brainKiller.Services
                                             return;
                                         }
 
-                                        //if (ReferenceEquals(d1.After.Bitrate,
-                                        //    d1.Before.Bitrate))
                                         if (ivc.Bitrate != ivc2.Bitrate) //Check for voice channel bitrate changes
                                         {
                                             await _serverHelper.SendLogAsync(g, "Voice Channel Bitrate Changed",
@@ -561,174 +414,6 @@ namespace brainKiller.Services
                     }
                 }
         }
-
-        /*
-        private async Task HandleChannelRename(SocketChannel beforeChannel, SocketChannel afterChannel)
-        {
-            if (afterChannel is ITextChannel)
-                if (beforeChannel is SocketGuildChannel beforeGuildChannel &&
-                    afterChannel is SocketGuildChannel afterGuildChannel)
-                {
-                    var g = afterGuildChannel.Guild;
-                    var auditlogs = await g
-                        .GetAuditLogsAsync(1, null, beforeChannel.Id, null, ActionType.ChannelUpdated)
-                        .FlattenAsync();
-                    foreach (var audit in auditlogs)
-                        if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
-                            if (beforeGuildChannel.Name != afterGuildChannel.Name)
-                            {
-                                await _serverHelper.SendLogAsync(g, "Channel Name Updated",
-                                    $"The `#{beforeGuildChannel.Name}` channel has been updated to `#{afterGuildChannel.Name}` by {audit.User.Mention}");
-                                return;
-                            }
-                }
-
-            if (afterChannel is IVoiceChannel)
-                if (beforeChannel is SocketVoiceChannel b4GuildChannel &&
-                    afterChannel is SocketVoiceChannel aftrGuildChannel)
-                {
-                    var gld = aftrGuildChannel.Guild;
-                    var auditlogs = await gld
-                        .GetAuditLogsAsync(1, null, beforeChannel.Id, null, ActionType.ChannelUpdated)
-                        .FlattenAsync();
-                    foreach (var audit in auditlogs)
-                        if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
-                            if (b4GuildChannel.Name != aftrGuildChannel.Name)
-                            {
-                                await _serverHelper.SendLogAsync(gld, "Voice Channel Name Updated",
-                                    $"The `#{b4GuildChannel.Name}` voice channel has been updated to `{aftrGuildChannel.Name}` by {audit.User.Mention}");
-                                return;
-                            }
-                }
-        }
-        */
-
-        /*
-        private async Task OnChannelUpdated(SocketChannel arg1, SocketChannel arg2)
-        {
-            if (arg2 is SocketGuildChannel guildChannel)
-                if (arg1 is SocketGuildChannel gld2Channel)
-                {
-                    var g = guildChannel.Guild;
-                    var channelId = await _servers.GetLogsAsync(g.Id);
-                    if (channelId == 0) return;
-                    if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
-                    {
-                        await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
-                            "A event logger has failed its task because I do\nnot have `View Audit Log` permissions. To solve this error please\ngive me that permission");
-                        return;
-                    }
-                    // static GuildUpdateAuditLogData getGuildAuditPermission(IUser usr);
-
-                    if (arg2 is ITextChannel)
-                    {
-                        var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
-                            .FlattenAsync();
-                        /*
-                        if (guildChannel.Name != gld2Channel.Name)
-                        {
-                            foreach (var audit in auditlogs)
-                                if (audit.User is IUser data)
-                                    await _serverHelper.SendLogAsync(g, "Channel Updated",
-                                        $"The `#{gld2Channel.Name}` channel has been updated to `#{guildChannel.Name}` by {audit.User.Mention}");
-                            return;
-                        }
-                        */
-        /*
-
-                        foreach (var audit in auditlogs)
-                            if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
-                                if (d1.After.Name != d1.Before.Name)
-                                {
-                                    await _serverHelper.SendLogAsync(g, "Channel Name Changed",
-                                        $"The `#{gld2Channel.Name}` channel has been updated to `#{guildChannel.Name}` by {audit.User.Mention}");
-                                    return;
-                                }
-                                else
-
-                                {
-                                    foreach (var audit1 in auditlogs)
-                                        if (audit1.User is IUser && audit1.Data is ChannelUpdateAuditLogData d11)
-
-                                            if (d11.After.Topic != d11.Before.Topic)
-                                            {
-                                                await _serverHelper.SendLogAsync(g, "Channel Topic Updated",
-                                                    $"The `#{gld2Channel.Name}` channel's topic has been changed to `{d11.After.Topic}` by {audit1.User.Mention}");
-                                                return;
-                                            }
-                                            else
-
-
-                                            {
-                                                foreach (var audit2 in auditlogs)
-                                                    if (audit2.User is IUser &&
-                                                        audit2.Data is ChannelUpdateAuditLogData d12)
-                                                        if (d12.After.IsNsfw != d12.Before.IsNsfw)
-                                                        {
-                                                            await _serverHelper.SendLogAsync(g, "Channel Made NSFW",
-                                                                $"The `#{gld2Channel.Name} channel has been made NSFW by {audit2.User.Mention}`");
-                                                            return;
-                                                        }
-                                                        else
-
-                                                        {
-                                                            foreach (var audit3 in auditlogs)
-                                                                if (audit3.User is IUser &&
-                                                                    audit3.Data is ChannelUpdateAuditLogData d13)
-                                                                    if (d13.After.SlowModeInterval !=
-                                                                        d13.Before.SlowModeInterval)
-                                                                    {
-                                                                        await _serverHelper.SendLogAsync(g,
-                                                                            "Slowmode Modified",
-                                                                            $"The slowmode for `#{gld2Channel.Name}` has been modified by {audit3.User.Mention}");
-                                                                        return;
-                                                                    }
-                                                        }
-                                            }
-                                }
-
-                        {
-                            //var g = guildChannel.Guild;
-                            // var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
-                            //   .FlattenAsync();
-
-
-                            foreach (var audit in auditlogs)
-                                if (audit.User is IUser data && audit.Data is ChannelUpdateAuditLogData d2)
-                                    await _serverHelper.SendLogAsync(g, "Channel Updated",
-                                        $"The `#{gld2Channel.Name}` channel has been updated by {audit.User.Mention} Action: {d2.After}");
-                        }
-                    }
-                    else
-                    {
-                        if (guildChannel.Name != gld2Channel.Name)
-                        {
-                            //var g = guildChannel.Guild;
-                            var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
-                                .FlattenAsync();
-
-
-                            foreach (var audit in auditlogs)
-                                if (audit.User is IUser data)
-                                    await _serverHelper.SendLogAsync(g, "Channel Updated",
-                                        $"The `{gld2Channel.Name}` voice channel has been updated to `{guildChannel.Name}` by {audit.User.Mention}");
-                        }
-                        else
-                        {
-                            // var g = guildChannel.Guild;
-                            var auditlogs = await g.GetAuditLogsAsync(1, null, arg1.Id, null, ActionType.ChannelUpdated)
-                                .FlattenAsync();
-
-
-                            foreach (var audit in auditlogs)
-                                if (audit.User is IUser data)
-                                    await _serverHelper.SendLogAsync(g, "Channel Updated",
-                                        $"The `{gld2Channel.Name}` voice channel has been updated by {audit.User.Mention}");
-                        }
-                    }
-                }
-        }
-        */
 
 
         private async Task OnUserBan(SocketUser arg1, SocketGuild arg2)
@@ -858,6 +543,7 @@ namespace brainKiller.Services
                             $"Role `{arg2.Name}`'s mentionability has been toggled to `{arg2.IsMentionable.ToString()}`");
                         return;
                     }
+
 
                     if (ReferenceEquals(d1.After.Permissions.Value.ToString(),
                         d1.Before.Permissions.Value.ToString())) //Check for modified permissions for the role
