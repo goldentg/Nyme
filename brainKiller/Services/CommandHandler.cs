@@ -52,8 +52,6 @@ namespace brainKiller.Services
         {
             _client.MessageReceived += OnMessageReceived;
 
-            _client.UserJoined += OnMemberJoin;
-
             _client.ChannelCreated += OnChannelCreated;
 
             _client.ChannelDestroyed += OnChannelDestroyed;
@@ -66,6 +64,8 @@ namespace brainKiller.Services
 
             _client.UserBanned += OnUserBan;
 
+            _client.UserJoined += OnMemberJoin;
+
             _client.UserLeft += OnUserLeft;
 
             // _client.GuildMemberUpdated += OnGuildMemberUpdated;
@@ -77,6 +77,10 @@ namespace brainKiller.Services
             _client.MessageUpdated += OnMessageUpdate;
 
             _client.GuildUpdated += OnGuildUpdate;
+
+            _client.InviteCreated += OnInviteCreated;
+
+            _client.InviteDeleted += OnInviteDeleted;
 
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
@@ -92,6 +96,73 @@ namespace brainKiller.Services
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
 
+        private async Task OnInviteDeleted(SocketGuildChannel arg1, string arg2)
+        {
+            if (arg1 is ITextChannel argTextChannel)
+            {
+                var g = arg1.Guild;
+                var channelId = await _servers.GetLogsAsync(g.Id);
+                var chnlIdInt = Convert.ToInt64(channelId);
+                if (chnlIdInt == 0) return;
+                if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
+                {
+                    await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
+                        "A event logger has failed its task because I do\nnot have `View Audit Log` permissions. To solve this error please\ngive me that permission");
+                    return;
+                }
+
+                var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.InviteDeleted)
+                    .FlattenAsync();
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data && audit.Data is InviteDeleteAuditLogData inviteDeleteAuditLog)
+                    {
+                        var mxage = inviteDeleteAuditLog.MaxAge / 60;
+                        await _serverHelper.SendLogAsync(g, "Invite Deleted",
+                            $"**An invite to this guild has been deleted.**\n*Invite:* {"https://discord.gg/" + inviteDeleteAuditLog.Code}\n*Invite Uses:* `{inviteDeleteAuditLog.MaxUses.ToString()}`\n*Max Time:* `{mxage.ToString()} minuets`\n*Invite bound to channel:* {argTextChannel.Mention}\n*Invite temporary:* `{inviteDeleteAuditLog.Temporary.ToString()}`\n*Invite deleted by:* {inviteDeleteAuditLog.Creator.Mention}");
+                        return;
+                    }
+            }
+        }
+
+        private async Task OnInviteCreated(SocketInvite arg)
+        {
+            var chnl = arg.Channel;
+            if (chnl is ITextChannel argTextChannel)
+            {
+                var g = chnl.Guild;
+                var channelId = await _servers.GetLogsAsync(g.Id);
+                var chnlIdInt = Convert.ToInt64(channelId);
+                if (chnlIdInt == 0) return;
+                if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
+                {
+                    await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
+                        "A event logger has failed its task because I do\nnot have `View Audit Log` permissions. To solve this error please\ngive me that permission");
+                    return;
+                }
+
+                var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.InviteCreated)
+                    .FlattenAsync();
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data && audit.Data is InviteCreateAuditLogData inviteCreateAuditLog)
+                    {
+                        var mxuse = inviteCreateAuditLog.MaxUses;
+                        if (!mxuse.Equals(0))
+                        {
+                            var mxage = inviteCreateAuditLog.MaxAge / 60;
+                            await _serverHelper.SendLogAsync(g, "Invite Created",
+                                $"**An invite to this guild has been created.**\n*Invite:* {"https://discord.gg/" + inviteCreateAuditLog.Code}\n*Invite Uses:* `{mxuse.ToString()}`\n*Max Time:* `{mxage.ToString()} minuets`\n*Invite bound to channel* {argTextChannel.Mention}\n*Invite temporary:* `{inviteCreateAuditLog.Temporary.ToString()}`\n*Invite created by:* {inviteCreateAuditLog.Creator.Mention}");
+                            return;
+                        }
+                        else
+                        {
+                            var mxage = inviteCreateAuditLog.MaxAge / 60;
+                            await _serverHelper.SendLogAsync(g, "Invite Created",
+                                $"**An invite to this guild has been created.**\n*Invite:* {"https://discord.gg/" + inviteCreateAuditLog.Code}\n*Invite Uses:* `{inviteCreateAuditLog.MaxUses.ToString()}`\n*Max Time:* `unlimited`\n*Invite bound to channel* {argTextChannel.Mention}\n*Invite temporary:* `{inviteCreateAuditLog.Temporary.ToString()}`\n*Invite created by:* {inviteCreateAuditLog.Creator.Mention}");
+                            return;
+                        }
+                    }
+            }
+        }
 
         private async Task OnJoinedGuild(SocketGuild arg)
         {
@@ -132,6 +203,15 @@ namespace brainKiller.Services
                 var upauditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.EmojiUpdated)
                     .FlattenAsync();
 
+                //  var webauditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.WebhookCreated)
+                //    .FlattenAsync();
+
+                //   var webdelauditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.WebhookDeleted)
+                //   .FlattenAsync();
+
+                //  var webupauditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.WebhookUpdated)
+                //  .FlattenAsync();
+
 
                 foreach (var audit in auditlogs)
                     if (audit.User is IUser data && audit.Data is GuildUpdateAuditLogData d1)
@@ -139,7 +219,7 @@ namespace brainKiller.Services
                         if (d1.Before.Name != d1.After.Name) //Check for modified guild name
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Name Changed",
-                                $"The guild name has been changed from `{arg1.Name}` to `{arg2.Name}` by {audit.User.Mention}");
+                                $"**The guild name has been changed.**\n*Old Guild Name:* `{arg1.Name}`\n*New Guild Name:* `{arg2.Name}`\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
@@ -153,14 +233,14 @@ namespace brainKiller.Services
                         if (arg1.IconUrl != arg2.IconUrl) //Check for guild icon change
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Icon Changed",
-                                $"{audit.User.Mention} has changed the guild icon to {ig.IconUrl}");
+                                $"**The guild icon has been changed.**\n*New Icon:* {arg2.IconUrl}\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
                         if (arg1.AFKChannel.Id != arg2.AFKChannel.Id) //Check for modified AFK channel
                         {
                             await _serverHelper.SendLogAsync(arg2, "AFK Channel Changed",
-                                $"The AFK channel has been changed to `{arg2.AFKChannel.Name}` by {audit.User.Mention}");
+                                $"**The AFK channel has been changed.**\n*AFK Channel Name:* `{arg2.AFKChannel.Name}`\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
@@ -169,7 +249,7 @@ namespace brainKiller.Services
                             var beforetimeinmins = arg1.AFKTimeout / 60;
                             var aftertimeinmins = arg2.AFKTimeout / 60;
                             await _serverHelper.SendLogAsync(arg2, "AFK Timeout Has Been Modified",
-                                $"AFK Timeout has been changed from `{beforetimeinmins.ToString()} minuets` to `{aftertimeinmins.ToString()} minuets` by {audit.User.Mention}");
+                                $"AFK Timeout has been modified.\nOld Timeout Interval: `{beforetimeinmins.ToString()} minuets`\nNew Timeout Interval: `{aftertimeinmins.ToString()} minuets`\nModified By: {audit.User.Mention}");
                             return;
                         }
 
@@ -177,7 +257,7 @@ namespace brainKiller.Services
                         ) //Check if guild server voice region has been changed
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Server Region Changed",
-                                $"This guilds server region has been changed to `<{arg2.VoiceRegionId}>` by {audit.User.Mention}");
+                                $"**This guilds server region has been changed.**\n*New Region Id:* `<{arg2.VoiceRegionId}>`\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
@@ -185,7 +265,7 @@ namespace brainKiller.Services
                         ) //Check if verification level has been changed 
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Verification Level Modified",
-                                $"{audit.User.Mention} has changed the guild verification level from `{arg1.VerificationLevel.ToString()}` to `{arg2.VerificationLevel.ToString()}`");
+                                $"**This guilds verification level has been modified.**\n*Old Verification Level:* `{arg1.VerificationLevel.ToString()}`\n*New Verification Level:* `{arg2.VerificationLevel.ToString()}`\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
@@ -193,14 +273,14 @@ namespace brainKiller.Services
                         ) //Check if Multi-Factor Authentication protocol has been modified
                         {
                             await _serverHelper.SendLogAsync(arg2, "Multi-Factor Authentication Policy Modified",
-                                $"{audit.User.Mention} has modified the Multi-Factor Authentication policy from `{arg1.MfaLevel.ToString()}` to `{arg2.MfaLevel.ToString()}`");
+                                $"**This guilds Multi-Factor Authentification level has been modified.**\n*Old MFA Level:* `{arg1.MfaLevel.ToString()}`\n*New MFA Level:* `{arg2.MfaLevel.ToString()}`\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
                         if (arg1.SystemChannel.Id != arg2.SystemChannel.Id) //Check for modified system Channel
                         {
                             await _serverHelper.SendLogAsync(arg2, "System Channel Changed",
-                                $"The system Channel has been modified from {arg1.SystemChannel.Mention} to {arg2.SystemChannel.Mention} by {audit.User.Mention}");
+                                $"**The system Channel has been modified.**\n*Old System Channel:* {arg1.SystemChannel.Mention}\n*New System Channel:* {arg2.SystemChannel.Mention}\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
@@ -208,14 +288,14 @@ namespace brainKiller.Services
                         ) //Check if explit content filter has been modified
                         {
                             await _serverHelper.SendLogAsync(arg2, "Explit Content Filter Has Been Modified",
-                                $"The explit content filer has been changed from {arg1.ExplicitContentFilter.ToString()} to `{arg2.ExplicitContentFilter.ToString()}`");
+                                $"**The explit content filer has been changed.**\n*Old Explicit Content Filter:* `{arg1.ExplicitContentFilter.ToString()}`*New Explicit Content Filter:* `{arg2.ExplicitContentFilter.ToString()}`\nModified By {audit.User.Mention}");
                             return;
                         }
 
                         if (arg1.BannerUrl != arg2.BannerUrl) //Check for modified guild banner
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Banner Modified",
-                                $"{audit.User.Mention} has changed the guilds banner from {arg1.BannerUrl} to {arg2.BannerUrl}");
+                                $"**This guilds banner has been modified.**\n*Old Banner:* {arg1.BannerUrl}\n*New Banner:* {arg2.BannerUrl}");
                             return;
                         }
 
@@ -230,7 +310,7 @@ namespace brainKiller.Services
                         if (arg1.RulesChannel != arg2.RulesChannel) //Check for modified rules channel
                         {
                             await _serverHelper.SendLogAsync(arg2, "Rules Channel Modified",
-                                $"This guilds rules channel has been modified to {arg2.RulesChannel.Mention} by {audit.User.Mention}");
+                                $"**This guilds rules channel has been modified.**\n*Rules Channel:* {arg2.RulesChannel.Mention}\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
@@ -238,16 +318,47 @@ namespace brainKiller.Services
                         {
                             await _serverHelper.SendLogAsync(arg2,
                                 "Guild Boosted",
-                                $"{audit.User.Mention} has boosted this guild\nThis guilds boost tier is currently at `tier {arg2.PremiumTier.ToString()}`");
+                                $"**This guild has been boosted.**\n*Booster:* {audit.User.Mention}\n*Current Guild Tier:* `{arg2.PremiumTier.ToString()}`\n*Total Current Boosts:* `{arg2.PremiumSubscriptionCount.ToString()}`");
                             return;
                         }
 
                         if (arg1.PremiumTier != arg2.PremiumTier)
                         {
                             await _serverHelper.SendLogAsync(arg2, "Guild Boost Tier Rank Up",
-                                $"This guild is now at boost tier `{arg2.PremiumTier.ToString()}`\nLast boost was from: {audit.User.Mention}");
+                                $"**This guilds boost tier has changed.**\n*Guild Boost Tier:* `{arg2.PremiumTier.ToString()}`");
                             return;
                         }
+                        /*
+                        foreach (var webaudit in webauditlogs)
+                            if (webaudit.Data is WebhookCreateAuditLogData webhookCreateAudit &&
+                                webaudit.User is IUser webauditUser) //Check for new webhook
+                                if (webhookCreateAudit is IWebhook iweb)
+                                {
+                                    await _serverHelper.SendLogAsync(arg2, "Webhook Created",
+                                        $"A webhook has been added to this guild.\nName: `{webhookCreateAudit.Name}`\nId: `{webhookCreateAudit.WebhookId.ToString()}`\nBound to: {iweb.Channel.Mention}\nAdded by: {webauditUser.Mention}");
+                                    return;
+                                }
+
+                        foreach (var webdelaudit in webdelauditlogs)
+                            if (webdelaudit.Data is WebhookDeleteAuditLogData webhookDeleteAuditLogData &&
+                                webdelaudit.User is IUser webdelauditUser) //Check for deleted webhook
+                                if (webhookDeleteAuditLogData is IWebhook iweb)
+                                {
+                                    await _serverHelper.SendLogAsync(arg2, "Webhook Deleted",
+                                        $"A webhook has been removed from this guild.\nName: `{webhookDeleteAuditLogData.Name}`\nId: `{webhookDeleteAuditLogData.WebhookId.ToString()}`\nBound to: {iweb.Channel.Mention}\nRemoved by: {webdelaudit.User.Mention}");
+                                    return;
+                                }
+
+                        foreach (var webupaudit in webupauditlogs)
+                            if (webupaudit.Data is WebhookUpdateAuditLogData webhookUpdateAudit &&
+                                webupaudit.User is IUser webupauditUser) //Check for updated webhook
+                                if (webhookUpdateAudit is IWebhook iweb)
+                                {
+                                    await _serverHelper.SendLogAsync(arg2, "Webhook Updated",
+                                        $"A webhook has been updated.\nOld name: `{webhookUpdateAudit.Before.Name}`\nNew name: `{webhookUpdateAudit.After.Name}`\nId: `{webhookUpdateAudit.Webhook.Id.ToString()}`\nBound to: {iweb.Channel.Mention}\nAvatar: {iweb.GetAvatarUrl()}\nModified by: {webupaudit.User.Mention}");
+                                    return;
+                                }
+                        */
 
                         foreach (var eaudit in eauditlogs)
                             if (eaudit.Data is EmoteCreateAuditLogData emoteCreateAuditLogData &&
@@ -263,7 +374,7 @@ namespace brainKiller.Services
 
 
                                     await _serverHelper.SendLogAsync(arg2, "Emote Added",
-                                        $"A emote has been added to this guild\nEmote: {emote}\nEmote Name: `{emote.Name}`\nEmote Id: `{emote.Id}`\nAdded by: {eaudit.User.Mention}");
+                                        $"**A emote has been added to this guild.**\n*Emote:* {emote}\n*Emote Name:* `{emote.Name}`\n*Emote Id:* `{emote.Id}`\n*Added By:* {eaudit.User.Mention}");
                                     return;
                                 }
 
@@ -279,7 +390,7 @@ namespace brainKiller.Services
                                             emoteDeleteAuditLogData.Name, StringComparison.OrdinalIgnoreCase) != -1);
                                     if (emote == null) return;
                                     await _serverHelper.SendLogAsync(arg2, "Emote Deleted",
-                                        $"Emote `{emote.Name}` has been deleted from the guild by {edaudit.User.Mention}");
+                                        $"**An emote has been deleted from the guild.**\n*Emote Name:* `{emote.Name}`\n*Removed By:* {edaudit.User.Mention}");
                                     return;
                                 }
 
@@ -297,7 +408,7 @@ namespace brainKiller.Services
                                                              -1);
                                     if (emote == null) return;
                                     await _serverHelper.SendLogAsync(arg2, "Emote Name Modified",
-                                        $"An emote has been modified.\nEmote: {emote}\nEmote old name: `{emoteUpdateAuditLogData.OldName}`\nEmote new name: `{emoteUpdateAuditLogData.NewName}`\nEmote Id: `{emote.Id}`\nUpdated by {upaudit.User.Mention}");
+                                        $"**An emote has been modified.**\n*Emote:* {emote}\n*Emote Old Name:* `{emoteUpdateAuditLogData.OldName}`\n*Emote New Name:* `{emoteUpdateAuditLogData.NewName}`\n*Emote Id:* `{emote.Id}`\n*Modified By:* {upaudit.User.Mention}");
                                     return;
                                 }
                     }
@@ -507,15 +618,17 @@ namespace brainKiller.Services
                                         return;
                                     }
 
+
                                     foreach (var webaudit in webauditlogs)
                                         if (webaudit.Data is WebhookCreateAuditLogData webhookCreateAudit &&
                                             webaudit.User is IUser webauditUser) //Check for new webhook
-                                            if (webhookCreateAudit is IWebhook iweb)
-                                            {
-                                                await _serverHelper.SendLogAsync(g, "Webhook Created",
-                                                    $"A webhook has been added to this guild.\nName: `{webhookCreateAudit.Name}`\nId: `{webhookCreateAudit.WebhookId.ToString()}`\nBound to: {iweb.Channel.Mention}\nAdded by: {webauditUser.Mention}");
-                                                return;
-                                            }
+
+                                            // if (webhookCreateAudit is IWebhook iweb)
+                                        {
+                                            await _serverHelper.SendLogAsync(g, "Webhook Created",
+                                                $"A webhook has been added to this guild.\nName: `{webhookCreateAudit.Name}`\nId: `{webhookCreateAudit.WebhookId.ToString()}`\nBound to: {webhookCreateAudit.Webhook.Channel.Mention}\nAdded by: {webauditUser.Mention}");
+                                            return;
+                                        }
 
                                     foreach (var webdelaudit in webdelauditlogs)
                                         if (webdelaudit.Data is WebhookDeleteAuditLogData webhookDeleteAuditLogData &&
@@ -580,6 +693,105 @@ namespace brainKiller.Services
                 }
         }
 
+        private async Task OnMemberJoin(SocketGuildUser arg)
+        {
+            var g = arg.Guild;
+            var channelId = await _servers.GetLogsAsync(g.Id);
+            var chnlIdInt = Convert.ToInt64(channelId);
+            if (chnlIdInt == 0) return;
+            if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
+            {
+                await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
+                    "A event logger has failed its task because I do\nnot have `View Audit Log` permissions. To solve this error please\ngive me that permission");
+                return;
+            }
+
+            var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.InviteUpdated)
+                .FlattenAsync();
+
+
+            foreach (var audit in auditlogs)
+                if (audit.User is IUser && audit.Data is InviteUpdateAuditLogData d1)
+
+                {
+                    var inv3 = _client.Guilds
+                        .OfType<InviteUpdateAuditLogData>()
+                        .FirstOrDefault(x => x.After.Code.ToString().IndexOf(
+                                                 d1.After.Code,
+                                                 StringComparison.OrdinalIgnoreCase) !=
+                                             -1);
+                    if (inv3 == null) return;
+
+                    if (inv3 is IInvite iInvite)
+
+                    {
+                        var uses = d1.Before.MaxUses.Value - d1.After.MaxUses.Value;
+                        await _serverHelper.SendLogAsync(g, "Invite Used",
+                            $"An invite has been used.\nInvite: {iInvite.Url}\nTotal invite uses: `{uses.ToString()}`\nInvite created by: {iInvite.Inviter.Mention}");
+                        return;
+                    }
+                }
+
+            var newTask = new Task(async () => await HandleUserJoined(arg));
+            newTask.Start();
+            /*
+            var guildId = await _servers.GetWelcomeDmAsync(arg.Guild.Id);
+            var wlcmdmmsg = await _servers.GetDmMessageAsync(arg.Guild.Id);
+
+
+            if (guildId == 0)
+                return;
+
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(43, 182, 115))
+                .WithTitle("**Welcome**")
+                .WithDescription(wlcmdmmsg)
+                .WithCurrentTimestamp()
+                .Build();
+
+            if (arg is IUser iu)
+            {
+                var userch = await iu.GetOrCreateDMChannelAsync();
+                try
+                {
+                    await userch.SendMessageAsync(embed: embed);
+                }
+                catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
+                {
+                    Console.WriteLine($"Cannot DM {iu.Username + "#" + iu.Discriminator}.");
+                }
+
+                //iu.SendMessageAsync(embed: embed);
+            }
+            */
+        }
+
+
+        private async Task HandleUserJoined(SocketGuildUser arg)
+        {
+            var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);
+            if (roles.Count > 0)
+                await arg.AddRolesAsync(roles);
+
+
+            // var channelId = await _servers.GetWelcomeAsync(arg.Guild.Id);
+            // if (channelId == 0)
+            //    return;
+
+            //  var channel = arg.Guild.GetTextChannel(channelId);
+            //   if (channel == null)
+            //  {
+            //      await _servers.ClearWelcomeAsync(arg.Guild.Id);
+            //        return;
+            //    }
+
+            //  var background = await _servers.GetBackgroundAsync(arg.Guild.Id) ??
+            //                    "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+            //  var path = await _images.CreateImageAsync(arg, background);
+            //  await channel.SendFileAsync(path, null);
+            // File.Delete(path);
+        }
+
         private async Task OnUserLeft(SocketGuildUser arg)
         {
             var g = arg.Guild;
@@ -599,12 +811,13 @@ namespace brainKiller.Services
                     .FlattenAsync();
 
                 foreach (var audit in auditlogs)
-                    if (audit.User is IUser data && audit.Data is KickAuditLogData d1) //Check if user was kicked
-                    {
-                        await _serverHelper.SendLogAsync(g, "User Kicked",
-                            $"User `{d1.Target.Username + "#" + d1.Target.Discriminator}` has been kicked by {audit.User.Mention}. Reason: `{audit.Reason}`");
-                        return;
-                    }
+                    if (audit.User is IUser data && audit.Data is KickAuditLogData d1)
+                        if (d1.Target.ToString() == arg.ToString()) //Check if user was kicked
+                        {
+                            await _serverHelper.SendLogAsync(g, "User Kicked",
+                                $"User `{d1.Target.Username + "#" + d1.Target.Discriminator}` has been kicked by {audit.User.Mention}. Reason: `{audit.Reason ?? "No reason provided"}`");
+                            return;
+                        }
             }
         }
 
@@ -625,7 +838,7 @@ namespace brainKiller.Services
             foreach (var audit in auditlogs)
                 if (audit.User is IUser data)
                     await _serverHelper.SendLogAsync(arg2, "User Banned",
-                        $"User `{arg1.Username + "#" + arg1.Discriminator}` has been banned by {audit.User.Mention} Reason: `{audit.Reason}`");
+                        $"User `{arg1.Username + "#" + arg1.Discriminator}` has been banned by {audit.User.Mention} Reason: `{audit.Reason ?? "No reason provided"}`");
         }
 
         private async Task OnUserUnban(SocketUser arg1, SocketGuild arg2)
@@ -885,69 +1098,6 @@ namespace brainKiller.Services
             //await args.Player.TextChannel.SendMessageAsync(
             //    $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
         }
-
-        private async Task OnMemberJoin(SocketGuildUser arg)
-        {
-            var newTask = new Task(async () => await HandleUserJoined(arg));
-            newTask.Start();
-            /*
-            var guildId = await _servers.GetWelcomeDmAsync(arg.Guild.Id);
-            var wlcmdmmsg = await _servers.GetDmMessageAsync(arg.Guild.Id);
-
-
-            if (guildId == 0)
-                return;
-
-            var embed = new EmbedBuilder()
-                .WithColor(new Color(43, 182, 115))
-                .WithTitle("**Welcome**")
-                .WithDescription(wlcmdmmsg)
-                .WithCurrentTimestamp()
-                .Build();
-
-            if (arg is IUser iu)
-            {
-                var userch = await iu.GetOrCreateDMChannelAsync();
-                try
-                {
-                    await userch.SendMessageAsync(embed: embed);
-                }
-                catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
-                {
-                    Console.WriteLine($"Cannot DM {iu.Username + "#" + iu.Discriminator}.");
-                }
-
-                //iu.SendMessageAsync(embed: embed);
-            }
-            */
-        }
-
-
-        private async Task HandleUserJoined(SocketGuildUser arg)
-        {
-            var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);
-            if (roles.Count > 0)
-                await arg.AddRolesAsync(roles);
-
-
-            // var channelId = await _servers.GetWelcomeAsync(arg.Guild.Id);
-            // if (channelId == 0)
-            //    return;
-
-            //  var channel = arg.Guild.GetTextChannel(channelId);
-            //   if (channel == null)
-            //  {
-            //      await _servers.ClearWelcomeAsync(arg.Guild.Id);
-            //        return;
-            //    }
-
-            //  var background = await _servers.GetBackgroundAsync(arg.Guild.Id) ??
-            //                    "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
-            //  var path = await _images.CreateImageAsync(arg, background);
-            //  await channel.SendFileAsync(path, null);
-            // File.Delete(path);
-        }
-
 
         private async Task OnMessageReceived(SocketMessage arg)
         {
