@@ -68,7 +68,7 @@ namespace brainKiller.Services
 
             _client.UserLeft += OnUserLeft;
 
-            _client.GuildMemberUpdated += OnGuildMemberUpdated;
+            // _client.GuildMemberUpdated += OnGuildMemberUpdated;
 
             _client.UserUnbanned += OnUserUnban;
 
