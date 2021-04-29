@@ -462,65 +462,102 @@ namespace brainKiller.Services
 
                     if (arg2 is ITextChannel)
                     {
-                        foreach (var audit in auditlogs)
-                            if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
-                            {
-                                if (guildChannel.Name != gld2Channel.Name)
+                        if (arg1 is ITextChannel itChannel && arg2 is ITextChannel itChannel2)
+                            foreach (var audit in auditlogs)
+                                if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
                                 {
-                                    await _serverHelper.SendLogAsync(g, "Channel Name Updated",
-                                        $"The `#{gld2Channel.Name}` channel has been updated to `#{guildChannel.Name}` by {audit.User.Mention}");
-                                    return;
-                                }
+                                    if (guildChannel.Name != gld2Channel.Name)
+                                    {
+                                        await _serverHelper.SendLogAsync(g, "Channel Name Updated",
+                                            $"The `#{gld2Channel.Name}` channel's name has been updated to `#{guildChannel.Name}` by {audit.User.Mention}");
+                                        return;
+                                    }
 
 
-                                if (ReferenceEquals(d1.Before.Topic, d1.After.Topic)) //Check for topic changes
-                                {
-                                    if (arg2 is ITextChannel itChannel)
+                                    //if (ReferenceEquals(d1.Before.Topic, d1.After.Topic)) //Check for topic changes
+                                    if (itChannel.Topic != itChannel2.Topic) //Check for channel topic modification
+                                    {
                                         await _serverHelper.SendLogAsync(g, "Channel Topic Updated",
-                                            $"The `#{gld2Channel.Name}` channel's topic has been changed to `{itChannel.Topic}` by {audit.User.Mention}");
-                                    return;
-                                }
+                                            $"The `#{itChannel2.Mention}` channel's topic has been changed to `{itChannel2.Topic}` by {audit.User.Mention}");
+                                        return;
+                                    }
 
-                                if (ReferenceEquals(d1.Before.IsNsfw,
-                                    d1.After.IsNsfw)
-                                ) //Check for NSFW toggle change
-                                {
-                                    await _serverHelper.SendLogAsync(g, "Channel Toggled NSFW",
-                                        $"The `#{gld2Channel.Name} channel's NSFW has been toggled by {audit.User.Mention}`");
-                                    return;
-                                }
+                                    // if (ReferenceEquals(d1.Before.IsNsfw,
+                                    //   d1.After.IsNsfw)
+                                    if (itChannel.IsNsfw != itChannel2.IsNsfw
+                                    ) //Check for NSFW toggle change
+                                    {
+                                        await _serverHelper.SendLogAsync(g, "Channel Toggled NSFW",
+                                            $"{itChannel2.Mention}'s NSFW has been toggled from `{itChannel.IsNsfw.ToString()}` to `{itChannel2.IsNsfw.ToString()}` by {audit.User.Mention}");
+                                        return;
+                                    }
 
-                                if (ReferenceEquals(d1.Before.SlowModeInterval.Value.ToString(),
-                                    d1.After.SlowModeInterval.Value.ToString())) //Check for slowmode changes
-                                {
-                                    await _serverHelper.SendLogAsync(g,
-                                        "Slowmode Modified",
-                                        $"The slowmode for `#{gld2Channel.Name}` has been modified by {audit.User.Mention}");
-                                    return;
+                                    // if (ReferenceEquals(d1.Before.SlowModeInterval.Value.ToString(),
+                                    //  d1.After.SlowModeInterval.Value.ToString())) 
+                                    if (itChannel.SlowModeInterval != itChannel2.SlowModeInterval
+                                    ) //Check for slowmode changes
+                                    {
+                                        await _serverHelper.SendLogAsync(g,
+                                            "Slowmode Modified",
+                                            $"The slowmode for `#{itChannel2.Mention}` has been modified to {itChannel2.SlowModeInterval.ToString()} seconds by {audit.User.Mention}");
+                                        return;
+                                    }
+
+                                    if (itChannel.PermissionOverwrites != itChannel2.PermissionOverwrites)
+                                    {
+                                        await _serverHelper.SendLogAsync(g, "Channel Permissions Modified",
+                                            $"{itChannel2.Mention}'s permissions have been modified by {audit.User.Mention}");
+                                        return;
+                                    }
+
+                                    if (itChannel.Position != itChannel2.Position)
+                                    {
+                                        await _serverHelper.SendLogAsync(g, "Channel Position Modified",
+                                            $"{itChannel2.Mention}'s position has been changed by {audit.User.Mention}");
+                                        return;
+                                    }
                                 }
-                            }
                     }
                     else
                     {
                         foreach (var audit in auditlogs)
                             if (audit.User is IUser && audit.Data is ChannelUpdateAuditLogData d1)
                                 if (arg1 is SocketVoiceChannel vc1 && arg2 is SocketVoiceChannel vc2)
-                                {
-                                    if (vc1.Name != vc2.Name)
+                                    if (arg1 is IVoiceChannel ivc && arg2 is IVoiceChannel ivc2)
                                     {
-                                        await _serverHelper.SendLogAsync(g, "Voice Channel Name Updated",
-                                            $"The `#{vc1.Name}` voice channel has been updated to `{vc2.Name}` by {audit.User.Mention}");
-                                        return;
-                                    }
+                                        if (vc1.Name != vc2.Name)
+                                        {
+                                            await _serverHelper.SendLogAsync(g, "Voice Channel Name Updated",
+                                                $"The `{vc1.Name}` voice channel has been updated to `{vc2.Name}` by {audit.User.Mention}");
+                                            return;
+                                        }
 
-                                    if (ReferenceEquals(d1.After.Bitrate,
-                                        d1.Before.Bitrate))
-                                    {
-                                        await _serverHelper.SendLogAsync(g, "Voice Channel Bitrate Changed",
-                                            $"The bitrate for the `{gld2Channel.Name}` voice channel has been changed to `{vc2.Bitrate / 1000}kbps` by {audit.User.Mention}`");
-                                        return;
+                                        //if (ReferenceEquals(d1.After.Bitrate,
+                                        //    d1.Before.Bitrate))
+                                        if (ivc.Bitrate != ivc2.Bitrate) //Check for voice channel bitrate changes
+                                        {
+                                            await _serverHelper.SendLogAsync(g, "Voice Channel Bitrate Changed",
+                                                $"The bitrate for the `{gld2Channel.Name}` voice channel has been changed to `{vc2.Bitrate / 1000}kbps` by {audit.User.Mention}`");
+                                            return;
+                                        }
+
+                                        if (ivc.UserLimit.Value.ToString() != ivc2.UserLimit.Value.ToString()
+                                        ) //Check for voice channel user limit changes
+                                        {
+                                            await _serverHelper.SendLogAsync(g, "Voice Channel User Limit Modified",
+                                                $"The `{ivc2.Name}` voice channel's user limit has been modified from `{ivc.UserLimit.Value.ToString()} users` to `{ivc2.UserLimit.Value.ToString()} users` by {audit.User.Mention}");
+                                            return;
+                                        }
+
+
+                                        if (ivc.PermissionOverwrites != ivc2.PermissionOverwrites
+                                        ) //Check for voice channel permission changes
+                                        {
+                                            await _serverHelper.SendLogAsync(g, "Voice Channel Permissions Modified",
+                                                $"The `{ivc2.Name}` voice channel's permissions have been modified by {audit.User.Mention}");
+                                            return;
+                                        }
                                     }
-                                }
                     }
                 }
         }
