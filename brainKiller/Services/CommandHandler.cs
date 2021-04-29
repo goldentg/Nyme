@@ -72,6 +72,8 @@ namespace brainKiller.Services
 
             _client.ChannelUpdated += OnChannelUpdated;
 
+            _client.MessageUpdated += OnMessageUpdate;
+
             _client.GuildUpdated += OnGuildUpdate;
 
             var newTask = new Task(async () => await MuteHandler());
@@ -230,16 +232,12 @@ namespace brainKiller.Services
                             return;
                         }
 
-
-                        // if (audit.Data is EmoteCreateAuditLogData emoteCreateAuditLogData)
                         foreach (var eaudit in eauditlogs)
                             if (eaudit.Data is EmoteCreateAuditLogData emoteCreateAuditLogData &&
                                 eaudit.User is IUser eauditUser
                             )
                                 if (arg1.Emotes.Count < arg2.Emotes.Count) //Check for new emote
                                 {
-                                    // if (arg1.Emotes is GuildEmote beforEmote && arg2.Emotes is GuildEmote afterEmote)
-                                    // {
                                     var emote = _client.Guilds
                                         .SelectMany(x => x.Emotes)
                                         .FirstOrDefault(x => x.Name.IndexOf(
@@ -250,7 +248,6 @@ namespace brainKiller.Services
                                     await _serverHelper.SendLogAsync(arg2, "Emote Added",
                                         $"A emote has been added to this guild\nEmote: {emote}\nEmote Name: `{emote.Name}`\nEmote Id: `{emote.Id}`\nAdded by: {eaudit.User.Mention}");
                                     return;
-                                    // }
                                 }
 
                         foreach (var edaudit in edauditlogs)
@@ -272,8 +269,8 @@ namespace brainKiller.Services
                         foreach (var upaudit in upauditlogs)
                             if (upaudit.Data is EmoteUpdateAuditLogData emoteUpdateAuditLogData &&
                                 upaudit.User is IUser upauditUser)
-                                //if (arg1.Emotes.Count == arg2.Emotes.Count)
-                                if (emoteUpdateAuditLogData.OldName != emoteUpdateAuditLogData.NewName)
+                                if (emoteUpdateAuditLogData.OldName != emoteUpdateAuditLogData.NewName
+                                ) //Check for new emote name
                                 {
                                     var emote = _client.Guilds
                                         .SelectMany(x => x.Emotes)
@@ -287,6 +284,37 @@ namespace brainKiller.Services
                                     return;
                                 }
                     }
+            }
+        }
+
+        private async Task OnMessageUpdate(Cacheable<IMessage, ulong> arg1, SocketMessage arg2,
+            ISocketMessageChannel arg3)
+        {
+            var chan = arg2.Channel;
+            if (chan is SocketGuildChannel gldchannel)
+            {
+                var g = gldchannel.Guild;
+                var channelId = await _servers.GetLogsAsync(g.Id);
+                var chnlIdInt = Convert.ToInt64(channelId);
+                if (chnlIdInt == 0) return;
+                if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
+                {
+                    await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
+                        "A event logger has failed its task because I do\nnot have `View Audit Log` permissions. To solve this error please\ngive me that permission");
+                    return;
+                }
+
+                var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.MessagePinned)
+                    .FlattenAsync();
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data && audit.Data is MessagePinAuditLogData d1)
+
+                        if (arg2.IsPinned) //Check for message pinned
+                        {
+                            await _serverHelper.SendLogAsync(g, "Message Pinned",
+                                $"{audit.User.Mention} has pinned a message in `#{arg3.Name}`.\nMessage: `{arg2.Content}`");
+                            return;
+                        }
             }
         }
 
