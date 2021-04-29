@@ -766,14 +766,14 @@ namespace brainKiller.Services
                 if (audit.User is IUser data && audit.Data is MemberUpdateAuditLogData d1)
                     // if (arg1 is IGuildUser guildUser && arg2 is IGuildUser guildUser2)
                 {
-                    if (arg1.IsMuted != arg2.IsMuted) //Check for is muted
+                    if (d1.Before.Mute.Value != d1.After.Mute.Value) //Check for is muted
                     {
                         await _serverHelper.SendLogAsync(g, "Member Muted",
                             $"User {arg2.Mention} has been muted by {audit.User.Mention}");
                         return;
                     }
 
-                    if (arg1.IsDeafened != arg2.IsDeafened) //check for is deafened
+                    if (d1.Before.Deaf.Value != d1.After.Deaf.Value) //check for is deafened
                     {
                         await _serverHelper.SendLogAsync(g, "Member Deafened",
                             $"User {arg2.Mention} has been deafened by {audit.User.Mention}");
@@ -794,7 +794,7 @@ namespace brainKiller.Services
                         return;
                     }
 
-                    if (arg1.Nickname != arg2.Nickname) //Check for new nickname
+                    if (d1.Before.Nickname != d1.After.Nickname) //Check for new nickname
                     {
                         await _serverHelper.SendLogAsync(g, "Nickname Modified",
                             $"User `{arg1.Username + "#" + arg1.Discriminator}` has changed their nickname to `{arg2.Nickname}`");
