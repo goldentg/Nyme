@@ -88,23 +88,6 @@ namespace brainKiller.Services
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
 
-        private async Task OnUserLeft(SocketGuildUser arg)
-        {
-            var g = arg.Guild;
-            if (arg is IGuildUser guildUser)
-            {
-                var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.Kick)
-                    .FlattenAsync();
-
-                foreach (var audit in auditlogs)
-                    if (audit.User is IUser data && audit.Data is KickAuditLogData d1) //Check if user was kicked
-                    {
-                        await _serverHelper.SendLogAsync(g, "User Kicked",
-                            $"User `{d1.Target.Username + "#" + d1.Target.Discriminator}` has been kicked by {audit.User.Mention}. Reason: `{audit.Reason}`");
-                        return;
-                    }
-            }
-        }
 
         private async Task OnJoinedGuild(SocketGuild arg)
         {
@@ -134,6 +117,15 @@ namespace brainKiller.Services
                 }
 
                 var auditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.GuildUpdated)
+                    .FlattenAsync();
+
+                var eauditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.EmojiCreated)
+                    .FlattenAsync();
+
+                var edauditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.EmojiDeleted)
+                    .FlattenAsync();
+
+                var upauditlogs = await arg2.GetAuditLogsAsync(1, null, null, null, ActionType.EmojiUpdated)
                     .FlattenAsync();
 
 
@@ -237,6 +229,63 @@ namespace brainKiller.Services
                                 $"This guilds rules channel has been modified to {arg2.RulesChannel.Mention} by {audit.User.Mention}");
                             return;
                         }
+
+
+                        // if (audit.Data is EmoteCreateAuditLogData emoteCreateAuditLogData)
+                        foreach (var eaudit in eauditlogs)
+                            if (eaudit.Data is EmoteCreateAuditLogData emoteCreateAuditLogData &&
+                                eaudit.User is IUser eauditUser
+                            )
+                                if (arg1.Emotes.Count < arg2.Emotes.Count) //Check for new emote
+                                {
+                                    // if (arg1.Emotes is GuildEmote beforEmote && arg2.Emotes is GuildEmote afterEmote)
+                                    // {
+                                    var emote = _client.Guilds
+                                        .SelectMany(x => x.Emotes)
+                                        .FirstOrDefault(x => x.Name.IndexOf(
+                                            emoteCreateAuditLogData.Name, StringComparison.OrdinalIgnoreCase) != -1);
+                                    if (emote == null) return;
+
+
+                                    await _serverHelper.SendLogAsync(arg2, "Emote Added",
+                                        $"A emote has been added to this guild\nEmote: {emote}\nEmote Name: `{emote.Name}`\nEmote Id: `{emote.Id}`\nAdded by: {eaudit.User.Mention}");
+                                    return;
+                                    // }
+                                }
+
+                        foreach (var edaudit in edauditlogs)
+                            if (edaudit.Data is EmoteDeleteAuditLogData emoteDeleteAuditLogData &&
+                                edaudit.User is IUser edauditUser
+                            ) //Check if emote was deleted
+                                if (arg1.Emotes.Count > arg2.Emotes.Count)
+                                {
+                                    var emote = _client.Guilds
+                                        .SelectMany(x => x.Emotes)
+                                        .FirstOrDefault(x => x.Name.IndexOf(
+                                            emoteDeleteAuditLogData.Name, StringComparison.OrdinalIgnoreCase) != -1);
+                                    if (emote == null) return;
+                                    await _serverHelper.SendLogAsync(arg2, "Emote Deleted",
+                                        $"Emote `{emote.Name}` has been deleted from the guild by {edaudit.User.Mention}");
+                                    return;
+                                }
+
+                        foreach (var upaudit in upauditlogs)
+                            if (upaudit.Data is EmoteUpdateAuditLogData emoteUpdateAuditLogData &&
+                                upaudit.User is IUser upauditUser)
+                                //if (arg1.Emotes.Count == arg2.Emotes.Count)
+                                if (emoteUpdateAuditLogData.OldName != emoteUpdateAuditLogData.NewName)
+                                {
+                                    var emote = _client.Guilds
+                                        .SelectMany(x => x.Emotes)
+                                        .FirstOrDefault(x => x.Name.IndexOf(
+                                                                 emoteUpdateAuditLogData.NewName,
+                                                                 StringComparison.OrdinalIgnoreCase) !=
+                                                             -1);
+                                    if (emote == null) return;
+                                    await _serverHelper.SendLogAsync(arg2, "Emote Name Modified",
+                                        $"An emote has been modified.\nEmote: {emote}\nEmote old name: `{emoteUpdateAuditLogData.OldName}`\nEmote new name: `{emoteUpdateAuditLogData.NewName}`\nEmote Id: `{emote.Id}`\nUpdated by {upaudit.User.Mention}");
+                                    return;
+                                }
                     }
             }
         }
@@ -434,6 +483,23 @@ namespace brainKiller.Services
                 }
         }
 
+        private async Task OnUserLeft(SocketGuildUser arg)
+        {
+            var g = arg.Guild;
+            if (arg is IGuildUser guildUser)
+            {
+                var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.Kick)
+                    .FlattenAsync();
+
+                foreach (var audit in auditlogs)
+                    if (audit.User is IUser data && audit.Data is KickAuditLogData d1) //Check if user was kicked
+                    {
+                        await _serverHelper.SendLogAsync(g, "User Kicked",
+                            $"User `{d1.Target.Username + "#" + d1.Target.Discriminator}` has been kicked by {audit.User.Mention}. Reason: `{audit.Reason}`");
+                        return;
+                    }
+            }
+        }
 
         private async Task OnUserBan(SocketUser arg1, SocketGuild arg2)
         {
