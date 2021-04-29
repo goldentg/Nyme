@@ -68,7 +68,7 @@ namespace brainKiller.Services
 
             _client.UserLeft += OnUserLeft;
 
-            _client.GuildMemberUpdated += OnGuildMemberUpdated;
+            // _client.GuildMemberUpdated += OnGuildMemberUpdated;
 
             _client.UserUnbanned += OnUserUnban;
 
@@ -746,7 +746,7 @@ namespace brainKiller.Services
                     }
                 }
         }
-
+        /*
         private async Task OnGuildMemberUpdated(SocketGuildUser arg1, SocketGuildUser arg2)
         {
             var g = arg2.Guild;
@@ -802,7 +802,7 @@ namespace brainKiller.Services
                     }
                 }
         }
-
+        */
 
         private async Task MuteHandler()
         {
