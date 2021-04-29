@@ -764,43 +764,43 @@ namespace brainKiller.Services
                 .FlattenAsync();
             foreach (var audit in auditlogs)
                 if (audit.User is IUser data && audit.Data is MemberUpdateAuditLogData d1)
-                    if (arg1 is IGuildUser guildUser && arg2 is IGuildUser guildUser2)
+                    // if (arg1 is IGuildUser guildUser && arg2 is IGuildUser guildUser2)
+                {
+                    if (arg1.IsMuted != arg2.IsMuted) //Check for is muted
                     {
-                        if (guildUser.IsMuted != guildUser2.IsMuted) //Check for is muted
-                        {
-                            await _serverHelper.SendLogAsync(g, "Member Muted",
-                                $"User {arg2.Mention} has been muted by {audit.User.Mention}");
-                            return;
-                        }
-
-                        if (guildUser.IsDeafened != guildUser2.IsDeafened) //check for is deafened
-                        {
-                            await _serverHelper.SendLogAsync(g, "Member Deafened",
-                                $"User {arg2.Mention} has been deafened by {audit.User.Mention}");
-                            return;
-                        }
-
-                        if (guildUser.Username != guildUser2.Username) //Check for new username
-                        {
-                            await _serverHelper.SendLogAsync(g, "Username Changed",
-                                $"`{arg1.Username + "#" + arg1.Discriminator}` has changed their username to `{arg2.Username + "#" + arg1.Discriminator}`");
-                            return;
-                        }
-
-                        if (guildUser.AvatarId != guildUser2.AvatarId) //Check for new profile pic
-                        {
-                            await _serverHelper.SendLogAsync(g, "User Profile Pic Modified",
-                                $"User {arg2.Mention} has changed their profile pic.\nNew Profile pic: {guildUser2.GetAvatarUrl()}");
-                            return;
-                        }
-
-                        if (guildUser.Nickname != guildUser2.Nickname) //Check for new nickname
-                        {
-                            await _serverHelper.SendLogAsync(g, "Nickname Modified",
-                                $"User `{arg1.Username + "#" + arg1.Discriminator}` has changed their nickname to `{arg2.Nickname}`");
-                            return;
-                        }
+                        await _serverHelper.SendLogAsync(g, "Member Muted",
+                            $"User {arg2.Mention} has been muted by {audit.User.Mention}");
+                        return;
                     }
+
+                    if (arg1.IsDeafened != arg2.IsDeafened) //check for is deafened
+                    {
+                        await _serverHelper.SendLogAsync(g, "Member Deafened",
+                            $"User {arg2.Mention} has been deafened by {audit.User.Mention}");
+                        return;
+                    }
+
+                    if (arg1.Username != arg2.Username) //Check for new username
+                    {
+                        await _serverHelper.SendLogAsync(g, "Username Changed",
+                            $"`{arg1.Username + "#" + arg1.Discriminator}` has changed their username to `{arg2.Username + "#" + arg1.Discriminator}`");
+                        return;
+                    }
+
+                    if (arg1.AvatarId != arg2.AvatarId) //Check for new profile pic
+                    {
+                        await _serverHelper.SendLogAsync(g, "User Profile Pic Modified",
+                            $"User {arg2.Mention} has changed their profile pic.\nNew Profile pic: {arg2.GetAvatarUrl() ?? arg2.GetDefaultAvatarUrl()}");
+                        return;
+                    }
+
+                    if (arg1.Nickname != arg2.Nickname) //Check for new nickname
+                    {
+                        await _serverHelper.SendLogAsync(g, "Nickname Modified",
+                            $"User `{arg1.Username + "#" + arg1.Discriminator}` has changed their nickname to `{arg2.Nickname}`");
+                        return;
+                    }
+                }
         }
 
 
