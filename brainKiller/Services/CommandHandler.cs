@@ -68,7 +68,7 @@ namespace brainKiller.Services
 
             _client.UserLeft += OnUserLeft;
 
-            // _client.GuildMemberUpdated += OnGuildMemberUpdated;
+            _client.GuildMemberUpdated += OnGuildMemberUpdated;
 
             _client.UserUnbanned += OnUserUnban;
 
@@ -231,6 +231,21 @@ namespace brainKiller.Services
                         {
                             await _serverHelper.SendLogAsync(arg2, "Rules Channel Modified",
                                 $"This guilds rules channel has been modified to {arg2.RulesChannel.Mention} by {audit.User.Mention}");
+                            return;
+                        }
+
+                        if (arg1.PremiumSubscriptionCount != arg2.PremiumSubscriptionCount)
+                        {
+                            await _serverHelper.SendLogAsync(arg2,
+                                "Guild Boosted",
+                                $"{audit.User.Mention} has boosted this guild\nThis guilds boost tier is currently at `tier {arg2.PremiumTier.ToString()}`");
+                            return;
+                        }
+
+                        if (arg1.PremiumTier != arg2.PremiumTier)
+                        {
+                            await _serverHelper.SendLogAsync(arg2, "Guild Boost Tier Rank Up",
+                                $"This guild is now at boost tier `{arg2.PremiumTier.ToString()}`\nLast boost was from: {audit.User.Mention}");
                             return;
                         }
 
@@ -429,6 +444,15 @@ namespace brainKiller.Services
                     var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.ChannelUpdated)
                         .FlattenAsync();
 
+                    var webauditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.WebhookCreated)
+                        .FlattenAsync();
+
+                    var webdelauditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.WebhookDeleted)
+                        .FlattenAsync();
+
+                    var webupauditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.WebhookUpdated)
+                        .FlattenAsync();
+
 
                     if (arg2 is ITextChannel)
                     {
@@ -482,6 +506,36 @@ namespace brainKiller.Services
                                             $"{itChannel2.Mention}'s position has been changed by {audit.User.Mention}");
                                         return;
                                     }
+
+                                    foreach (var webaudit in webauditlogs)
+                                        if (webaudit.Data is WebhookCreateAuditLogData webhookCreateAudit &&
+                                            webaudit.User is IUser webauditUser) //Check for new webhook
+                                            if (webhookCreateAudit is IWebhook iweb)
+                                            {
+                                                await _serverHelper.SendLogAsync(g, "Webhook Created",
+                                                    $"A webhook has been added to this guild.\nName: `{webhookCreateAudit.Name}`\nId: `{webhookCreateAudit.WebhookId.ToString()}`\nBound to: {iweb.Channel.Mention}\nAdded by: {webauditUser.Mention}");
+                                                return;
+                                            }
+
+                                    foreach (var webdelaudit in webdelauditlogs)
+                                        if (webdelaudit.Data is WebhookDeleteAuditLogData webhookDeleteAuditLogData &&
+                                            webdelaudit.User is IUser webdelauditUser) //Check for deleted webhook
+                                            if (webhookDeleteAuditLogData is IWebhook iweb)
+                                            {
+                                                await _serverHelper.SendLogAsync(g, "Webhook Deleted",
+                                                    $"A webhook has been removed from this guild.\nName: `{webhookDeleteAuditLogData.Name}`\nId: `{webhookDeleteAuditLogData.WebhookId.ToString()}`\nBound to: {iweb.Channel.Mention}\nRemoved by: {webdelaudit.User.Mention}");
+                                                return;
+                                            }
+
+                                    foreach (var webupaudit in webupauditlogs)
+                                        if (webupaudit.Data is WebhookUpdateAuditLogData webhookUpdateAudit &&
+                                            webupaudit.User is IUser webupauditUser) //Check for updated webhook
+                                            if (webhookUpdateAudit is IWebhook iweb)
+                                            {
+                                                await _serverHelper.SendLogAsync(g, "Webhook Updated",
+                                                    $"A webhook has been updated.\nOld name: `{webhookUpdateAudit.Before.Name}`\nNew name: `{webhookUpdateAudit.After.Name}`\nId: `{webhookUpdateAudit.Webhook.Id.ToString()}`\nBound to: {iweb.Channel.Mention}\nAvatar: {iweb.GetAvatarUrl()}\nModified by: {webupaudit.User.Mention}");
+                                                return;
+                                            }
                                 }
                     }
                     else
@@ -692,7 +746,7 @@ namespace brainKiller.Services
                     }
                 }
         }
-        /*
+
         private async Task OnGuildMemberUpdated(SocketGuildUser arg1, SocketGuildUser arg2)
         {
             var g = arg2.Guild;
@@ -748,7 +802,7 @@ namespace brainKiller.Services
                         }
                     }
         }
-        */
+
 
         private async Task MuteHandler()
         {
