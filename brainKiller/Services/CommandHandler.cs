@@ -818,6 +818,10 @@ namespace brainKiller.Services
                                 $"User `{d1.Target.Username + "#" + d1.Target.Discriminator}` has been kicked by {audit.User.Mention}. Reason: `{audit.Reason ?? "No reason provided"}`");
                             return;
                         }
+                        else
+                        {
+                            return;
+                        }
             }
         }
 
