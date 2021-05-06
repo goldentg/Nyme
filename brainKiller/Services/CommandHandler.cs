@@ -1121,6 +1121,7 @@ namespace brainKiller.Services
             await player.TextChannel.SendMessageAsync("Invite me again sometime");
         }
 
+        /*
         private async Task OnTrackStarted(TrackStartEventArgs arg)
         {
             if (!_disconnectTokens.TryGetValue(arg.Player.VoiceChannel.Id, out var value)) return;
@@ -1130,7 +1131,7 @@ namespace brainKiller.Services
             value.Cancel(true);
             await arg.Player.TextChannel.SendMessageAsync("Auto disconnect has been cancelled!");
         }
-
+        */
         private async Task OnTrackEnded(TrackEndedEventArgs args)
         {
             if (!args.Reason.ShouldPlayNext()) return;
@@ -1158,6 +1159,11 @@ namespace brainKiller.Services
             await args.Player.PlayAsync(track);
             await args.Player.TextChannel.TextMusic("Now Playing:", track.Title,
                 "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+            if (!_disconnectTokens.TryGetValue(player.VoiceChannel.Id, out var value)) return;
+
+            if (value.IsCancellationRequested) return;
+
+            value.Cancel(true);
             //await args.Player.TextChannel.SendMessageAsync(
             //    $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
         }
