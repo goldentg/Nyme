@@ -706,10 +706,21 @@ namespace brainKiller.Services
                 return;
             }
 
-            var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.InviteUpdated)
-                .FlattenAsync();
+            // var invites = await g.GetInvitesAsync();
 
+            //   var auditlogs = await g.GetAuditLogsAsync(1, null, null, null, ActionType.InviteUpdated)
+            //    .FlattenAsync();
 
+            //foreach (var invite in invites)
+            //  {
+
+            //    if (invite.Uses.Value) return;
+
+            //    await _serverHelper.SendLogAsync(g, "Invite Used",
+            //        $"An invite has been used.\nInvite: {invite.Url}\nTotal invite uses: `{invite.Uses.ToString()}`\nInvite created by: {invite.Inviter.Mention}");
+            //    return;
+            // }
+            /*
             foreach (var audit in auditlogs)
                 if (audit.User is IUser && audit.Data is InviteUpdateAuditLogData d1)
 
@@ -731,6 +742,7 @@ namespace brainKiller.Services
                         return;
                     }
                 }
+            */
 
             var newTask = new Task(async () => await HandleUserJoined(arg));
             newTask.Start();
@@ -1070,6 +1082,17 @@ namespace brainKiller.Services
             await _client.SetGameAsync("!help for help");
 
             if (!_lavaNode.IsConnected) await _lavaNode.ConnectAsync();
+
+            // var inv = await before.GetOrDownloadAsync();
+
+            // var inv = _client.Guilds
+            // .SelectMany(x => x.GetInvitesAsync().Result);
+
+            // foreach (var guild in _client.Guilds)
+            //  {
+            //var inv = await guild.GetInvitesAsync();
+            //    var ini = await guild.GetInvitesAsync();
+            //  }
         }
 
 
