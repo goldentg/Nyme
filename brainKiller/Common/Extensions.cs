@@ -63,6 +63,25 @@ namespace brainKiller.Common
             return message;
         }
 
+        public static async Task<IMessage> SendSuccessTextChannelAsync(this ITextChannel channel, string title,
+            string description)
+        {
+            var embed = new EmbedBuilder()
+                .WithColor(new Color(43, 182, 115))
+                .WithDescription(description)
+                .WithAuthor(author =>
+                {
+                    author
+                        .WithIconUrl(
+                            "https://icons-for-free.com/iconfiles/png/512/complete+done+green+success+valid+icon-1320183462969251652.png")
+                        .WithName(title);
+                })
+                .Build();
+
+            var message = await channel.SendMessageAsync(embed: embed);
+            return message;
+        }
+
         public static async Task<IMessage> Music(this ISocketMessageChannel channel, string title, string song,
             string thumb)
         {

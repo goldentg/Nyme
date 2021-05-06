@@ -14,6 +14,7 @@ using Discord.Rest;
 using Discord.WebSocket;
 using Infrastructure;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Victoria;
 using Victoria.EventArgs;
 
@@ -29,6 +30,7 @@ namespace brainKiller.Services
         private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
         private readonly Images _images;
         private readonly LavaNode _lavaNode;
+        private readonly ILogger _logger;
         private readonly IServiceProvider _provider;
         private readonly ServerHelper _serverHelper;
         private readonly Servers _servers;
@@ -36,7 +38,7 @@ namespace brainKiller.Services
 
         public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
             IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode,
-            ServerHelper serverHelper)
+            ServerHelper serverHelper, ILoggerFactory loggerFactory)
         {
             _provider = provider;
             _client = client;
@@ -47,10 +49,10 @@ namespace brainKiller.Services
             _autoRolesHelper = autoRolesHelper;
             _lavaNode = lavaNode;
             _serverHelper = serverHelper;
+            _logger = loggerFactory.CreateLogger<LavaNode>();
             // _disconnectTokens = disconnectTokens;
             _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
         }
-
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
         {
@@ -98,12 +100,17 @@ namespace brainKiller.Services
 
             _lavaNode.OnTrackStarted += OnTrackStarted;
 
+            _lavaNode.OnTrackException += OnTrackException;
+
+            _lavaNode.OnTrackStuck += OnTrackStuck;
+
             _client.Ready += OnReadyAsync;
 
             _client.JoinedGuild += OnJoinedGuild;
 
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
+
 
         private async Task OnInviteDeleted(SocketGuildChannel arg1, string arg2)
         {
@@ -1104,6 +1111,39 @@ namespace brainKiller.Services
             //  }
         }
 
+        private async Task OnTrackStarted(TrackStartEventArgs arg)
+        {
+            if (!_disconnectTokens.TryGetValue(arg.Player.VoiceChannel.Id, out var value)) return;
+
+            if (value.IsCancellationRequested) return;
+
+            value.Cancel(true);
+        }
+
+        private async Task OnTrackEnded(TrackEndedEventArgs args)
+        {
+            if (!args.Reason.ShouldPlayNext()) return;
+
+            var player = args.Player;
+            if (!player.Queue.TryDequeue(out var queueable))
+            {
+                await player.TextChannel.TextMusic("Queue Completed",
+                    "Add more songs to the queue to keep the party going!\nI will auto disconnect from this voice channel in 30 seconds otherwise",
+                    "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                _ = InitiateDisconnectAsync(args.Player, TimeSpan.FromSeconds(30));
+                return;
+            }
+
+            if (!(queueable is LavaTrack track))
+            {
+                await player.TextChannel.SendErrorTextChannelAsync("Error:", "Next item in queue is not a track");
+                return;
+            }
+
+            await args.Player.PlayAsync(track);
+            await args.Player.TextChannel.TextMusic("Now Playing:", track.Title,
+                "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+        }
 
         private async Task InitiateDisconnectAsync(LavaPlayer player, TimeSpan timeSpan)
         {
@@ -1118,57 +1158,36 @@ namespace brainKiller.Services
                 value = _disconnectTokens[player.VoiceChannel.Id];
             }
 
-            // await player.TextChannel.SendMessageAsync($"Auto disconnect initiated! Disconnecting in {timeSpan}...");
+            await player.TextChannel.TextMusic("Keep The Party Going!",
+                $"Queue has been completed. Add more songs\nto the queue to keep the party going.\nI will automatically disconnect from this voice channel otherwise in `{timeSpan.Seconds}` seconds",
+                "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
             var isCancelled = SpinWait.SpinUntil(() => value.IsCancellationRequested, timeSpan);
             if (isCancelled) return;
 
             await _lavaNode.LeaveAsync(player.VoiceChannel);
             await player.TextChannel.TextMusic("Disconnected",
-                "I have automatically disconnected due to inactivity.\nInvite me again sometime!",
+                "I have automatically left the voice channel\nbecause no songs were added to the queue in the specified time",
                 "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
         }
 
-
-        private async Task OnTrackStarted(TrackStartEventArgs arg)
+        private async Task OnTrackException(TrackExceptionEventArgs arg)
         {
-            if (!_disconnectTokens.TryGetValue(arg.Player.VoiceChannel.Id, out var value)) return;
-
-            if (value.IsCancellationRequested) return;
-
-            value.Cancel(true);
-            //await arg.Player.TextChannel.SendMessageAsync("Auto disconnect has been cancelled!");
+            _logger.LogError($"Track {arg.Track.Title} threw an exception. Please check Lavalink console/logs.");
+            arg.Player.Queue.Enqueue(arg.Track);
+            await arg.Player.TextChannel?.SendSuccessTextChannelAsync("Success",
+                $"`{arg.Track.Title}` has been re-added to queue after throwing an exception.");
         }
 
-        private async Task OnTrackEnded(TrackEndedEventArgs args)
+        private async Task OnTrackStuck(TrackStuckEventArgs arg)
         {
-            if (!args.Reason.ShouldPlayNext()) return;
-
-            var player = args.Player;
-            if (!player.Queue.TryDequeue(out var queueable)
-            ) //Check if there are more tracks in the queue or if not disconnect after timespan
-            {
-                await player.TextChannel.TextMusic("Queue Completed",
-                    "Add more songs to the queue to keep the party going!\nI will auto disconnect from this voice channel in 20 seconds otherwise",
-                    "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
-                _ = InitiateDisconnectAsync(args.Player,
-                    TimeSpan.FromSeconds(20)); //Disconnect from voice channel if nothing played after time value
-                return;
-            }
-
-            if (!(queueable is LavaTrack track))
-            {
-                //await player.TextChannel.SendMessageAsync("Next item in queue is not a track.");
-                await player.TextChannel.SendErrorTextChannelAsync("Error",
-                    "The next item in the queue is not a track");
-                return;
-            }
-
-            await args.Player.PlayAsync(track);
-            await args.Player.TextChannel.TextMusic("Now Playing:", track.Title,
+            _logger.LogError(
+                $"Track {arg.Track.Title} got stuck for {arg.Threshold}ms. Please check Lavalink console/logs.");
+            arg.Player.Queue.Enqueue(arg.Track);
+            await arg.Player.TextChannel?.TextMusic("Track Stuck",
+                $"`{arg.Track.Title}` has been re-added to queue after getting stuck.",
                 "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
-            //await args.Player.TextChannel.SendMessageAsync(
-            //    $"{args.Reason}: {args.Track.Title}\nNow playing: {track.Title}");
         }
+
 
         private async Task OnMessageReceived(SocketMessage arg)
         {

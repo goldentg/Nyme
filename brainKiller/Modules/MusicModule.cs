@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using brainKiller.Common;
 using Discord;
@@ -14,18 +16,19 @@ namespace brainKiller.Modules
     {
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
 
-        // private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
+        private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
         private readonly LavaNode _lavaNode;
+
 
         public MusicModule(LavaNode lavaNode)
         {
             _lavaNode = lavaNode;
-            // _disconnectTokens = disconnectTokens;
+            //_disconnectTokens = disconnectTokens;
 
-            //_disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
+            _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
         }
 
-        /*
+
         [Command("Join", RunMode = RunMode.Async)]
         [Summary("Adds the bot to a voice channel")]
         public async Task JoinAsync()
@@ -55,7 +58,7 @@ namespace brainKiller.Modules
                 await Context.Channel.SendErrorAsync("Error", exception.Message);
             }
         }
-        */
+
 
         [Command("disconnect", RunMode = RunMode.Async)]
         [Summary("Disconnects the bot from a voice channel")]
@@ -91,6 +94,26 @@ namespace brainKiller.Modules
         [Summary("Plays music")]
         public async Task PlayAsync([Remainder] string query)
         {
+            var voiceState = Context.User as IVoiceState;
+            if (voiceState?.VoiceChannel == null)
+            {
+                await ReplyAsync("You must be connected to a voice channel!");
+                return;
+            }
+
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
+                try
+                {
+                    await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+                    await Context.Channel.SendSuccessAsync("Success", $"Joined {voiceState.VoiceChannel.Name}");
+                    //await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
+                }
+                catch (Exception exception)
+                {
+                    // await ReplyAsync(exception.Message);
+                    await Context.Channel.SendErrorAsync("Error", exception.Message);
+                }
+
             if (string.IsNullOrWhiteSpace(query)) //Check if nothing was entered
             {
                 await Context.Channel.SendErrorAsync("Error", "Please provide search terms");
@@ -103,20 +126,29 @@ namespace brainKiller.Modules
                 return;
             }
 
+            /*
             var voiceState = Context.User as IVoiceState;
             var player = _lavaNode.GetPlayer(Context.Guild);
 
-            if (!_lavaNode.HasPlayer(Context.Guild) && player.PlayerState != PlayerState.Connected
-            ) //Check if bot is in voice channel and if its not in any voice channel join a new one
-                try
-                {
-                    await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                    await Context.Channel.SendSuccessAsync("Success", $"Joined {voiceState.VoiceChannel.Name}");
-                }
-                catch (Exception exception)
-                {
-                    await Context.Channel.SendErrorAsync("Error", exception.Message);
-                }
+            if (voiceState?.VoiceChannel == null) //Check if executed user is in a voice channel
+            {
+                await Context.Channel.SendErrorAsync("Error", "You must be connected to a voice channel");
+                return;
+            }
+
+            if (!_lavaNode.HasPlayer(Context.Guild)
+                ) //Check if bot is in voice channel and if its not in any voice channel join a new one
+                //  try
+            {
+                await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+                await Context.Channel.SendSuccessAsync("Success", $"Joined {voiceState.VoiceChannel.Name}");
+                // }
+                //  catch (Exception exception)
+                // {
+                //    await Context.Channel.SendErrorAsync("Error", exception.Message);
+            }
+            */
+            var players = _lavaNode.GetPlayer(Context.Guild);
 
             var searchResponse = await _lavaNode.SearchYouTubeAsync(query);
             if (searchResponse.LoadStatus == LoadStatus.LoadFailed ||
@@ -127,12 +159,12 @@ namespace brainKiller.Modules
                 return;
             }
 
-            if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused)
+            if (players.PlayerState == PlayerState.Playing || players.PlayerState == PlayerState.Paused)
             {
                 var track = searchResponse.Tracks[0];
                 var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
 
-                player.Queue.Enqueue(track);
+                players.Queue.Enqueue(track);
                 await Context.Channel.Music("Enqued:", track.Title, thumbnail);
             }
             else
@@ -140,7 +172,7 @@ namespace brainKiller.Modules
                 var track = searchResponse.Tracks[0];
                 var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
 
-                await player.PlayAsync(track);
+                await players.PlayAsync(track);
                 await Context.Channel.Music("Playing:", track.Title, thumbnail);
             }
         }
