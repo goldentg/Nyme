@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using brainKiller.Common;
 using Discord;
@@ -15,15 +13,16 @@ namespace brainKiller.Modules
     public class MusicModule : ModuleBase<SocketCommandContext>
     {
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
-        private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
+
+        // private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
         private readonly LavaNode _lavaNode;
 
-        public MusicModule(LavaNode lavaNode, ConcurrentDictionary<ulong, CancellationTokenSource> disconnectTokens)
+        public MusicModule(LavaNode lavaNode)
         {
             _lavaNode = lavaNode;
             // _disconnectTokens = disconnectTokens;
 
-            _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
+            //_disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
         }
 
         /*
