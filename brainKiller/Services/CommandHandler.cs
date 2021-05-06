@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -25,6 +26,7 @@ namespace brainKiller.Services
         private readonly AutoRolesHelper _autoRolesHelper;
         private readonly DiscordSocketClient _client;
         private readonly IConfiguration _config;
+        private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
         private readonly Images _images;
         private readonly LavaNode _lavaNode;
         private readonly IServiceProvider _provider;
@@ -45,6 +47,8 @@ namespace brainKiller.Services
             _autoRolesHelper = autoRolesHelper;
             _lavaNode = lavaNode;
             _serverHelper = serverHelper;
+            // _disconnectTokens = disconnectTokens;
+            _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
         }
 
 
@@ -1096,18 +1100,50 @@ namespace brainKiller.Services
         }
 
 
+        private async Task InitiateDisconnectAsync(LavaPlayer player, TimeSpan timeSpan)
+        {
+            if (!_disconnectTokens.TryGetValue(player.VoiceChannel.Id, out var value))
+            {
+                value = new CancellationTokenSource();
+                _disconnectTokens.TryAdd(player.VoiceChannel.Id, value);
+            }
+            else if (value.IsCancellationRequested)
+            {
+                _disconnectTokens.TryUpdate(player.VoiceChannel.Id, new CancellationTokenSource(), value);
+                value = _disconnectTokens[player.VoiceChannel.Id];
+            }
+
+            await player.TextChannel.SendMessageAsync($"Auto disconnect initiated! Disconnecting in {timeSpan}...");
+            var isCancelled = SpinWait.SpinUntil(() => value.IsCancellationRequested, timeSpan);
+            if (isCancelled) return;
+
+            await _lavaNode.LeaveAsync(player.VoiceChannel);
+            await player.TextChannel.SendMessageAsync("Invite me again sometime");
+        }
+
+        private async Task OnTrackStarted(TrackStartEventArgs arg)
+        {
+            if (!_disconnectTokens.TryGetValue(arg.Player.VoiceChannel.Id, out var value)) return;
+
+            if (value.IsCancellationRequested) return;
+
+            value.Cancel(true);
+            await arg.Player.TextChannel.SendMessageAsync("Auto disconnect has been cancelled!");
+        }
+
         private async Task OnTrackEnded(TrackEndedEventArgs args)
         {
             if (!args.Reason.ShouldPlayNext()) return;
 
             var player = args.Player;
-            if (!player.Queue.TryDequeue(out var queueable))
+            if (!player.Queue.TryDequeue(out var queueable)
+            ) //Check if there are more tracks in the queue or if not disconnect after timespan
             {
-                // await player.TextChannel.SendMessageAsync("Queue completed! Please add more tracks to rock n' roll!");
                 await player.TextChannel.TextMusic("Queue Completed",
-                    "Add more songs to the queue to keep the party going!",
+                    "Add more songs to the queue to keep the party going!\nI will auto disconnect from this voice channel in 20 seconds otherwise",
                     "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
-
+                _ = InitiateDisconnectAsync(args.Player,
+                    TimeSpan.FromSeconds(20)); //Disconnect from voice channel if nothing played after time value
                 return;
             }
 

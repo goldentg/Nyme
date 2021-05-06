@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using brainKiller.Common;
 using Discord;
@@ -13,11 +15,15 @@ namespace brainKiller.Modules
     public class MusicModule : ModuleBase<SocketCommandContext>
     {
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
+        private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
         private readonly LavaNode _lavaNode;
 
-        public MusicModule(LavaNode lavaNode)
+        public MusicModule(LavaNode lavaNode, ConcurrentDictionary<ulong, CancellationTokenSource> disconnectTokens)
         {
             _lavaNode = lavaNode;
+            // _disconnectTokens = disconnectTokens;
+
+            _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
         }
 
         /*
@@ -99,11 +105,10 @@ namespace brainKiller.Modules
             }
 
             var voiceState = Context.User as IVoiceState;
+            var player = _lavaNode.GetPlayer(Context.Guild);
 
-            if (!_lavaNode.HasPlayer(Context.Guild)) //Check if bot is in a voice channel //dev version; try to join vc
-                //await Context.Channel.SendErrorAsync("Error",
-                //  "I'm not connected to a voice channel\nrun the `join` command to add me to a voice channel\nbefore running this");
-                // return;
+            if (!_lavaNode.HasPlayer(Context.Guild) && player.PlayerState != PlayerState.Connected
+            ) //Check if bot is in voice channel and if its not in any voice channel join a new one
                 try
                 {
                     await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
@@ -123,8 +128,6 @@ namespace brainKiller.Modules
                 return;
             }
 
-            var player = _lavaNode.GetPlayer(Context.Guild);
-
             if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused)
             {
                 var track = searchResponse.Tracks[0];
@@ -140,7 +143,6 @@ namespace brainKiller.Modules
 
                 await player.PlayAsync(track);
                 await Context.Channel.Music("Playing:", track.Title, thumbnail);
-                // await ReplyAsync($"Now Playing: {track.Title}");
             }
         }
 
@@ -200,7 +202,7 @@ namespace brainKiller.Modules
 
             var player = _lavaNode.GetPlayer(Context.Guild);
             if (voiceState.VoiceChannel != player.VoiceChannel
-            ) //Check if user tha executed is in same voice channel as bot
+            ) //Check if user the executed is in same voice channel as bot
             {
                 await Context.Channel.SendErrorAsync("Error", "You must be in the same channel as me");
                 return;
