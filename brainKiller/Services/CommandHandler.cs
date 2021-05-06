@@ -50,7 +50,6 @@ namespace brainKiller.Services
             _lavaNode = lavaNode;
             _serverHelper = serverHelper;
             _logger = loggerFactory.CreateLogger<LavaNode>();
-            // _disconnectTokens = disconnectTokens;
             _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
         }
 
@@ -80,7 +79,7 @@ namespace brainKiller.Services
 
             _client.ChannelUpdated += OnChannelUpdated;
 
-            _client.MessageUpdated += OnMessageUpdate;
+            // _client.MessageUpdated += OnMessageUpdate;
 
             _client.GuildUpdated += OnGuildUpdate;
 
@@ -90,9 +89,6 @@ namespace brainKiller.Services
 
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
-
-            // var anotherNewTask = new Task(async () => await InitiateDisconnectAsync());
-            // anotherNewTask.Start();
 
             _service.CommandExecuted += OnCommandExecuted;
 
@@ -431,6 +427,7 @@ namespace brainKiller.Services
             }
         }
 
+        /*
         private async Task OnMessageUpdate(Cacheable<IMessage, ulong> arg1, SocketMessage arg2,
             ISocketMessageChannel arg3)
         {
@@ -474,7 +471,7 @@ namespace brainKiller.Services
                     }
             }
         }
-
+        */
         private async Task OnChannelCreated(SocketChannel arg)
         {
             if (arg is SocketGuildChannel guildChannel)
@@ -1127,9 +1124,6 @@ namespace brainKiller.Services
             var player = args.Player;
             if (!player.Queue.TryDequeue(out var queueable))
             {
-                await player.TextChannel.TextMusic("Queue Completed",
-                    "Add more songs to the queue to keep the party going!\nI will auto disconnect from this voice channel in 30 seconds otherwise",
-                    "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
                 _ = InitiateDisconnectAsync(args.Player, TimeSpan.FromSeconds(30));
                 return;
             }

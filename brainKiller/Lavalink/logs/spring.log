@@ -124,3 +124,38 @@
 2021-05-06 15:26:53.220  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","op":"destroy"}
 2021-05-06 15:35:41.856  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:30705 -- CloseStatus[code=1006, reason=]
 2021-05-06 15:35:41.857  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 16:08:55.051  INFO 22852 --- [XNIO-1 task-25] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:35654
+2021-05-06 16:08:55.491  INFO 22852 --- [XNIO-1 task-25] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:35654
+2021-05-06 16:09:08.870  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"63ef4573be7e8f5af489badf0236165c","event":{"token":"92f4749d1d80ceb6","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 16:09:11.353  INFO 22852 --- [XNIO-1 task-26] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:the gnome pink floyd"
+2021-05-06 16:09:12.465  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: the gnome pink floyd
+2021-05-06 16:09:16.443  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbQIACVRoZSBHbm9tZQAKUGluayBGbG95ZAAAAAAAAgtwAAtXazdmZXphcnVUawABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PVdrN2ZlemFydVRrAAd5b3V0dWJlAAAAAAAAAAA=","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 16:09:53.689  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"volume":10,"guildId":"808888603223916585","op":"volume"}
+2021-05-06 16:09:53.933  INFO 22852 --- [lava-daemon-pool-playback-1-thread-1] c.s.l.c.natives.NativeLibraryLoader      : Native library libmpg123-0: loading with filter com.sedmelluq.discord.lavaplayer.natives.ConnectorNativeLibLoader$$Lambda$570/0x0000000801221c98@3ccf8f93
+2021-05-06 16:09:54.848  INFO 22852 --- [lava-daemon-pool-playback-1-thread-1] c.s.l.c.natives.NativeLibraryLoader      : Native library libmpg123-0: successfully loaded.
+2021-05-06 16:09:54.849  INFO 22852 --- [lava-daemon-pool-playback-1-thread-1] c.s.l.c.natives.NativeLibraryLoader      : Native library connector: loading with filter null
+2021-05-06 16:09:55.378  INFO 22852 --- [lava-daemon-pool-playback-1-thread-1] c.s.l.c.natives.NativeLibraryLoader      : Native library connector: successfully loaded.
+2021-05-06 16:10:00.903  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"volume":100,"guildId":"808888603223916585","op":"volume"}
+2021-05-06 16:10:35.422  WARN 22852 --- [lava-daemon-pool-manager-3-thread-1] c.s.d.l.tools.GarbageCollectionMonitor   : Suspicious GC results for the last 2 minutes: [Bucket 0 = 0] [Bucket 20 = 0] [Bucket 50 = 3] [Bucket 200 = 0] [Bucket 500 = 1] [Bucket 2000 = 0] 
+2021-05-06 16:11:36.406  INFO 22852 --- [XNIO-1 task-28] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:money pink floyd"
+2021-05-06 16:11:36.905  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: money pink floyd
+2021-05-06 16:11:36.979  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAhgIAJk1vbmV5IC0gUGluayBGbG95ZCBIRCAoU3R1ZGlvIFZlcnNpb24pAAZBcnR1cm8AAAAAAAX/KAALY3BiYnVhSUEzRHMAAQAraHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1jcGJidWFJQTNEcwAHeW91dHViZQAAAAAAAAAA","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 16:15:08.354  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:35654 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:15:08.354  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 1 playing players.
+2021-05-06 16:15:23.291  INFO 22852 --- [XNIO-1 task-30] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:36400
+2021-05-06 16:15:23.371  INFO 22852 --- [XNIO-1 task-30] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:36400
+2021-05-06 16:15:47.014  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:36400 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:15:47.015  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 16:15:57.470  INFO 22852 --- [XNIO-1 task-31] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:36467
+2021-05-06 16:15:57.473  INFO 22852 --- [XNIO-1 task-31] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:36467
+2021-05-06 16:16:07.411  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"b8a342fb12117d2bee62bf4e7074d04f","event":{"token":"813072ad69591a02","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 16:16:07.418  INFO 22852 --- [XNIO-1 task-32] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:mother pink floyd"
+2021-05-06 16:16:08.182  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: mother pink floyd
+2021-05-06 16:16:08.236  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAgwIAICg2KVRIRSBXQUxMOiBQaW5rIEZsb3lkIC0gTW90aGVyAAlLTVJha2FLQVQAAAAAAAUUyAALbFgzdUN1RktscXcAAQAraHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1sWDN1Q3VGS2xxdwAHeW91dHViZQAAAAAAAAAA","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 16:16:49.405  INFO 22852 --- [XNIO-1 task-34] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:the gnome pink floyd"
+2021-05-06 16:16:49.833  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: the gnome pink floyd
+2021-05-06 16:21:42.056  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbQIACVRoZSBHbm9tZQAKUGluayBGbG95ZAAAAAAAAgtwAAtXazdmZXphcnVUawABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PVdrN2ZlemFydVRrAAd5b3V0dWJlAAAAAAAAAAA=","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 16:24:27.563  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","op":"stop"}
+2021-05-06 16:24:27.564  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","op":"destroy"}
+2021-05-06 16:24:52.333  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:36467 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:24:52.363  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
