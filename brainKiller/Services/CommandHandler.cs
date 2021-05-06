@@ -36,7 +36,7 @@ namespace brainKiller.Services
 
         public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service,
             IConfiguration config, Servers servers, Images images, AutoRolesHelper autoRolesHelper, LavaNode lavaNode,
-            ServerHelper serverHelper)
+            ServerHelper serverHelper, ConcurrentDictionary<ulong, CancellationTokenSource> disconnectTokens)
         {
             _provider = provider;
             _client = client;
@@ -47,7 +47,7 @@ namespace brainKiller.Services
             _autoRolesHelper = autoRolesHelper;
             _lavaNode = lavaNode;
             _serverHelper = serverHelper;
-            // _disconnectTokens = disconnectTokens;
+            _disconnectTokens = disconnectTokens;
             _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
         }
 
@@ -88,6 +88,9 @@ namespace brainKiller.Services
 
             var newTask = new Task(async () => await MuteHandler());
             newTask.Start();
+
+            // var anotherNewTask = new Task(async () => await InitiateDisconnectAsync());
+            // anotherNewTask.Start();
 
             _service.CommandExecuted += OnCommandExecuted;
 
