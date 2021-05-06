@@ -159,3 +159,129 @@
 2021-05-06 16:24:27.564  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","op":"destroy"}
 2021-05-06 16:24:52.333  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:36467 -- CloseStatus[code=1006, reason=]
 2021-05-06 16:24:52.363  INFO 22852 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 16:26:31.130  INFO 22852 --- [XNIO-1 task-36] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:37660
+2021-05-06 16:26:31.152  INFO 22852 --- [XNIO-1 task-36] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:37660
+2021-05-06 16:38:06.770  INFO 22852 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:37660 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:38:06.782  INFO 22852 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 16:38:26.877  INFO 22852 --- [XNIO-1 task-37] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:39032
+2021-05-06 16:38:26.912  INFO 22852 --- [XNIO-1 task-37] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:39032
+2021-05-06 16:38:52.060  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"12b07d89559362c551f02f20cae31e6e","event":{"token":"5853fba212e28a95","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 16:38:52.251  INFO 22852 --- [XNIO-1 task-38] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "pink floyd playlist"
+2021-05-06 16:38:53.131  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : No matches found
+2021-05-06 16:39:57.143  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:39032 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:39:57.144  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 16:40:13.233  INFO 22852 --- [XNIO-1 task-40] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:39233
+2021-05-06 16:40:13.360  INFO 22852 --- [XNIO-1 task-40] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:39233
+2021-05-06 16:42:07.033  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:39233 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:42:07.033  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 16:42:23.053  INFO 22852 --- [XNIO-1 task-41] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:39481
+2021-05-06 16:42:23.118  INFO 22852 --- [XNIO-1 task-41] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:39481
+2021-05-06 16:42:45.242  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"dd517b988aaab572ddaea7ca47245cc0","event":{"token":"bb3a36f65b84c652","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 16:42:45.416  INFO 22852 --- [XNIO-1 task-42] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:comfortably numb pink floyd"
+2021-05-06 16:42:46.387  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: comfortably numb pink floyd
+2021-05-06 16:42:46.452  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAgQIAHVBpbmsgRmxveWQgLSBDb21mb3J0YWJseSBudW1iAApIRUxMT1NFTVBBAAAAAAAGVRgAC19Gck9RQy16RW9nAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9X0ZyT1FDLXpFb2cAB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 16:48:09.877  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:39481 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:48:09.878  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 1 playing players.
+2021-05-06 16:49:14.867  INFO 22852 --- [XNIO-1 task-44] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:40310
+2021-05-06 16:49:14.898  INFO 22852 --- [XNIO-1 task-44] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:40310
+2021-05-06 16:49:31.625  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"df83808012f1a288dd7d7311fac4bf8a","event":{"token":"567f52ef3911b90f","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 16:49:31.882  INFO 22852 --- [XNIO-1 task-45] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "pink"
+2021-05-06 16:49:31.883  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : No matches found
+2021-05-06 16:53:08.599  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:40310 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:53:08.600  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 16:53:31.981  INFO 22852 --- [XNIO-1 task-47] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:40790
+2021-05-06 16:53:31.986  INFO 22852 --- [XNIO-1 task-47] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:40790
+2021-05-06 16:53:42.836  INFO 22852 --- [XNIO-1 task-48] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "pink"
+2021-05-06 16:53:42.857  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : No matches found
+2021-05-06 16:53:43.165  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"72081e926584a3897b440cba902c7675","event":{"token":"94bc538badeba654","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 16:55:06.162  INFO 22852 --- [XNIO-1 task-50] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "https://www.youtube.com/watch?v=Wk7fezaruTk"
+2021-05-06 16:55:07.679  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded track The Gnome
+2021-05-06 16:55:07.759  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAdQIACVRoZSBHbm9tZQASUGluayBGbG95ZCAtIFRvcGljAAAAAAACC3AAC1drN2ZlemFydVRrAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9V2s3ZmV6YXJ1VGsAB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 16:56:38.500  INFO 22852 --- [XNIO-1 task-52] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "https://www.youtube.com/playlist?list=PL3PhWT10BW3Urh8ZXXpuU9h526ChwgWKy"
+2021-05-06 16:56:40.503  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Pink Floyd - The Dark Side of the Moon (Full Album HQ)
+2021-05-06 16:57:23.094  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbwIAC1NwZWFrIFRvIE1lAApQaW5rIEZsb3lkAAAAAAABCaAAC0hXLWxYak95VVdvAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9SFctbFhqT3lVV28AB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 16:58:31.152  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAeAIAFEJyZWF0aGUgKEluIFRoZSBBaXIpAApQaW5rIEZsb3lkAAAAAAACmBAAC1ZkZGw5VEs1UnFVAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9VmRkbDlUSzVScVUAB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 16:59:48.237  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:40790 -- CloseStatus[code=1006, reason=]
+2021-05-06 16:59:48.239  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 1 playing players.
+2021-05-06 17:12:07.546  INFO 22852 --- [XNIO-1 task-54] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:42887
+2021-05-06 17:12:07.556  INFO 22852 --- [XNIO-1 task-54] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:42887
+2021-05-06 17:12:23.443  INFO 22852 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"0f88e401b8ced53c553d38202bd22dab","event":{"token":"dcbe1db96bc9f7ce","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 17:12:23.511  INFO 22852 --- [XNIO-1 task-55] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:the gnome pink floyd"
+2021-05-06 17:12:25.133  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: the gnome pink floyd
+2021-05-06 17:12:25.186  INFO 22852 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbQIACVRoZSBHbm9tZQAKUGluayBGbG95ZAAAAAAAAgtwAAtXazdmZXphcnVUawABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PVdrN2ZlemFydVRrAAd5b3V0dWJlAAAAAAAAAAA=","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:12:41.069  INFO 22852 --- [XNIO-1 task-57] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "https://www.youtube.com/playlist?list=PL3PhWT10BW3Urh8ZXXpuU9h526ChwgWKy"
+2021-05-06 17:12:41.390  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Pink Floyd - The Dark Side of the Moon (Full Album HQ)
+2021-05-06 17:12:41.620  INFO 22852 --- [XNIO-1 task-59] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:https://www.youtube.com/playlist?list=PL3PhWT10BW3Urh8ZXXpuU9h526ChwgWKy"
+2021-05-06 17:12:42.086  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : No matches found
+2021-05-06 17:14:40.478  INFO 22852 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbwIAC1NwZWFrIFRvIE1lAApQaW5rIEZsb3lkAAAAAAABCaAAC0hXLWxYak95VVdvAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9SFctbFhqT3lVV28AB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:15:48.322  INFO 22852 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAeAIAFEJyZWF0aGUgKEluIFRoZSBBaXIpAApQaW5rIEZsb3lkAAAAAAACmBAAC1ZkZGw5VEs1UnFVAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9VmRkbDlUSzVScVUAB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:16:41.263  INFO 22852 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","op":"stop"}
+2021-05-06 17:16:41.264  INFO 22852 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","op":"destroy"}
+2021-05-06 17:16:44.389  INFO 22852 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:42887 -- CloseStatus[code=1006, reason=]
+2021-05-06 17:16:44.389  INFO 22852 --- [XNIO-1 I/O-3] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 17:17:01.448  INFO 22852 --- [XNIO-1 task-61] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:43445
+2021-05-06 17:17:01.530  INFO 22852 --- [XNIO-1 task-61] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:43445
+2021-05-06 17:17:07.886  INFO 22852 --- [XNIO-1 I/O-1] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"b89061c22b71076ab7806785aa460d1c","event":{"token":"379b578272f79c4e","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 17:17:08.025  INFO 22852 --- [XNIO-1 task-62] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "https://www.youtube.com/playlist?list=PL3PhWT10BW3Urh8ZXXpuU9h526ChwgWKy"
+2021-05-06 17:17:08.180  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Pink Floyd - The Dark Side of the Moon (Full Album HQ)
+2021-05-06 17:17:59.753  INFO 22852 --- [XNIO-1 I/O-1] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:43445 -- CloseStatus[code=1006, reason=]
+2021-05-06 17:17:59.754  INFO 22852 --- [XNIO-1 I/O-1] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 17:18:16.314  INFO 22852 --- [XNIO-1 task-64] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:43582
+2021-05-06 17:18:16.319  INFO 22852 --- [XNIO-1 task-64] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:43582
+2021-05-06 17:18:25.540  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"5a4493d74ee06de5b5b77ae4a3545a42","event":{"token":"379b578272f79c4e","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 17:18:25.709  INFO 22852 --- [XNIO-1 task-1] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "https://www.youtube.com/playlist?list=PL3PhWT10BW3Urh8ZXXpuU9h526ChwgWKy"
+2021-05-06 17:18:25.899  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Pink Floyd - The Dark Side of the Moon (Full Album HQ)
+2021-05-06 17:20:01.719  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:43582 -- CloseStatus[code=1006, reason=]
+2021-05-06 17:20:01.720  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2021-05-06 17:21:33.285  INFO 22852 --- [XNIO-1 task-3] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:43942
+2021-05-06 17:21:33.336  INFO 22852 --- [XNIO-1 task-3] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:43942
+2021-05-06 17:21:48.475  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"9abaff8a088457001fe1a3960d0a729c","event":{"token":"33e0da299647205e","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 17:21:48.546  INFO 22852 --- [XNIO-1 task-4] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "https://www.youtube.com/playlist?list=PL3PhWT10BW3Urh8ZXXpuU9h526ChwgWKy"
+2021-05-06 17:21:48.703  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Pink Floyd - The Dark Side of the Moon (Full Album HQ)
+2021-05-06 17:21:48.821  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbwIAC1NwZWFrIFRvIE1lAApQaW5rIEZsb3lkAAAAAAABCaAAC0hXLWxYak95VVdvAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9SFctbFhqT3lVV28AB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:22:56.591  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAeAIAFEJyZWF0aGUgKEluIFRoZSBBaXIpAApQaW5rIEZsb3lkAAAAAAACmBAAC1ZkZGw5VEs1UnFVAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9VmRkbDlUSzVScVUAB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:25:47.384  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbgIACk9uIFRoZSBSdW4AClBpbmsgRmxveWQAAAAAAANy0AALMnNVeWs1elNiaE0AAQAraHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj0yc1V5azV6U2JoTQAHeW91dHViZQAAAAAAAAAA","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:29:33.384  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAaAIABFRpbWUAClBpbmsgRmxveWQAAAAAAAZRMAALcGdYb3pJbWEtT2MAAQAraHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1wZ1hvekltYS1PYwAHeW91dHViZQAAAAAAAAAA","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:36:27.665  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAfAIAGFRoZSBHcmVhdCBHaWcgSW4gVGhlIFNreQAKUGluayBGbG95ZAAAAAAABFlIAAttUEd2OEwzYV9zWQABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PW1QR3Y4TDNhX3NZAAd5b3V0dWJlAAAAAAAAAAA=","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:41:13.226  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAaQIABU1vbmV5AApQaW5rIEZsb3lkAAAAAAAF3AAAC3J3UE0wMWNiUUJjAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9cndQTTAxY2JRQmMAB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:46:50.977  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:43942 -- CloseStatus[code=1006, reason=]
+2021-05-06 17:46:50.977  INFO 22852 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 1 playing players.
+2021-05-06 17:47:11.829  INFO 22852 --- [XNIO-1 task-6] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:46784
+2021-05-06 17:47:11.838  INFO 22852 --- [XNIO-1 task-6] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:46784
+2021-05-06 17:47:17.825  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","sessionId":"0134642266a51b3f27a809778f1fae59","event":{"token":"33e0da299647205e","endpoint":"us-central4528.discord.media:443"},"op":"voiceUpdate"}
+2021-05-06 17:47:23.451  INFO 22852 --- [XNIO-1 task-7] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "https://www.youtube.com/playlist?list=PL3PhWT10BW3Urh8ZXXpuU9h526ChwgWKy"
+2021-05-06 17:47:23.780  INFO 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Pink Floyd - The Dark Side of the Moon (Full Album HQ)
+2021-05-06 17:47:23.927  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbwIAC1NwZWFrIFRvIE1lAApQaW5rIEZsb3lkAAAAAAABCaAAC0hXLWxYak95VVdvAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9SFctbFhqT3lVV28AB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:48:32.625  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAawIAB0VjbGlwc2UAClBpbmsgRmxveWQAAAAAAAIHiAALOXdqWnJzd3JpejAAAQAraHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj05d2pacnN3cml6MAAHeW91dHViZQAAAAAAAAAA","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:48:35.373  WARN 22852 --- [lava-daemon-pool-manager-3-thread-1] c.s.d.l.tools.GarbageCollectionMonitor   : Suspicious GC results for the last 2 minutes: [Bucket 0 = 3] [Bucket 20 = 2] [Bucket 50 = 0] [Bucket 200 = 1] [Bucket 500 = 0] [Bucket 2000 = 0] 
+2021-05-06 17:50:46.023  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAeAIAFEJyZWF0aGUgKEluIFRoZSBBaXIpAApQaW5rIEZsb3lkAAAAAAACmBAAC1ZkZGw5VEs1UnFVAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9VmRkbDlUSzVScVUAB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:53:36.506  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"endTime":0,"track":"QAAAbwIAC1VzIEFuZCBUaGVtAApQaW5rIEZsb3lkAAAAAAAHK/AAC0dLaUxFZ0F6RkRRAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9R0tpTEVnQXpGRFEAB3lvdXR1YmUAAAAAAAAAAA==","noReplace":false,"startTime":0,"guildId":"808888603223916585","op":"play"}
+2021-05-06 17:56:46.281  INFO 22852 --- [XNIO-1 task-9] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "https://www.youtube.com/playlist?list=PLO-vO0o1_qUdnKuTVXqjyuFfKGQeqVw3i"
+2021-05-06 17:56:46.677 ERROR 22852 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Load failed
+
+com.sedmelluq.discord.lavaplayer.tools.FriendlyException: null
+	at com.sedmelluq.discord.lavaplayer.source.youtube.DefaultYoutubePlaylistLoader.buildPlaylist(DefaultYoutubePlaylistLoader.java:61) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.source.youtube.DefaultYoutubePlaylistLoader.load(DefaultYoutubePlaylistLoader.java:47) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager$LoadingRoutes.playlist(YoutubeAudioSourceManager.java:232) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager$LoadingRoutes.playlist(YoutubeAudioSourceManager.java:220) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.source.youtube.DefaultYoutubeLinkRouter.routeFromMainDomain(DefaultYoutubeLinkRouter.java:67) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.source.youtube.DefaultYoutubeLinkRouter.route(DefaultYoutubeLinkRouter.java:39) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.loadItemOnce(YoutubeAudioSourceManager.java:188) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.loadItem(YoutubeAudioSourceManager.java:127) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager.checkSourcesForItemOnce(DefaultAudioPlayerManager.java:437) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager.checkSourcesForItem(DefaultAudioPlayerManager.java:419) ~[lavaplayer-1.3.65.jar!/:na]
+	at com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager.lambda$createItemLoader$0(DefaultAudioPlayerManager.java:218) ~[lavaplayer-1.3.65.jar!/:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:832) ~[na:na]
+	Suppressed: com.sedmelluq.discord.lavaplayer.tools.exception.EnvironmentInformation: 
+  lavaplayer.version: 1.3.65
+  os.arch: amd64
+  os.name: Windows 10
+  os.version: 10.0
+  java.vendor: Oracle Corporation
+  java.version: 15.0.2
+  java.runtime.version: 15.0.2+7-27
+  java.vm.version: 15.0.2+7-27
+

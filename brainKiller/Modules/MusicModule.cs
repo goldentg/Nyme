@@ -24,12 +24,11 @@ namespace brainKiller.Modules
         public MusicModule(LavaNode lavaNode)
         {
             _lavaNode = lavaNode;
-            //_disconnectTokens = disconnectTokens;
 
             _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
         }
 
-        /*
+        /* old join (just youtube)
         [Command("Join", RunMode = RunMode.Async)]
         [Summary("Adds the bot to a voice channel")]
         public async Task JoinAsync()
@@ -82,14 +81,13 @@ namespace brainKiller.Modules
             {
                 await _lavaNode.LeaveAsync(voiceState.VoiceChannel);
                 await Context.Channel.SendSuccessAsync("Success", $"Disconnected from {voiceState.VoiceChannel.Name}");
-                //await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
             }
             catch (Exception exception)
             {
-                // await ReplyAsync(exception.Message);
                 await Context.Channel.SendErrorAsync("Error", exception.Message);
             }
         }
+
 
         [Command("Play", RunMode = RunMode.Async)]
         [Summary("Plays music")]
@@ -107,7 +105,6 @@ namespace brainKiller.Modules
                 {
                     await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
                     await Context.Channel.SendSuccessAsync("Success", $"Joined {voiceState.VoiceChannel.Name}");
-                    //await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
                 }
                 catch (Exception exception)
                 {
@@ -120,44 +117,154 @@ namespace brainKiller.Modules
                 return;
             }
 
-            if (query.StartsWith("https://")) //Check if user entered link
-            {
-                await Context.Channel.SendErrorAsync("Error", "Nyme does not currently support links at this moment");
-                return;
-            }
-
             var players = _lavaNode.GetPlayer(Context.Guild);
 
-            var searchResponse = await _lavaNode.SearchYouTubeAsync(query);
-            if (searchResponse.LoadStatus == LoadStatus.LoadFailed ||
-                searchResponse.LoadStatus == LoadStatus.NoMatches)
+            if (query.StartsWith("https://")) //Check if user entered link
             {
-                await Context.Channel.SendErrorAsync("Error", $"I could not find anything for {query}");
-                //await ReplyAsync($"I wasn't able to find anything for `{query}`.");
+                var queries = query.Split(' ');
+                foreach (var songQuery in queries)
+                {
+                    var searchResponse1 = await _lavaNode.SearchAsync(songQuery);
+                    if (searchResponse1.LoadStatus == LoadStatus.LoadFailed ||
+                        searchResponse1.LoadStatus == LoadStatus.NoMatches)
+                    {
+                        await Context.Channel.SendErrorAsync("Error", $"I could not find anything for `{songQuery}`");
+                        return;
+                    }
+
+
+                    if (players.PlayerState == PlayerState.Playing || players.PlayerState == PlayerState.Paused)
+                    {
+                        if (!string.IsNullOrWhiteSpace(searchResponse1.Playlist.Name))
+                        {
+                            foreach (var track in searchResponse1.Tracks) players.Queue.Enqueue(track);
+
+                            var track1 = searchResponse1.Tracks[0];
+                            var thumbnail = await track1.FetchArtworkAsync(); //get album cover for current song
+                            await Context.Channel.Music("Enqued:",
+                                $"Enqueued `{searchResponse1.Tracks.Count}` songs from the `{searchResponse1.Playlist.Name}` playlist",
+                                thumbnail ??
+                                "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                        }
+                        else
+                        {
+                            var track = searchResponse1.Tracks[0];
+                            var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
+                            players.Queue.Enqueue(track);
+                            await ReplyAsync($"Enqueued: {track.Title}");
+                            await Context.Channel.Music("Enqued:", $"Enqueued `{track.Title}`",
+                                thumbnail ??
+                                "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                        }
+                    }
+                    else
+                    {
+                        var track = searchResponse1.Tracks[0];
+                        var thumb = await track.FetchArtworkAsync(); //get album cover for current song
+
+                        if (!string.IsNullOrWhiteSpace(searchResponse1.Playlist.Name))
+                        {
+                            for (var i = 0; i < searchResponse1.Tracks.Count; i++)
+                                if (i == 0)
+                                {
+                                    await players.PlayAsync(track);
+                                    await Context.Channel.Music("Now Playing:", $"Now playing `{track.Title}`", thumb);
+                                }
+                                else
+                                {
+                                    players.Queue.Enqueue(searchResponse1.Tracks[i]);
+                                }
+
+                            var track1 = searchResponse1.Tracks[0];
+                            var thumbnail = await track1.FetchArtworkAsync(); //get album cover for current song
+                            await Context.Channel.Music("Enqued:",
+                                $"Enqueued `{searchResponse1.Tracks.Count}` songs from the `{searchResponse1.Playlist.Name}` playlist",
+                                thumbnail ??
+                                "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                        }
+                        else
+                        {
+                            var track1 = searchResponse1.Tracks[0];
+                            var thumbnail = await track1.FetchArtworkAsync(); //get album cover for current song
+                            await players.PlayAsync(track);
+                            await Context.Channel.Music("Now Playing:", $"Now playing `{track.Title}`", thumbnail);
+                        }
+                    }
+                }
+            }
+            else //if query is not a url search youtube
+            {
+                var searchResponse = await _lavaNode.SearchYouTubeAsync(query);
+                if (searchResponse.LoadStatus == LoadStatus.LoadFailed ||
+                    searchResponse.LoadStatus == LoadStatus.NoMatches)
+                {
+                    await Context.Channel.SendErrorAsync("Error", $"I could not find anything for `{query}`");
+                    //await ReplyAsync($"I wasn't able to find anything for `{query}`.");
+                    return;
+                }
+
+
+                if (players.PlayerState == PlayerState.Playing || players.PlayerState == PlayerState.Paused)
+                {
+                    var track = searchResponse.Tracks[0];
+                    var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
+
+                    players.Queue.Enqueue(track);
+                    await Context.Channel.Music("Enqued:", track.Title,
+                        thumbnail ??
+                        "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                }
+                else
+                {
+                    var track = searchResponse.Tracks[0];
+                    var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
+
+                    await players.PlayAsync(track);
+                    await Context.Channel.Music("Playing:", track.Title,
+                        thumbnail ??
+                        "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                }
+            }
+        }
+
+        [Command("shuffle", RunMode = RunMode.Async)]
+        [Summary("Shuffles the songs in your queue")]
+        public async Task Shuffle()
+        {
+            var voiceState = Context.User as IVoiceState;
+            if (voiceState?.VoiceChannel == null) //Check if executed user is in a voice channel
+            {
+                await Context.Channel.SendErrorAsync("Error", "You must be connected to a voice channel");
                 return;
             }
 
-            if (players.PlayerState == PlayerState.Playing || players.PlayerState == PlayerState.Paused)
+            if (!_lavaNode.HasPlayer(Context.Guild)) //Check if bot is in a voice channel
             {
-                var track = searchResponse.Tracks[0];
-                var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
-
-                players.Queue.Enqueue(track);
-                await Context.Channel.Music("Enqued:", track.Title,
-                    thumbnail ??
-                    "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                await Context.Channel.SendErrorAsync("Error", "I'm not connected to a voice channel");
+                return;
             }
-            else
+
+            var player = _lavaNode.GetPlayer(Context.Guild);
+            if (voiceState.VoiceChannel != player.VoiceChannel
+            ) //Check if bot is in the same voice channel as user that executed command
             {
-                var track = searchResponse.Tracks[0];
-                var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
-
-                await players.PlayAsync(track);
-                await Context.Channel.Music("Playing:", track.Title,
-                    thumbnail ??
-                    "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
+                await Context.Channel.SendErrorAsync("Error", "You must be in the same channel as me");
+                return;
             }
+
+            if (player.Queue.Count < 2) //Check if there are enough songs in queue to shuffle
+            {
+                await Context.Channel.SendErrorAsync("Error", "There are not enough songs in the queue to shuffle");
+                return;
+            }
+
+            player.Queue.Shuffle();
+            var thumbnail = await player.Track.FetchArtworkAsync();
+            await Context.Channel.Music("Queue Shuffled", "The queue has been shuffled successfully.",
+                thumbnail ??
+                "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
         }
+
 
         [Command("skip", RunMode = RunMode.Async)]
         [Summary("Skips a song")]
