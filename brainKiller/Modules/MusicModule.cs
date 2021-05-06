@@ -110,7 +110,6 @@ namespace brainKiller.Modules
                 }
                 catch (Exception exception)
                 {
-                    // await ReplyAsync(exception.Message);
                     await Context.Channel.SendErrorAsync("Error", exception.Message);
                 }
 
@@ -126,28 +125,6 @@ namespace brainKiller.Modules
                 return;
             }
 
-            /*
-            var voiceState = Context.User as IVoiceState;
-            var player = _lavaNode.GetPlayer(Context.Guild);
-
-            if (voiceState?.VoiceChannel == null) //Check if executed user is in a voice channel
-            {
-                await Context.Channel.SendErrorAsync("Error", "You must be connected to a voice channel");
-                return;
-            }
-
-            if (!_lavaNode.HasPlayer(Context.Guild)
-                ) //Check if bot is in voice channel and if its not in any voice channel join a new one
-                //  try
-            {
-                await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                await Context.Channel.SendSuccessAsync("Success", $"Joined {voiceState.VoiceChannel.Name}");
-                // }
-                //  catch (Exception exception)
-                // {
-                //    await Context.Channel.SendErrorAsync("Error", exception.Message);
-            }
-            */
             var players = _lavaNode.GetPlayer(Context.Guild);
 
             var searchResponse = await _lavaNode.SearchYouTubeAsync(query);

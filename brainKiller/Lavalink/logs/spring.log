@@ -123,3 +123,4 @@
 2021-05-06 15:26:53.219  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","op":"stop"}
 2021-05-06 15:26:53.220  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"808888603223916585","op":"destroy"}
 2021-05-06 15:35:41.856  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:30705 -- CloseStatus[code=1006, reason=]
+2021-05-06 15:35:41.857  INFO 22852 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
