@@ -221,7 +221,7 @@ namespace brainKiller.Modules
                 role = roleByName;
             }
 
-            if (!ranks.All(x => x.Id == role.Id))
+            if (ranks.All(x => x.Id != role.Id))
             {
                 await Context.Channel.SendErrorAsync("Error", "That rank does not exist!");
                 return;
