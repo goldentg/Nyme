@@ -4,11 +4,10 @@
 ***
 <h1 align="center">Nyme</h1>
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/751e6762d0b545d6ae4001f2b9dc9124)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=goldentg/Nyme&amp;utm_campaign=Badge_Grade)
-
 <p align="center">
 <img src="https://i.imgur.com/8vDxGbY.png" alt="Made with .NET" style="width:300px;">
 </p>
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/751e6762d0b545d6ae4001f2b9dc9124)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=goldentg/Nyme&amp;utm_campaign=Badge_Grade)
 
 ## **Commands**
 ***
