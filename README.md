@@ -101,6 +101,21 @@
 ***
 I have spent an absurd amount of time on the logging feature of Nyme. Nyme can log virtually any actions taken by moderators/staff to a set log channel. *if you discover any bugs with this please let me know on my support server so that I can fix them*
 ***
+## **Installation**
+***
+in order for this bot to function properly there are some dependancies you must install before running Nyme
+- A version of Java JDK
+- [LavaLink](https://github.com/freyacodes/lavalink)
+- MySQL Database
+
+Once you have all of this set up create a `appsettings.json` file in the brainKiller folder inside of the initial brainKiller file with the following information
+```
+{
+  "token": "INSERT_TOKEN_HERE"
+}
+```
+
+***
 ## **Discord** 
 ***
 If you wish to join the Nyme community you can do so here
