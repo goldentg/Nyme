@@ -313,3 +313,5 @@ com.sedmelluq.discord.lavaplayer.tools.FriendlyException: null
   java.runtime.version: 15.0.2+7-27
   java.vm.version: 15.0.2+7-27
 
+2021-05-06 18:00:08.956  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:46784 -- CloseStatus[code=1006, reason=]
+2021-05-06 18:00:08.957  INFO 22852 --- [XNIO-1 I/O-4] lavalink.server.io.SocketContext         : Shutting down 1 playing players.

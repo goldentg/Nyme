@@ -113,9 +113,9 @@ namespace brainKiller.Services
             if (arg1 is ITextChannel argTextChannel)
             {
                 var g = arg1.Guild;
-                var channelId = await _servers.GetLogsAsync(g.Id);
-                var chnlIdInt = Convert.ToInt64(channelId);
-                if (chnlIdInt == 0) return;
+                // var channelId = await _servers.GetLogsAsync(g.Id);
+                // var chnlIdInt = Convert.ToInt64(channelId);
+                // if (chnlIdInt == 0) return;
                 if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
                 {
                     await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
@@ -142,9 +142,9 @@ namespace brainKiller.Services
             if (chnl is ITextChannel argTextChannel)
             {
                 var g = chnl.Guild;
-                var channelId = await _servers.GetLogsAsync(g.Id);
-                var chnlIdInt = Convert.ToInt64(channelId);
-                if (chnlIdInt == 0) return;
+                // var channelId = await _servers.GetLogsAsync(g.Id);
+                // var chnlIdInt = Convert.ToInt64(channelId);
+                // if (chnlIdInt == 0) return;
                 if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
                 {
                     await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
@@ -193,9 +193,9 @@ namespace brainKiller.Services
         {
             if (arg2 is IGuild ig)
             {
-                var channelId = await _servers.GetLogsAsync(arg2.Id);
-                var chnlIdInt = Convert.ToInt64(channelId);
-                if (chnlIdInt == 0) return;
+                // var channelId = await _servers.GetLogsAsync(arg2.Id);
+                // var chnlIdInt = Convert.ToInt64(channelId);
+                // if (chnlIdInt == 0) return;
                 if (!arg2.CurrentUser.GuildPermissions.ViewAuditLog)
                 {
                     await _serverHelper.SendLogAsync(arg2, "Bot Does Not Have Sufficient Permissions",
@@ -477,9 +477,9 @@ namespace brainKiller.Services
             if (arg is SocketGuildChannel guildChannel)
             {
                 var g = guildChannel.Guild;
-                var channelId = await _servers.GetLogsAsync(g.Id);
-                var chnlIdInt = Convert.ToInt64(channelId);
-                if (chnlIdInt == 0) return;
+                // var channelId = await _servers.GetLogsAsync(g.Id);
+                // var chnlIdInt = Convert.ToInt64(channelId);
+                //  if (chnlIdInt == 0) return;
                 if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
                 {
                     await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
@@ -515,9 +515,9 @@ namespace brainKiller.Services
             if (arg is SocketGuildChannel guildChannel)
             {
                 var g = guildChannel.Guild;
-                var channelId = await _servers.GetLogsAsync(g.Id);
-                var chnlIdInt = Convert.ToInt64(channelId);
-                if (chnlIdInt == 0) return;
+                // var channelId = await _servers.GetLogsAsync(g.Id);
+                // var chnlIdInt = Convert.ToInt64(channelId);
+                // if (chnlIdInt == 0) return;
                 if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
                 {
                     await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
@@ -554,9 +554,9 @@ namespace brainKiller.Services
                 {
                     var g = guildChannel.Guild;
 
-                    var channelId = await _servers.GetLogsAsync(g.Id);
-                    var chnlIdInt = Convert.ToInt64(channelId);
-                    if (chnlIdInt == 0) return;
+                    // var channelId = await _servers.GetLogsAsync(g.Id);
+                    // var chnlIdInt = Convert.ToInt64(channelId);
+                    // if (chnlIdInt == 0) return;
 
                     if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
                     {
@@ -709,9 +709,9 @@ namespace brainKiller.Services
         private async Task OnMemberJoin(SocketGuildUser arg)
         {
             var g = arg.Guild;
-            var channelId = await _servers.GetLogsAsync(g.Id);
-            var chnlIdInt = Convert.ToInt64(channelId);
-            if (chnlIdInt == 0) return;
+            // var channelId = await _servers.GetLogsAsync(g.Id);
+            //  var chnlIdInt = Convert.ToInt64(channelId);
+            //  if (chnlIdInt == 0) return;
             if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
             {
                 await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
@@ -820,9 +820,9 @@ namespace brainKiller.Services
         private async Task OnUserLeft(SocketGuildUser arg)
         {
             var g = arg.Guild;
-            var channelId = await _servers.GetLogsAsync(g.Id);
-            var chnlIdInt = Convert.ToInt64(channelId);
-            if (chnlIdInt == 0) return;
+            // var channelId = await _servers.GetLogsAsync(g.Id);
+            // var chnlIdInt = Convert.ToInt64(channelId);
+            // if (chnlIdInt == 0) return;
             if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
             {
                 await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
@@ -852,9 +852,9 @@ namespace brainKiller.Services
 
         private async Task OnUserBan(SocketUser arg1, SocketGuild arg2)
         {
-            var channelId = await _servers.GetLogsAsync(arg2.Id);
-            var chnlIdInt = Convert.ToInt64(channelId);
-            if (chnlIdInt == 0) return;
+            // var channelId = await _servers.GetLogsAsync(arg2.Id);
+            // var chnlIdInt = Convert.ToInt64(channelId);
+            // if (chnlIdInt == 0) return;
             if (!arg2.CurrentUser.GuildPermissions.ViewAuditLog)
             {
                 await _serverHelper.SendLogAsync(arg2, "Bot Does Not Have Sufficient Permissions",
@@ -872,9 +872,9 @@ namespace brainKiller.Services
 
         private async Task OnUserUnban(SocketUser arg1, SocketGuild arg2)
         {
-            var channelId = await _servers.GetLogsAsync(arg2.Id);
-            var chnlIdInt = Convert.ToInt64(channelId);
-            if (chnlIdInt == 0) return;
+            //  var channelId = await _servers.GetLogsAsync(arg2.Id);
+            //  var chnlIdInt = Convert.ToInt64(channelId);
+            // if (chnlIdInt == 0) return;
             if (!arg2.CurrentUser.GuildPermissions.ViewAuditLog)
             {
                 await _serverHelper.SendLogAsync(arg2, "Bot Does Not Have Sufficient Permissions",
@@ -893,9 +893,9 @@ namespace brainKiller.Services
         private async Task OnRoleCreated(SocketRole arg)
         {
             var g = arg.Guild;
-            var channelId = await _servers.GetLogsAsync(g.Id);
-            var chnlIdInt = Convert.ToInt64(channelId);
-            if (chnlIdInt == 0) return;
+            // var channelId = await _servers.GetLogsAsync(g.Id);
+            // var chnlIdInt = Convert.ToInt64(channelId);
+            // if (chnlIdInt == 0) return;
             if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
             {
                 await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
@@ -914,9 +914,9 @@ namespace brainKiller.Services
         private async Task OnRoleDeleted(SocketRole arg)
         {
             var g = arg.Guild;
-            var channelId = await _servers.GetLogsAsync(g.Id);
-            var chnlIdInt = Convert.ToInt64(channelId);
-            if (chnlIdInt == 0) return;
+            //  var channelId = await _servers.GetLogsAsync(g.Id);
+            //  var chnlIdInt = Convert.ToInt64(channelId);
+            //  if (chnlIdInt == 0) return;
             if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
             {
                 await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
@@ -935,9 +935,9 @@ namespace brainKiller.Services
         private async Task OnRoleUpdated(SocketRole arg1, SocketRole arg2)
         {
             var g = arg2.Guild;
-            var channelId = await _servers.GetLogsAsync(g.Id);
-            var chnlIdInt = Convert.ToInt64(channelId);
-            if (chnlIdInt == 0) return;
+            // var channelId = await _servers.GetLogsAsync(g.Id);
+            // var chnlIdInt = Convert.ToInt64(channelId);
+            // if (chnlIdInt == 0) return;
             if (!g.CurrentUser.GuildPermissions.ViewAuditLog)
             {
                 await _serverHelper.SendLogAsync(g, "Bot Does Not Have Sufficient Permissions",
