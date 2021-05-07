@@ -100,7 +100,8 @@ namespace brainKiller.Modules
                 return;
             }
 
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)
+            ) //Check if bot is connected to a voice channel in that guild and if not join new one
                 try
                 {
                     await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
