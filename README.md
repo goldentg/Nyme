@@ -7,15 +7,8 @@
 <p align="center">
 <img src="https://i.imgur.com/8vDxGbY.png" alt="Made with .NET" style="width:300px;">
 </p>
-<p align="center">
-<a href="https://top.gg/bot/808888674900508723">
-  <img src="https://top.gg/api/widget/808888674900508723.svg" alt="Nyme" />
-  </a>
-  </p>
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/751e6762d0b545d6ae4001f2b9dc9124)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=goldentg/Nyme&amp;utm_campaign=Badge_Grade)
-***
-## **[Add Nyme to your server by clicking here](https://discord.com/api/oauth2/authorize?client_id=808888674900508723&permissions=8&scope=bot)**
 
 ## **Commands**
 ***
