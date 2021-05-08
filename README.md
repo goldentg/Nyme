@@ -19,9 +19,13 @@
 ***
 ## **Table of Contents**
 ***
+<!--lint disable no-duplicate-headings-->
 * [Commands](#commands)
+ <!--lint disable no-duplicate-headings-->
 * [Events](#events)
+ <!--lint disable no-duplicate-headings-->
 * [Installation](#installation)
+ <!--lint disable no-duplicate-headings-->
 * [Discord](#discord)
 
 ## **Commands**
