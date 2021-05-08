@@ -19,26 +19,23 @@
 ***
 ## **Table of Contents**
 ***
-<!--lint disable no-duplicate-headings-->
+
 * [Commands](#commands)
- <!--lint disable no-duplicate-headings-->
 * [Events](#events)
- <!--lint disable no-duplicate-headings-->
 * [Installation](#installation)
- <!--lint disable no-duplicate-headings-->
 * [Discord](#discord)
 
 ## **Commands**
 ***
 
-`Bot Owner:`
+`Bot Owner`
 ------------
 | Command Name | Command Purpose                                                                                                                                        |
 | :----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 |   announce   | Will send a announcement to each server the bot is in. Only the bot owner has access to running this command                                           |
 |    guilds    | Will display a list of all the guilds the bot is connected to as well as additional information. Only thr bot owner has access to running this command |
 ***
-`Configuration:`
+`Configuration`
 ----------------
 | Command Name | Command Purpose                                                                                                                                                                                          |
 | :----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -54,7 +51,7 @@
 
 
 ***
-`Fun:`
+`Fun`
 -----
 | Command Name | Command Purpose                                                                                                             |
 | :----------: | --------------------------------------------------------------------------------------------------------------------------- |
@@ -65,7 +62,7 @@
 |    8ball     | Ask the magic 8-Ball a question                                                                                             |
 
 ***
-`General:`
+`General`
 ----------
 | Command Name | Command Purpose                                                                                                                                                            |
 | :----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -79,7 +76,7 @@
 |     rank     | Adds a self assignable role to the user. See the `Configuration` category to see how to set this up. A user can give themself a self role by running *`!rank <role name>`* |
 
 ***
-`Moderation:`
+`Moderation`
 -------------
 | Command Name | Command Purpose                                                                                       |
 | :----------: | ----------------------------------------------------------------------------------------------------- |
@@ -115,9 +112,9 @@ I have spent an absurd amount of time on the logging feature of Nyme. Nyme can l
 ## **Installation**
 ***
 in order for this bot to function properly there are some dependancies you must install before running Nyme
-- A version of Java JDK
-- [LavaLink](https://github.com/freyacodes/lavalink)
-- MySQL Database
+* A version of Java JDK
+* [LavaLink](https://github.com/freyacodes/lavalink)
+* MySQL Database
 
 Once you have all of this set up create a `appsettings.json` file in the brainKiller folder inside of the initial brainKiller file with the following information
 ```
