@@ -124,7 +124,7 @@ Once you have all of this set up create a `appsettings.json` file in the brainKi
 ```
 ***
 ## **Support**
-If you would like to support this projecect you can do so by [upvoting Nyme on top.gg](https://top.gg/bot/808888674900508723) and by starring this repository.
+If you would like to support this project you can do so by [upvoting Nyme on top.gg](https://top.gg/bot/808888674900508723) and by starring this repository.
 ***
 ## **Discord** 
 ***
