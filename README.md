@@ -23,6 +23,7 @@
 * [Commands](#commands)
 * [Events](#events)
 * [Installation](#installation)
+* [Support](#support)
 * [Discord](#discord)
 
 ## **Commands**
