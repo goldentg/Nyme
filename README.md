@@ -7,20 +7,36 @@
 <p align="center">
 <img src="https://i.imgur.com/8vDxGbY.png" alt="Made with .NET" style="width:300px;">
 </p>
+<p align="center">
+<a href="https://top.gg/bot/808888674900508723">
+  <img src="https://top.gg/api/widget/808888674900508723.svg" alt="Nyme" />
+  </a>
+  </p>
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/751e6762d0b545d6ae4001f2b9dc9124)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=goldentg/Nyme&amp;utm_campaign=Badge_Grade)
+***
+## **[Add Nyme to your server by clicking here](https://discord.com/api/oauth2/authorize?client_id=808888674900508723&permissions=8&scope=bot)**
+***
+## **Table of Contents**
+***
+
+* [Commands](#commands)
+* [Events](#events)
+* [Installation](#installation)
+* [Support](#support)
+* [Discord](#discord)
 
 ## **Commands**
 ***
 
-`Bot Owner:`
+`Bot Owner`
 ------------
 | Command Name | Command Purpose                                                                                                                                        |
 | :----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 |   announce   | Will send a announcement to each server the bot is in. Only the bot owner has access to running this command                                           |
 |    guilds    | Will display a list of all the guilds the bot is connected to as well as additional information. Only thr bot owner has access to running this command |
 ***
-`Configuration:`
+`Configuration`
 ----------------
 | Command Name | Command Purpose                                                                                                                                                                                          |
 | :----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -36,7 +52,7 @@
 
 
 ***
-`Fun:`
+`Fun`
 -----
 | Command Name | Command Purpose                                                                                                             |
 | :----------: | --------------------------------------------------------------------------------------------------------------------------- |
@@ -47,7 +63,7 @@
 |    8ball     | Ask the magic 8-Ball a question                                                                                             |
 
 ***
-`General:`
+`General`
 ----------
 | Command Name | Command Purpose                                                                                                                                                            |
 | :----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -61,7 +77,7 @@
 |     rank     | Adds a self assignable role to the user. See the `Configuration` category to see how to set this up. A user can give themself a self role by running *`!rank <role name>`* |
 
 ***
-`Moderation:`
+`Moderation`
 -------------
 | Command Name | Command Purpose                                                                                       |
 | :----------: | ----------------------------------------------------------------------------------------------------- |
@@ -93,6 +109,23 @@
 ## **Events**
 ***
 I have spent an absurd amount of time on the logging feature of Nyme. Nyme can log virtually any actions taken by moderators/staff to a set log channel. *if you discover any bugs with this please let me know on my support server so that I can fix them*
+***
+## **Installation**
+***
+in order for this bot to function properly there are some dependancies you must install before running Nyme
+* A version of Java JDK
+* [LavaLink](https://github.com/freyacodes/lavalink)
+* MySQL Database
+
+Once you have all of this set up create a `appsettings.json` file in the brainKiller folder inside of the initial brainKiller file with the following information
+```
+{
+  "token": "INSERT_TOKEN_HERE"
+}
+```
+***
+## **Support**
+If you would like to support this project you can do so by [upvoting Nyme on top.gg](https://top.gg/bot/808888674900508723) and by starring this repository.
 ***
 ## **Discord** 
 ***
