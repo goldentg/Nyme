@@ -883,6 +883,15 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Octokit/0.50.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Octokit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Octokit.dll": {}
+        }
+      },
       "Pomelo.EntityFrameworkCore.MySql/3.2.4": {
         "type": "package",
         "dependencies": {
@@ -3925,6 +3934,22 @@
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "newtonsoft.json.12.0.2.nupkg.sha512",
         "newtonsoft.json.nuspec"
+      ]
+    },
+    "Octokit/0.50.0": {
+      "sha512": "J5vqespSvjxIAAtjG1Tc6ghBqyfRgDJtKnk/ifi4N0hD/f3JbPwyEDRT+Eelu/bS4C4M6mu5gt1WJqar+fByzg==",
+      "type": "package",
+      "path": "octokit/0.50.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net46/Octokit.dll",
+        "lib/net46/Octokit.xml",
+        "lib/netstandard2.0/Octokit.dll",
+        "lib/netstandard2.0/Octokit.xml",
+        "octokit.0.50.0.nupkg.sha512",
+        "octokit.nuspec",
+        "octokit.png"
       ]
     },
     "Pomelo.EntityFrameworkCore.MySql/3.2.4": {
@@ -8478,6 +8503,7 @@
       "Microsoft.Extensions.DependencyInjection >= 5.0.1",
       "Microsoft.Extensions.Hosting >= 5.0.0",
       "Microsoft.Extensions.Logging >= 5.0.0",
+      "Octokit >= 0.50.0",
       "Pomelo.EntityFrameworkCore.MySql >= 3.2.4",
       "System.Drawing.Common >= 5.0.1",
       "System.Drawing.Primitives >= 4.3.0",
@@ -8485,32 +8511,34 @@
     ]
   },
   "packageFolders": {
-    "/Users/goldencodex/.nuget/packages/": {}
+    "C:\\Users\\evann\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/goldencodex/Desktop/brainKiller/brainKiller/brainKiller.csproj",
+      "projectUniqueName": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
       "projectName": "brainKiller",
-      "projectPath": "/Users/goldencodex/Desktop/brainKiller/brainKiller/brainKiller.csproj",
-      "packagesPath": "/Users/goldencodex/.nuget/packages/",
-      "outputPath": "/Users/goldencodex/Desktop/brainKiller/brainKiller/obj/",
+      "projectPath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
+      "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
+      "outputPath": "C:\\brainKiller\\brainKiller\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/goldencodex/.config/NuGet/NuGet.Config"
+        "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "/Users/goldencodex/Desktop/brainKiller/Infrastructure/Infrastructure.csproj": {
-              "projectPath": "/Users/goldencodex/Desktop/brainKiller/Infrastructure/Infrastructure.csproj"
+            "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
@@ -8593,6 +8621,10 @@
             "target": "Package",
             "version": "[5.0.0, )"
           },
+          "Octokit": {
+            "target": "Package",
+            "version": "[0.50.0, )"
+          },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
             "version": "[3.2.4, )"
@@ -8620,18 +8652,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[3.1.10, 3.1.10]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
