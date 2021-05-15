@@ -42,8 +42,7 @@ namespace brainKiller.Utilities
                 }
             }
 
-            if (invalidRanks.Count > 0)
-                await _ranks.ClearRanksAsync(invalidRanks);
+            if (invalidRanks.Count > 0) await _ranks.ClearRanksAsync(invalidRanks);
 
             return roles;
         }

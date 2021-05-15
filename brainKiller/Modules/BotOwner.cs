@@ -15,13 +15,15 @@ namespace brainKiller.Modules
     {
         private readonly Images _images;
         private readonly ILogger<General> _logger;
+        private readonly ServerHelper _serverHelper;
         private readonly Servers _servers;
 
-        public BotOwner(ILogger<General> logger, Servers servers, Images images)
+        public BotOwner(ILogger<General> logger, Servers servers, Images images, ServerHelper serverHelper)
         {
             _logger = logger;
             _servers = servers;
             _images = images;
+            _serverHelper = serverHelper;
         }
 
         // public BotList BotList { get; private set; }
@@ -58,6 +60,7 @@ namespace brainKiller.Modules
                 }
             }
         }
+
         /*
 
         [Command("votes")]
@@ -81,7 +84,36 @@ namespace brainKiller.Modules
             await Context.Channel.SendSuccessAsync("Votes", $"{message}");
         }
         */
+        /*
+        [Command("botLists")]
+        [RequireOwner]
+        [Summary("Updates the bot lists")]
+        public async Task UpdateBotList()
+        {
+            var serverCount = Context.Client.Guilds.Count;
+            var usersCount = Context.Client.Guilds.Sum(x => x.MemberCount);
+            var topApiUrl = $"https://top.gg/api/bots/{Context.Client.CurrentUser.Id}/stats";
+            var httpClient = APIHelper.HttpClient;
 
+            var topContent = new StringContent($"{{\"server_count\":\"{serverCount}\"}}", Encoding.UTF8,
+                "application/json");
+
+            var topRequest = new HttpRequestMessage
+            {
+                RequestUri = new Uri(topApiUrl),
+                Method = HttpMethod.Post,
+                Headers =
+                {
+                    {"Authorization", APIHelper.TopggApiKey}
+                },
+                Content = topContent
+            };
+
+            await httpClient.SendAsync(topRequest);
+            Context.Channel.SendSuccessAsync("Success",
+                $"Bot lists updated with {serverCount} servers and {usersCount} users.");
+        }
+        */
         [Command("guilds")]
         [RequireOwner]
         [Summary("BOT OWNER ONLY")]

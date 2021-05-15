@@ -51,7 +51,6 @@ namespace brainKiller
                         AlwaysDownloadUsers = true,
                         MessageCacheSize = 200
                     };
-
                     config.Token = context.Configuration["token"];
                 })
                 .UseCommandService((context, config) =>
