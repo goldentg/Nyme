@@ -384,7 +384,6 @@ namespace brainKiller.Services
                                             emoteCreateAuditLogData.Name, StringComparison.OrdinalIgnoreCase) != -1);
                                     if (emote == null) return;
 
-
                                     await _serverHelper.SendLogAsync(arg2, "Emote Added",
                                         $"**A emote has been added to this guild.**\n*Emote:* {emote}\n*Emote Name:* `{emote.Name}`\n*Emote Id:* `{emote.Id}`\n*Added By:* {eaudit.User.Mention}");
                                     return;
@@ -401,6 +400,7 @@ namespace brainKiller.Services
                                         .FirstOrDefault(x => x.Name.IndexOf(
                                             emoteDeleteAuditLogData.Name, StringComparison.OrdinalIgnoreCase) != -1);
                                     if (emote == null) return;
+
                                     await _serverHelper.SendLogAsync(arg2, "Emote Deleted",
                                         $"**An emote has been deleted from the guild.**\n*Emote Name:* `{emote.Name}`\n*Removed By:* {edaudit.User.Mention}");
                                     return;
@@ -419,6 +419,7 @@ namespace brainKiller.Services
                                                                  StringComparison.OrdinalIgnoreCase) !=
                                                              -1);
                                     if (emote == null) return;
+
                                     await _serverHelper.SendLogAsync(arg2, "Emote Name Modified",
                                         $"**An emote has been modified.**\n*Emote:* {emote}\n*Emote Old Name:* `{emoteUpdateAuditLogData.OldName}`\n*Emote New Name:* `{emoteUpdateAuditLogData.NewName}`\n*Emote Id:* `{emote.Id}`\n*Modified By:* {upaudit.User.Mention}");
                                     return;
@@ -795,8 +796,7 @@ namespace brainKiller.Services
         private async Task HandleUserJoined(SocketGuildUser arg)
         {
             var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);
-            if (roles.Count > 0)
-                await arg.AddRolesAsync(roles);
+            if (roles.Count > 0) await arg.AddRolesAsync(roles);
 
 
             // var channelId = await _servers.GetWelcomeAsync(arg.Guild.Id);
@@ -837,16 +837,16 @@ namespace brainKiller.Services
 
                 foreach (var audit in auditlogs)
                     if (audit.User is IUser data && audit.Data is KickAuditLogData d1)
+                    {
                         if (d1.Target.ToString() == arg.ToString()) //Check if user was kicked
                         {
                             await _serverHelper.SendLogAsync(g, "User Kicked",
                                 $"User `{d1.Target.Username + "#" + d1.Target.Discriminator}` has been kicked by {audit.User.Mention}. Reason: `{audit.Reason ?? "No reason provided"}`");
                             return;
                         }
-                        else
-                        {
-                            return;
-                        }
+
+                        return;
+                    }
             }
         }
 
@@ -1051,8 +1051,7 @@ namespace brainKiller.Services
             var Remove = new List<Mute>();
             foreach (var mute in Mutes)
             {
-                if (DateTime.Now < mute.End)
-                    continue;
+                if (DateTime.Now < mute.End) continue;
 
                 var guild = _client.GetGuild(mute.Guild.Id);
 
@@ -1186,15 +1185,17 @@ namespace brainKiller.Services
         private async Task OnMessageReceived(SocketMessage arg)
         {
             if (!(arg is SocketUserMessage message)) return;
-            if (message.Channel is SocketDMChannel) return;
-            if (message.Source != MessageSource.User) return;
 
+            if (message.Channel is SocketDMChannel) return;
+
+            if (message.Source != MessageSource.User) return;
 
             var argPos = 0;
             //if no value on left, it will use "value" as prefix instead
             var prefix = await _servers.GetGuildPrefix((message.Channel as SocketGuildChannel).Guild.Id) ?? "!";
             if (!message.HasStringPrefix(prefix, ref argPos) &&
-                !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) return;
+                !message.HasMentionPrefix(_client.CurrentUser, ref argPos))
+                return;
 
             var context = new SocketCommandContext(_client, message);
             await _service.ExecuteAsync(context, argPos, _provider);

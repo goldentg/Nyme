@@ -25,8 +25,8 @@ namespace brainKiller.Modules
         [Summary("sends a meme or an image from a specified subreddit")]
         public async Task Meme(string subreddit = null)
         {
-            var client = new HttpClient();
-            var result =
+            HttpClient client = new HttpClient();
+            string result =
                 await client.GetStringAsync($"https://reddit.com/r/{subreddit ?? "memes"}/random.json?limit=1");
             if (!result.StartsWith("["))
             {
@@ -34,16 +34,16 @@ namespace brainKiller.Modules
                 return;
             }
 
-            var arr = JArray.Parse(result);
-            var post = JObject.Parse(arr[0]["data"]["children"][0]["data"].ToString());
+            JArray arr = JArray.Parse(result);
+            JObject post = JObject.Parse(arr[0]["data"]["children"][0]["data"].ToString());
 
-            var builder = new EmbedBuilder()
+            EmbedBuilder builder = new EmbedBuilder()
                 .WithImageUrl(post["url"].ToString())
                 .WithColor(new Color(33, 176, 252))
                 .WithTitle(post["title"].ToString())
                 .WithUrl("https://reddit.com" + post["permalink"])
                 .WithFooter($"🗨 {post["num_comments"]} ⬆️ {post["ups"]}");
-            var embed = builder.Build();
+            Embed embed = builder.Build();
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
 
@@ -71,8 +71,8 @@ namespace brainKiller.Modules
                 "Tails"
             };
 
-            var r = new Random();
-            var index = r.Next(coin.Length);
+            Random r = new Random();
+            int index = r.Next(coin.Length);
 
             await Context.Channel.CoinflipMessageAsync($"{coin[index]}", $"{Context.User.Username}");
         }
@@ -116,8 +116,9 @@ namespace brainKiller.Modules
                 "Ask again later"
             };
             // await ReplyAsync(responses[new Random().Next(0, responses.Count())]);
-            var rndmResponse = responses[new Random().Next(0, responses.Count())];
-            await Context.Channel.eightBallMsgAsync(question, rndmResponse, Context.User);
+            string rndmResponse = responses[new Random().Next(0, responses.Count())];
+            await Context.Channel.eightBallMsgAsync(question, rndmR
+    e, Context.User);
         }
     }
 }

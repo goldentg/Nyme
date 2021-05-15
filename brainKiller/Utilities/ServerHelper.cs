@@ -2,6 +2,7 @@
 using brainKiller.Common;
 using Discord;
 using Infrastructure;
+using Newtonsoft.Json;
 
 namespace brainKiller.Utilities
 {
@@ -29,6 +30,13 @@ namespace brainKiller.Utilities
 
             await fetchedChannel.SendLogAsync(title, description);
         }
+
+        public static string FormatJson(string json)
+        {
+            var parsedJson = JsonConvert.DeserializeObject(json);
+            return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+        }
+
 
         /*
         public async Task GuildHasLogAsyncTask(IGuild guild)

@@ -273,7 +273,8 @@ namespace brainKiller.Modules
                 if (fetchedBackground != null)
                     await ReplyAsync(
                         $"The channel used for the welcome module is {fetchedChannel.Mention}.\nThe background is set to {fetchedBackground}");
-                else await ReplyAsync($"The channel used for the welcome module is {fetchedChannel.Mention}.");
+                else
+                    await ReplyAsync($"The channel used for the welcome module is {fetchedChannel.Mention}.");
 
                 return;
             }
