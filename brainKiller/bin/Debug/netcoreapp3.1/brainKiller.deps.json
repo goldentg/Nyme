@@ -25,6 +25,7 @@
           "Microsoft.Extensions.DependencyInjection": "5.0.1",
           "Microsoft.Extensions.Hosting": "5.0.0",
           "Microsoft.Extensions.Logging": "5.0.0",
+          "Octokit": "0.50.0",
           "Pomelo.EntityFrameworkCore.MySql": "3.2.4",
           "System.Drawing.Common": "5.0.1",
           "System.Drawing.Primitives": "4.3.0",
@@ -814,6 +815,14 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "12.0.0.0",
             "fileVersion": "12.0.2.23222"
+          }
+        }
+      },
+      "Octokit/0.50.0": {
+        "runtime": {
+          "lib/netstandard2.0/Octokit.dll": {
+            "assemblyVersion": "0.50.0.0",
+            "fileVersion": "0.50.0.0"
           }
         }
       },
@@ -2316,6 +2325,13 @@
       "sha512": "sha512-rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
       "path": "newtonsoft.json/12.0.2",
       "hashPath": "newtonsoft.json.12.0.2.nupkg.sha512"
+    },
+    "Octokit/0.50.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-J5vqespSvjxIAAtjG1Tc6ghBqyfRgDJtKnk/ifi4N0hD/f3JbPwyEDRT+Eelu/bS4C4M6mu5gt1WJqar+fByzg==",
+      "path": "octokit/0.50.0",
+      "hashPath": "octokit.0.50.0.nupkg.sha512"
     },
     "Pomelo.EntityFrameworkCore.MySql/3.2.4": {
       "type": "package",

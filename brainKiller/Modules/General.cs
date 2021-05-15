@@ -29,6 +29,7 @@ namespace brainKiller.Modules
             _servers = servers;
         }
 
+
         [Command("ping", RunMode = RunMode.Async)]
         [Summary("Ping the bot")]
         public async Task Ping()
@@ -75,15 +76,30 @@ namespace brainKiller.Modules
         [Summary("Display info about this bot")]
         public async Task BotInfo()
         {
+            //var github = new GitHubClient(new ProductHeaderValue("Nyme"));
+            // var github = new GitHubCommit()
+            //var user = await github.User.Get("goldentg");
+            //var repo = await github.Repository.Get(337626867);
+            //var repository = await github.Repository.Commit.GetAll(337626867);
+
+            //var commitsFiltered = repository.Select(async _ =>
+            // {
+            //     return await github.Repository.Commit.Get("goldentg", "Nyme", _.Sha);
+            // }).ToList();
+
+            //var commits = await Task.WhenAll(commitsFiltered);
+
             var builder = new EmbedBuilder()
                 .WithThumbnailUrl($"{Context.Client.CurrentUser.GetAvatarUrl()}")
                 .WithColor(new Color(0, 0, 0))
                 .AddField("Name:", $"{Context.Client.CurrentUser.Username}")
                 .AddField("Developer:", "BlackLung#6950")
+                // .AddField("Total Open Issues:", $"{repo.OpenIssuesCount.ToString() ?? "0"}")
+                //.AddField("Total Commits:", $"{commits.Length.ToString()}")
                 .AddField("Bot created on:", $"{Context.Client.CurrentUser.CreatedAt.ToString("yyyy/MM/dd")}", true)
                 .AddField("Written with:", "C# Discord.NET 3.0.2", true)
                 .AddField("Documentation",
-                    "[Click here to go to the Nyme documentation](https://top.gg/bot/808888674900508723)",
+                    "[Click here to go to the Nyme documentation](https://github.com/goldentg/Nyme)",
                     true)
                 .WithCurrentTimestamp();
             var embed = builder.Build();
