@@ -1,24 +1,19 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.Net.Http;
+﻿using Discord.WebSocket;
 using System.Threading.Tasks;
-using Discord;
-using Discord.WebSocket;
-using Color = System.Drawing.Color;
-using Image = System.Drawing.Image;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Drawing;
+using System.Net.Http;
+using System.Drawing.Drawing2D;
 
 namespace brainKiller.Utilities
 {
     public class Images
     {
-        public async Task<string> CreateImageAsync(SocketGuildUser user,
-            string url =
-                "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80")
+        public async Task<string> CreateImageAsync(SocketGuildUser user, string url = "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80")
         {
-            var avatar = await FetchImageAsync(user.GetAvatarUrl(size: 2048, format: ImageFormat.Png) ??
-                                               user.GetDefaultAvatarUrl());
+            var avatar = await FetchImageAsync(user.GetAvatarUrl(size: 2048, format: Discord.ImageFormat.Png) ?? user.GetDefaultAvatarUrl());
             var background = await FetchImageAsync(url);
 
             background = CropToBanner(background);
@@ -28,10 +23,9 @@ namespace brainKiller.Utilities
             bitmap?.MakeTransparent();
 
             var banner = CopyRegionIntoImage(bitmap, background);
-            banner = DrawTextToImage(banner, $"{user.Username}#{user.Discriminator} joined the server!",
-                $"Member #{user.Guild.MemberCount}");
+            banner = DrawTextToImage(banner, $"{user.Username}#{user.Discriminator} joined the server!", $"Member #{user.Guild.MemberCount}");
 
-            var path = $"{Guid.NewGuid()}.png";
+            string path = $"{Guid.NewGuid()}.png";
             banner.Save(path);
             return await Task.FromResult(path);
         }
@@ -42,8 +36,8 @@ namespace brainKiller.Utilities
             var originalHeight = image.Height;
             var destinationSize = new Size(1100, 450);
 
-            var heightRatio = (float) originalHeight / destinationSize.Height;
-            var widthRatio = (float) originalWidth / destinationSize.Width;
+            var heightRatio = (float)originalHeight / destinationSize.Height;
+            var widthRatio = (float)originalWidth / destinationSize.Width;
 
             var ratio = Math.Min(heightRatio, widthRatio);
 
@@ -58,7 +52,7 @@ namespace brainKiller.Utilities
             var destinationRectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
 
             using var g = Graphics.FromImage(bitmap);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
             g.DrawImage(image, destinationRectangle, sourceRectangle, GraphicsUnit.Pixel);
 
             return bitmap;
@@ -71,12 +65,12 @@ namespace brainKiller.Utilities
             var x = image.Width / 2;
             var y = image.Height / 2;
 
-            using var g = Graphics.FromImage(destination);
+            using Graphics g = Graphics.FromImage(destination);
             var r = new Rectangle(x - radius, y - radius, radius * 2, radius * 2);
 
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.CompositingQuality = CompositingQuality.HighQuality;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             using (Brush brush = new SolidBrush(Color.Transparent))
@@ -94,8 +88,8 @@ namespace brainKiller.Utilities
         private Image CopyRegionIntoImage(Image sourse, Image destination)
         {
             using var grD = Graphics.FromImage(destination);
-            var x = destination.Width / 2 - 110;
-            var y = destination.Height / 2 - 155;
+            var x = (destination.Width / 2) - 110;
+            var y = (destination.Height / 2) - 155;
 
             grD.DrawImage(sourse, x, y, 220, 220);
             return destination;
@@ -110,10 +104,10 @@ namespace brainKiller.Utilities
             var brushGrey = new SolidBrush(ColorTranslator.FromHtml("#838383"));
 
             var headerX = image.Width / 2;
-            var headerY = image.Height / 2 + 115;
+            var headerY = (image.Height / 2) + 115;
 
             var subheaderX = image.Width / 2;
-            var subheaderY = image.Height / 2 + 160;
+            var subheaderY = (image.Height / 2) + 160;
 
             var drawFormat = new StringFormat
             {
@@ -122,7 +116,7 @@ namespace brainKiller.Utilities
             };
 
             using var GrD = Graphics.FromImage(image);
-            GrD.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+            GrD.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             GrD.DrawString(header, roboto, brushWhite, headerX, headerY, drawFormat);
             GrD.DrawString(subheader, robotoSmall, brushGrey, subheaderX, subheaderY, drawFormat);
 
@@ -135,11 +129,9 @@ namespace brainKiller.Utilities
             var client = new HttpClient();
             var response = await client.GetAsync(url);
 
-            if (!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
             {
-                var backupResponse =
-                    await client.GetAsync(
-                        "https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+                var backupResponse = await client.GetAsync("https://images.unsplash.com/photo-1500534623283-312aade485b7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
                 var backupStream = await backupResponse.Content.ReadAsStreamAsync();
                 return Image.FromStream(backupStream);
             }

@@ -127,7 +127,9 @@ namespace brainKiller.Modules
                 foreach (var cmd in module.Commands)
                 {
                     var result = await cmd.CheckPreconditionsAsync(Context);
-                    if (result.IsSuccess) description += $"**{guildPrefix}{cmd.Aliases.First()}**\n*{cmd.Summary}*\n";
+                    if (result.IsSuccess)
+
+                        description += $"**{guildPrefix}{cmd.Aliases.First()}**\n*{cmd.Summary}*\n";
                 }
 
                 if (!string.IsNullOrWhiteSpace(description))

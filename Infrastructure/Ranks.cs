@@ -29,7 +29,8 @@ namespace Infrastructure
             var server = await _context.Servers
                 .FindAsync(id);
 
-            if (server == null) _context.Add(new Server {Id = id});
+            if (server == null)
+                _context.Add(new Server {Id = id});
 
             _context.Add(new Rank {RoleId = roleId, ServerId = id});
             await _context.SaveChangesAsync();

@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
+namespace brainKiller.Utilities
+{
     public class AutoRolesHelper
     {
         private readonly AutoRoles _autoRoles;
@@ -17,38 +20,32 @@ using Infrastructure;
 
         public async Task<List<IRole>> GetAutoRolesAsync(IGuild guild)
         {
-            List<IRole> roles = new List<IRole>();
-            List<AutoRole> invalidAutoRoles = new List<AutoRole>();
+            var roles = new List<IRole>();
+            var invalidAutoRoles = new List<AutoRole>();
 
-            List<AutoRole> autoRoles = await _autoRoles.GetAutoRolesAsync(guild.Id);
+            var autoRoles = await _autoRoles.GetAutoRolesAsync(guild.Id);
 
-            foreach (AutoRole autoRole in autoRoles)
+            foreach (var autoRole in autoRoles)
             {
-                IRole role = guild.Roles.FirstOrDefault(x => x.Id == autoRole.RoleId);
+                var role = guild.Roles.FirstOrDefault(x => x.Id == autoRole.RoleId);
                 if (role == null)
                 {
                     invalidAutoRoles.Add(autoRole);
                 }
                 else
                 {
-                    IGuildUser currentUser = await guild.GetCurrentUserAsync();
-                    int hierarchy = (currentUser as SocketGuildUser).Hierarchy;
+                    var currentUser = await guild.GetCurrentUserAsync();
+                    var hierarchy = (currentUser as SocketGuildUser).Hierarchy;
 
                     if (role.Position > hierarchy)
-                    {
                         invalidAutoRoles.Add(autoRole);
-                    }
                     else
-                    {
                         roles.Add(role);
-                    }
                 }
             }
 
             if (invalidAutoRoles.Count > 0)
-          
-                 await _autoRoles.ClearAutoRolesAsync(invalidAutoRoles);
-            }
+                await _autoRoles.ClearAutoRolesAsync(invalidAutoRoles);
 
             return roles;
         }
