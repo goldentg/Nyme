@@ -1134,8 +1134,12 @@ namespace brainKiller.Services
                 return;
             }
 
+            var durSec = track.Duration.Seconds;
+            var durMin = track.Duration.Minutes;
+
             await args.Player.PlayAsync(track);
-            await args.Player.TextChannel.TextMusic("Now Playing:", track.Title,
+            await args.Player.TextChannel.TextMusic("Now Playing:",
+                $"**Song:** `{track.Title}`\n**Duration:** `{durMin}:{durSec}`",
                 "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
         }
 

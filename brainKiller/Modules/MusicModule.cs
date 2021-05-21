@@ -186,9 +186,12 @@ namespace brainKiller.Modules
                         else
                         {
                             var track1 = searchResponse1.Tracks[0];
+                            var durSec = track1.Duration.Seconds;
+                            var durMin = track1.Duration.Minutes;
                             var thumbnail = await track1.FetchArtworkAsync(); //get album cover for current song
                             await players.PlayAsync(track);
-                            await Context.Channel.Music("Now Playing:", $"Now playing `{track.Title}`", thumbnail);
+                            await Context.Channel.Music("Now Playing:",
+                                $"**Now playing:** `{track.Title}`\n**Duration:** `{durMin}:{durSec}`", thumbnail);
                         }
                     }
                 }
@@ -210,8 +213,12 @@ namespace brainKiller.Modules
                     var track = searchResponse.Tracks[0];
                     var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
 
+                    var durSec = track.Duration.Seconds;
+                    var durMin = track.Duration.Minutes;
+
                     players.Queue.Enqueue(track);
-                    await Context.Channel.Music("Enqued:", track.Title,
+                    await Context.Channel.Music("Enqued:",
+                        $"**Song:** `{track.Title}`\n**Duration:** `{durMin}:{durSec}`",
                         thumbnail ??
                         "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
                 }
@@ -220,8 +227,12 @@ namespace brainKiller.Modules
                     var track = searchResponse.Tracks[0];
                     var thumbnail = await track.FetchArtworkAsync(); //get album cover for current song
 
+                    var durSec = track.Duration.Seconds;
+                    var durMin = track.Duration.Minutes;
+
                     await players.PlayAsync(track);
-                    await Context.Channel.Music("Playing:", track.Title,
+                    await Context.Channel.Music("Playing:",
+                        $"**Song:** `{track.Title}`\n**Duration:** `{durMin}:{durSec}`",
                         thumbnail ??
                         "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ficons.iconarchive.com%2Ficons%2Fiynque%2Fios7-style%2F1024%2FMusic-icon.png&f=1&nofb=1");
                 }
