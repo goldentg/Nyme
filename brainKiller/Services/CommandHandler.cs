@@ -322,7 +322,7 @@ namespace brainKiller.Services
                         if (arg1.RulesChannel != arg2.RulesChannel) //Check for modified rules channel
                         {
                             await _serverHelper.SendLogAsync(arg2, "Rules Channel Modified",
-                                $"**This guilds rules channel has been modified.**\n*Rules Channel:* {arg2.RulesChannel.Mention}\n*Modified By:* {audit.User.Mention}");
+                                $"**This guilds rules channel has been modified.**\n*New Rules Channel:* {arg2.RulesChannel.Mention}\n*Modified By:* {audit.User.Mention}");
                             return;
                         }
 
@@ -386,7 +386,7 @@ namespace brainKiller.Services
 
 
                                     await _serverHelper.SendLogAsync(arg2, "Emote Added",
-                                        $"**A emote has been added to this guild.**\n*Emote:* {emote}\n*Emote Name:* `{emote.Name}`\n*Emote Id:* `{emote.Id}`\n*Added By:* {eaudit.User.Mention}");
+                                        $"**An emote has been added to this guild.**\n*Emote:* {emote}\n*Emote Name:* `{emote.Name}`\n*Emote Id:* `{emote.Id}`\n*Added By:* {eaudit.User.Mention}");
                                     return;
                                 }
 
@@ -496,7 +496,7 @@ namespace brainKiller.Services
                             // await _serverHelper.SendLogAsync(g, "Channel Created",
                             //   $"Channel **#{guildChannel.Name}** has been created by **{audit.User.Username + "#" + audit.User.Discriminator}**");
                             await _serverHelper.SendLogAsync(g, "Channel Created",
-                                $"Channel `#{guildChannel.Name}` has been created by {audit.User.Mention}");
+                                $"*New Channel:* `#{guildChannel.Name}`\n*Created By:* {audit.User.Mention}");
                 }
                 else //if channel was a voice channel
                 {
@@ -505,7 +505,7 @@ namespace brainKiller.Services
                     foreach (var audit in auditlogs)
                         if (audit.User is IUser data)
                             await _serverHelper.SendLogAsync(g, "Channel Created",
-                                $"Voice Channel `{guildChannel.Name}` has been created by {audit.User.Mention}");
+                                $"*New Voice Channel Name:* `{guildChannel.Name}`\n*Created By:* {audit.User.Mention}");
                 }
             }
         }
@@ -532,7 +532,7 @@ namespace brainKiller.Services
                     foreach (var audit in auditlogs)
                         if (audit.User is IUser data)
                             await _serverHelper.SendLogAsync(g, "Channel Deleted",
-                                $"Channel `#{guildChannel.Name}` has been deleted by{audit.User.Mention}");
+                                $"*Deleted Channel:* `#{guildChannel.Name}`\n*Deleted By:* {audit.User.Mention}");
                 }
                 else //if channel was a voice channel
                 {
@@ -540,8 +540,8 @@ namespace brainKiller.Services
                         .FlattenAsync();
                     foreach (var audit in auditlogs)
                         if (audit.User is IUser data)
-                            await _serverHelper.SendLogAsync(g, "Channel Deleted",
-                                $"Voice Channel `{guildChannel.Name}` has been deleted by {audit.User.Mention}");
+                            await _serverHelper.SendLogAsync(g, "Voice Channel Deleted",
+                                $"*Deleted Voice Channel:* `{guildChannel.Name}`\n*Deleted By:* {audit.User.Mention}");
                 }
             }
         }
@@ -587,14 +587,14 @@ namespace brainKiller.Services
                                     if (guildChannel.Name != gld2Channel.Name) //Check for modified channel name
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Name Updated",
-                                            $"The `#{gld2Channel.Name}` channel's name has been updated to `#{guildChannel.Name}` by {audit.User.Mention}");
+                                            $"*Old Channel Name:* `#{gld2Channel.Name}`\n*New Channel Name:* `#{guildChannel.Name}`\n*Modified By:* {audit.User.Mention}");
                                         return;
                                     }
 
                                     if (itChannel.Topic != itChannel2.Topic) //Check for channel topic modification
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Topic Updated",
-                                            $"The `#{itChannel2.Mention}` channel's topic has been changed to `{itChannel2.Topic}` by {audit.User.Mention}");
+                                            $"*Old Topic:* `{itChannel.Topic ?? "Null"}`\n*New Topic:* `{itChannel2.Topic ?? "Null"}`\n*Modified By:* {audit.User.Mention}");
                                         return;
                                     }
 
@@ -602,7 +602,7 @@ namespace brainKiller.Services
                                     ) //Check for NSFW toggle change
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Toggled NSFW",
-                                            $"{itChannel2.Mention}'s NSFW has been toggled from `{itChannel.IsNsfw.ToString()}` to `{itChannel2.IsNsfw.ToString()}` by {audit.User.Mention}");
+                                            $"*Channel Name:* {itChannel2.Mention}\n*Old State:* `{itChannel.IsNsfw.ToString()}`\n*New State:* `{itChannel2.IsNsfw.ToString()}`\n*Modified By:* {audit.User.Mention}");
                                         return;
                                     }
 
@@ -611,7 +611,7 @@ namespace brainKiller.Services
                                     {
                                         await _serverHelper.SendLogAsync(g,
                                             "Slowmode Modified",
-                                            $"The slowmode for `#{itChannel2.Mention}` has been modified to {itChannel2.SlowModeInterval.ToString()} seconds by {audit.User.Mention}");
+                                            $"*Channel Name:* `#{itChannel2.Mention}`\n*Old State:* `{itChannel.SlowModeInterval.ToString() ?? "Null"} seconds`\n*New State:* `{itChannel2.SlowModeInterval.ToString() ?? "Null"} seconds`\n*Modified By:* {audit.User.Mention}");
                                         return;
                                     }
 
@@ -619,7 +619,7 @@ namespace brainKiller.Services
                                     ) //Check for modified channel permissions
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Permissions Modified",
-                                            $"{itChannel2.Mention}'s permissions have been modified by {audit.User.Mention}");
+                                            $"*Channel Name:* `#{itChannel2.Name}`\n*Modified By:* {audit.User.Mention}");
                                         return;
                                     }
 
@@ -627,7 +627,7 @@ namespace brainKiller.Services
                                     ) //Check for modifiied channel position
                                     {
                                         await _serverHelper.SendLogAsync(g, "Channel Position Modified",
-                                            $"{itChannel2.Mention}'s position has been changed by {audit.User.Mention}");
+                                            $"*Channel Name:* `#{itChannel2.Name}`\n*Modified By: {audit.User.Mention}*");
                                         return;
                                     }
 
@@ -674,14 +674,14 @@ namespace brainKiller.Services
                                         if (vc1.Name != vc2.Name)
                                         {
                                             await _serverHelper.SendLogAsync(g, "Voice Channel Name Updated",
-                                                $"The `{vc1.Name}` voice channel has been updated to `{vc2.Name}` by {audit.User.Mention}");
+                                                $"*Old Channel Name:* `#{vc1.Name}`\n*New Channel Name:* `#{vc2.Name}`\n*Modified By:* {audit.User.Mention}");
                                             return;
                                         }
 
                                         if (ivc.Bitrate != ivc2.Bitrate) //Check for voice channel bitrate changes
                                         {
-                                            await _serverHelper.SendLogAsync(g, "Voice Channel Bitrate Changed",
-                                                $"The bitrate for the `{gld2Channel.Name}` voice channel has been changed to `{vc2.Bitrate / 1000}kbps` by {audit.User.Mention}`");
+                                            await _serverHelper.SendLogAsync(g, "Voice Channel Bitrate Updated",
+                                                $"*Channel Name:* `{gld2Channel.Name}`\n*New Bitrate:* `{vc2.Bitrate / 1000}kbps`\n*Modified By:* {audit.User.Mention}`");
                                             return;
                                         }
 
@@ -689,7 +689,7 @@ namespace brainKiller.Services
                                         ) //Check for voice channel user limit changes
                                         {
                                             await _serverHelper.SendLogAsync(g, "Voice Channel User Limit Modified",
-                                                $"The `{ivc2.Name}` voice channel's user limit has been modified from `{ivc.UserLimit.Value.ToString()} users` to `{ivc2.UserLimit.Value.ToString()} users` by {audit.User.Mention}");
+                                                $"*Channel Name:* `{ivc2.Name}`\n*Old User Limit:* `{ivc.UserLimit.Value.ToString() ?? "Null"} users`\n*New User Limit:* `{ivc2.UserLimit.Value.ToString()} users`\n*Modified By:* {audit.User.Mention}");
                                             return;
                                         }
 
@@ -698,7 +698,7 @@ namespace brainKiller.Services
                                         ) //Check for voice channel permission changes
                                         {
                                             await _serverHelper.SendLogAsync(g, "Voice Channel Permissions Modified",
-                                                $"The `{ivc2.Name}` voice channel's permissions have been modified by {audit.User.Mention}");
+                                                $"*Channel Name:* `{ivc2.Name}`\n*Modified By:* {audit.User.Mention}");
                                             return;
                                         }
                                     }
@@ -840,11 +840,7 @@ namespace brainKiller.Services
                         if (d1.Target.ToString() == arg.ToString()) //Check if user was kicked
                         {
                             await _serverHelper.SendLogAsync(g, "User Kicked",
-                                $"User `{d1.Target.Username + "#" + d1.Target.Discriminator}` has been kicked by {audit.User.Mention}. Reason: `{audit.Reason ?? "No reason provided"}`");
-                            return;
-                        }
-                        else
-                        {
+                                $"*Kicked User:* `{d1.Target.Username + "#" + d1.Target.Discriminator}`\n*Kicked By:* {audit.User.Mention}\n*Reason:* `{audit.Reason ?? "No reason provided"}`");
                             return;
                         }
             }
@@ -867,7 +863,7 @@ namespace brainKiller.Services
             foreach (var audit in auditlogs)
                 if (audit.User is IUser data)
                     await _serverHelper.SendLogAsync(arg2, "User Banned",
-                        $"User `{arg1.Username + "#" + arg1.Discriminator}` has been banned by {audit.User.Mention} Reason: `{audit.Reason ?? "No reason provided"}`");
+                        $"*Banned User:* `{arg1.Username + "#" + arg1.Discriminator}`\n*Banned By:* {audit.User.Mention}\n*Reason:* `{audit.Reason ?? "No reason provided"}`");
         }
 
         private async Task OnUserUnban(SocketUser arg1, SocketGuild arg2)
@@ -887,7 +883,7 @@ namespace brainKiller.Services
             foreach (var audit in auditlogs)
                 if (audit.User is IUser data)
                     await _serverHelper.SendLogAsync(arg2, "User Un-Banned",
-                        $"User {arg1.Mention} has been unbanned by {audit.User.Mention}");
+                        $"*Unbanned User:* {arg1.Mention}\n*Unbanned By:* {audit.User.Mention}");
         }
 
         private async Task OnRoleCreated(SocketRole arg)
@@ -908,7 +904,7 @@ namespace brainKiller.Services
             foreach (var audit in auditlogs)
                 if (audit.User is IUser data)
                     await _serverHelper.SendLogAsync(g, "Role Created",
-                        $"Role {arg.Mention} has been created by {audit.User.Mention}");
+                        $"*Role:* {arg.Mention}\n*Created By:* {audit.User.Mention}");
         }
 
         private async Task OnRoleDeleted(SocketRole arg)
@@ -929,7 +925,7 @@ namespace brainKiller.Services
             foreach (var audit in auditlogs)
                 if (audit.User is IUser data)
                     await _serverHelper.SendLogAsync(g, "Role Deleted",
-                        $"Role `{arg.Name}` has been deleted by {audit.User.Mention}");
+                        $"*Role Name:* `{arg.Name}`\n*Deleted By:* {audit.User.Mention}");
         }
 
         private async Task OnRoleUpdated(SocketRole arg1, SocketRole arg2)
@@ -953,28 +949,28 @@ namespace brainKiller.Services
                     if (arg1.Name != arg2.Name)
                     {
                         await _serverHelper.SendLogAsync(g, "Role Name Updated",
-                            $"Role `{arg1.Name}`'s name has been changed to `{arg2.Name}`");
+                            $"*Old Role Name:* `{arg1.Name}`\n*New Role Name:* `{arg2.Name}`\n*Modified By:* {audit.User.Mention}");
                         return;
                     }
 
                     if (arg1.Color.RawValue != arg2.Color.RawValue)
                     {
                         await _serverHelper.SendLogAsync(g, "Role Color Modified",
-                            $"Role `{arg2.Name}`'s color has been changed");
+                            $"*Role Name:* `{arg2.Name}`\n*Old Role Color:* `{arg1.Color.R.ToString()},{arg1.Color.G.ToString()},{arg1.Color.B.ToString()}`\n*New Role Color:* `{arg2.Color.R.ToString()},{arg2.Color.G.ToString()},{arg2.Color.B.ToString()}`\n*Modified By:* {audit.User.Mention}");
                         return;
                     }
 
                     if (arg1.Position != arg2.Position)
                     {
                         await _serverHelper.SendLogAsync(g, "Role Hierarchy Position Modified",
-                            $"Role `{arg2.Name}`'s position on the hierarchy has been modified by {audit.User.Mention}");
+                            $"*Role Name:* `{arg2.Name}`\n*Modified By:* {audit.User.Mention}");
                         return;
                     }
 
                     if (d1.Before.Mentionable.Value != d1.After.Mentionable.Value)
                     {
                         await _serverHelper.SendLogAsync(g, "Role Mentionability Modified",
-                            $"Role `{arg2.Name}`'s mentionability has been toggled to `{arg2.IsMentionable.ToString()}`");
+                            $"*Role:* `{arg2.Name}`\n*Old Mentionability State:* `{arg1.IsMentionable.ToString()}`\n*New Mentionability State:* `{arg2.IsMentionable.ToString()}`\n*Modified By:* {audit.User.Mention}");
                         return;
                     }
 
@@ -983,7 +979,7 @@ namespace brainKiller.Services
                         d1.Before.Permissions.Value.ToString())) //Check for modified permissions for the role
                     {
                         await _serverHelper.SendLogAsync(g, "Role Permissions Modified",
-                            $"Permissions for the {arg2.Mention} role has been modified by {audit.User.Mention}");
+                            $"*Role:* {arg2.Mention}\n*Modified By:* {audit.User.Mention}");
                         return;
                     }
                 }
