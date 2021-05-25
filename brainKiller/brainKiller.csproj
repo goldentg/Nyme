@@ -3,6 +3,12 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AssemblyName>brainKiller</AssemblyName>
+        <RootNamespace>brainKiller</RootNamespace>
+        <Authors>BlackLung#6950</Authors>
+        <Company>Lung Inc</Company>
+        <PackageIcon>Nyme.png</PackageIcon>
+        <RepositoryUrl>https://github.com/goldentg/Nyme</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
@@ -42,6 +48,10 @@
     <ItemGroup>
       <None Update="appsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="..\..\Users\evann\OneDrive\Desktop\nyme logo\Nyme.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
       </None>
     </ItemGroup>
 
