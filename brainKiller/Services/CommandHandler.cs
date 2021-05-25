@@ -966,7 +966,7 @@ namespace brainKiller.Services
 
                     if (arg1.Position != arg2.Position)
                     {
-                        await _serverHelper.SendLogAsync(g, "Role Hiarchy Position Modified",
+                        await _serverHelper.SendLogAsync(g, "Role Hierarchy Position Modified",
                             $"Role `{arg2.Name}`'s position on the hierarchy has been modified by {audit.User.Mention}");
                         return;
                     }
@@ -983,7 +983,7 @@ namespace brainKiller.Services
                         d1.Before.Permissions.Value.ToString())) //Check for modified permissions for the role
                     {
                         await _serverHelper.SendLogAsync(g, "Role Permissions Modified",
-                            $"Permissions for the {arg2.Mention} role have been modified by {audit.User.Mention}");
+                            $"Permissions for the {arg2.Mention} role has been modified by {audit.User.Mention}");
                         return;
                     }
                 }
