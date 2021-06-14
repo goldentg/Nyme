@@ -133,6 +133,18 @@ namespace brainKiller.Modules
             await ReplyAsync(fact.Data);
         }
 
+        [Command("chucknorris", RunMode = RunMode.Async)]
+        [Alias("chuck")]
+        [Summary("Sends a chuck norris fact\n({prefix}chuck can also be used)")]
+        public async Task chuckNorris()
+        {
+            var client = new HttpClient();
+            var url = "https://api.chucknorris.io/jokes/random";
+            var result = await client.GetStringAsync(url);
+            var post = JsonConvert.DeserializeObject<fact.norris>(result);
+            await ReplyAsync(post.Value);
+        }
+
         [Command("wikipedia", RunMode = RunMode.Async)]
         [Alias("wiki")]
         [Summary("Searches Article From Wikipedia")]

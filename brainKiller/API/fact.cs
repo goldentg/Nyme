@@ -6,5 +6,10 @@
         {
             public string Data { get; set; }
         }
+
+        public class norris
+        {
+            public string Value { get; set; }
+        }
     }
 }
