@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using brainKiller.API;
 using brainKiller.Common;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace brainKiller.Modules
@@ -118,6 +120,55 @@ namespace brainKiller.Modules
             // await ReplyAsync(responses[new Random().Next(0, responses.Count())]);
             var rndmResponse = responses[new Random().Next(0, responses.Count())];
             await Context.Channel.eightBallMsgAsync(question, rndmResponse, Context.User);
+        }
+
+        [Command("fact", RunMode = RunMode.Async)]
+        [Summary("Sends a random fact")]
+        public async Task Fact()
+        {
+            var client = new HttpClient();
+            var url = "https://useless-facts.sameerkumar.website/api";
+            var result = await client.GetStringAsync(url);
+            var fact = JsonConvert.DeserializeObject<fact.Root>(result);
+            await ReplyAsync(fact.Data);
+        }
+
+        [Command("wikipedia", RunMode = RunMode.Async)]
+        [Alias("wiki")]
+        [Summary("Searches Article From Wikipedia")]
+        public async Task SearchFromWikipediaAsync([Remainder] string wikisearch = null)
+        {
+            if (wikisearch == null)
+            {
+                await Context.Channel.SendErrorAsync("Error", "You must include a search phrase");
+                return;
+            }
+
+            var client = new HttpClient();
+            var json = await client.GetStringAsync(
+                $"https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&exintro&explaintext&titles={wikisearch}");
+
+            var myPages = JsonConvert.DeserializeObject<wikisearchhelper.WRoot>(json);
+            var first = myPages.Query.Pages.Values.First();
+            var title = first.Title;
+            //var thumbnail = first.Thumbnail.source;
+
+            var extract = first.Extract.Substring(0, 500) + "...";
+
+            var builder = new EmbedBuilder()
+                .WithColor(new Color(33, 176, 255))
+                //.WithThumbnailUrl(thumbnail)
+                .AddField("Searched Article", wikisearch)
+                .AddField("Found Article", title)
+                .AddField($"Article about {title}", extract)
+                .AddField("Wikipedia Url",
+                    $"[https://en.wikipedia.org/wiki/{title}](https://en.wikipedia.org/wiki/{title})")
+                .WithAuthor(Context.Client.CurrentUser)
+                .WithFooter(footer =>
+                    footer.Text = $"Searched by: {Context.User.Username + "#" + Context.User.Discriminator}")
+                .WithCurrentTimestamp()
+                .Build();
+            await ReplyAsync(embed: builder);
         }
     }
 }
