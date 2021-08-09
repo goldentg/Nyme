@@ -41,7 +41,6 @@ C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\System.Diagnostics.EventLog.d
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\System.Interactive.Async.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\System.Linq.Async.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.EventLog.dll
-C:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.csprojAssemblyReference.cache
 C:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.AssemblyInfoInputs.cache
 C:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.AssemblyInfo.cs
 C:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.csproj.CoreCompileInputs.cache
@@ -103,3 +102,4 @@ C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Discord.Addons.Interactive.dl
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Discord.InteractivityAddon.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\DiscordBotsList.Api.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Octokit.dll
+C:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.csproj.AssemblyReference.cache

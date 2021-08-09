@@ -214,7 +214,7 @@ namespace brainKiller.Modules
             await Context.Channel.SendSuccessAsync("Success",
                 $"The role {role.Mention} has been added to the autoroles!");
             await _serverHelper.SendLogAsync(Context.Guild, "Auto-Role Added",
-                $"{Context.User.Mention} has added the `{role.Name} role to the auto-role list`");
+                $"{Context.User.Mention} has added the `{role.Name}` role to the auto-role list");
         }
 
         [Command("delautorole", RunMode = RunMode.Async)]
