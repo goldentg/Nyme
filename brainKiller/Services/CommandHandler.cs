@@ -104,9 +104,10 @@ namespace brainKiller.Services
 
             _client.JoinedGuild += OnJoinedGuild;
 
+            _client.LeftGuild += OnLeftGuild;
+
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
-
 
         private async Task OnInviteDeleted(SocketGuildChannel arg1, string arg2)
         {
@@ -174,12 +175,35 @@ namespace brainKiller.Services
         {
             await arg.DefaultChannel.WelcomeGuildAsync(arg.Name);
 
+            ulong clientOwner = 648660217021726743;
+
+            var SocketBotOwner = _client.GetUser(clientOwner);
+
+            if (SocketBotOwner is IUser IbotOwner && arg is IGuild guild)
+            {
+                await _serverHelper.MessageBotJoinOwnerAsync(IbotOwner, guild);
+                return;
+            }
+
             // if (Program.BotListToken == null) return;
 
             // await BotList.Instantiate(BotListBotId, Program.BotListToken);
 
             //if (!Program.IsBotListBot) return;
             //  await Program.BotList.ThisBot.UpdateStatsAsync(_client.Guilds.Count);
+        }
+
+        private async Task OnLeftGuild(SocketGuild arg)
+        {
+            ulong clientOwner = 648660217021726743;
+
+            var SocketBotOwner = _client.GetUser(clientOwner);
+
+            if (SocketBotOwner is IUser IbotOwner && arg is IGuild guild)
+            {
+                await _serverHelper.MessageBotLeaveOwnerAsync(IbotOwner, guild);
+                return;
+            }
         }
 
 

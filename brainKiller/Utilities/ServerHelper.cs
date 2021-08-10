@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
 using brainKiller.Common;
 using Discord;
+using Discord.WebSocket;
 using Infrastructure;
 
 namespace brainKiller.Utilities
@@ -28,6 +31,32 @@ namespace brainKiller.Utilities
             }
 
             await fetchedChannel.SendLogAsync(title, description);
+        }
+
+        public async Task MessageBotJoinOwnerAsync(IUser user, IGuild guild)
+        {
+            var channel = await user.GetOrCreateDMChannelAsync();
+            try
+            {
+                await channel.SendMessageAsync($"Nyme has joined a new guild!\nNew Guild: **{guild.Name}**");
+            }
+            catch (Discord.Net.HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
+            {
+                Console.WriteLine($"I cannot message {user} on guild join.");
+            }
+        }
+
+        public async Task MessageBotLeaveOwnerAsync(IUser user, IGuild guild)
+        {
+            var channel = await user.GetOrCreateDMChannelAsync();
+            try
+            {
+                await channel.SendMessageAsync($"Nyme has been removed from a guild\nLeft Guild: **{guild.Name}**");
+            }
+            catch (Discord.Net.HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
+            {
+                Console.WriteLine($"I cannot message {user} on guild leave.");
+            }
         }
 
         /*
