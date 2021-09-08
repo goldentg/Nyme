@@ -191,7 +191,7 @@ namespace brainKiller.Modules
             var builder = new EmbedBuilder()
                 .WithTitle("__**Poll**__")
                 .WithColor(new Color(33, 176, 252))
-                .WithDescription("**pollmsg**")
+                .WithDescription($"**{pollmsg}**")
                 .WithThumbnailUrl(
                     "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pinclipart.com%2Fpicdir%2Fmiddle%2F107-1071607_polls-icon-png-clipart.png&f=1&nofb=1")
                 .WithCurrentTimestamp()
