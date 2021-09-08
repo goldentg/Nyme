@@ -198,6 +198,7 @@ namespace brainKiller.Modules
                 .WithFooter($"*Poll started by {Context.User.Username + "#" + Context.User.Discriminator}*");
             var embed = builder.Build();
             var message = await Context.Channel.SendMessageAsync(null, false, embed);
+            await Context.Message.DeleteAsync();
             await message.AddReactionAsync(emoteUp);
             await message.AddReactionAsync(emoteDown);
         }
