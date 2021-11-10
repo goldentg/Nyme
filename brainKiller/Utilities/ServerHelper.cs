@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using brainKiller.Common;
@@ -38,7 +39,11 @@ namespace brainKiller.Utilities
             var channel = await user.GetOrCreateDMChannelAsync();
             try
             {
-                await channel.SendMessageAsync($"Nyme has joined a new guild!\nNew Guild: **{guild.Name}**");
+                if (guild is SocketGuild sGuild) {
+                    var totalUsers = sGuild.Users.Count();
+                    var guildOwner = sGuild.Owner.Username + "#" + sGuild.Owner.Discriminator;
+                    await channel.SendMessageAsync($"Nyme has joined a new guild!\nNew Guild: **{guild.Name}**\nTotal Users: **{totalUsers}**\nGuild Owner: **{guildOwner}**");
+                }
             }
             catch (Discord.Net.HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
             {
@@ -51,7 +56,12 @@ namespace brainKiller.Utilities
             var channel = await user.GetOrCreateDMChannelAsync();
             try
             {
-                await channel.SendMessageAsync($"Nyme has been removed from a guild\nLeft Guild: **{guild.Name}**");
+                if (guild is SocketGuild sGuild)
+                {
+                    var totalUsers = sGuild.Users.Count();
+                    var guildOwner = sGuild.Owner.Username + "#" + sGuild.Owner.Discriminator;
+                    await channel.SendMessageAsync($"Nyme has been removed from a guild\nLeft Guild: **{guild.Name}**\nTotal Users: **{totalUsers}**\nGuild Owner: **{guildOwner}**");
+                }
             }
             catch (Discord.Net.HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
             {

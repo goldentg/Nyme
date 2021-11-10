@@ -8511,8 +8511,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Evan\\.nuget\\packages\\": {},
-    "D:\\VS shared components\\NuGetPackages": {}
+    "C:\\Users\\evann\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -8520,15 +8519,11 @@
       "projectUniqueName": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
       "projectName": "brainKiller",
       "projectPath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
-      "packagesPath": "C:\\Users\\Evan\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
       "outputPath": "C:\\brainKiller\\brainKiller\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "D:\\VS shared components\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Evan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8536,7 +8531,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Users\\Evan\\.nuget\\packages": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
@@ -8657,12 +8652,18 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.1.21, 3.1.21]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
