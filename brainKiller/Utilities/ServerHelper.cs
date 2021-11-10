@@ -34,16 +34,15 @@ namespace brainKiller.Utilities
             await fetchedChannel.SendLogAsync(title, description);
         }
 
-        public async Task MessageBotJoinOwnerAsync(IUser user, IGuild guild)
+        public async Task MessageBotJoinOwnerAsync(IUser user, SocketGuild guild)
         {
             var channel = await user.GetOrCreateDMChannelAsync();
             try
             {
-                if (guild is SocketGuild sGuild) {
-                    var totalUsers = sGuild.Users.Count();
-                    var guildOwner = sGuild.Owner.Username + "#" + sGuild.Owner.Discriminator;
+                    var totalUsers = guild.Users.Count();
+                    var guildOwner = guild.Owner.Username + "#" + guild.Owner.Discriminator;
                     await channel.SendMessageAsync($"Nyme has joined a new guild!\nNew Guild: **{guild.Name}**\nTotal Users: **{totalUsers}**\nGuild Owner: **{guildOwner}**");
-                }
+                
             }
             catch (Discord.Net.HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
             {
@@ -51,17 +50,15 @@ namespace brainKiller.Utilities
             }
         }
 
-        public async Task MessageBotLeaveOwnerAsync(IUser user, IGuild guild)
+        public async Task MessageBotLeaveOwnerAsync(IUser user, SocketGuild guild)
         {
             var channel = await user.GetOrCreateDMChannelAsync();
             try
             {
-                if (guild is SocketGuild sGuild)
-                {
-                    var totalUsers = sGuild.Users.Count();
-                    var guildOwner = sGuild.Owner.Username + "#" + sGuild.Owner.Discriminator;
-                    await channel.SendMessageAsync($"Nyme has been removed from a guild\nLeft Guild: **{guild.Name}**\nTotal Users: **{totalUsers}**\nGuild Owner: **{guildOwner}**");
-                }
+                var totalUsers = guild.Users.Count();
+                var guildOwner = guild.Owner.Username + "#" + guild.Owner.Discriminator;
+                await channel.SendMessageAsync($"Nyme has been removed from a guild\nLeft Guild: **{guild.Name}**\nTotal Users: **{totalUsers}**\nGuild Owner: **{guildOwner}**");
+                
             }
             catch (Discord.Net.HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
             {

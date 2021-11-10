@@ -179,9 +179,9 @@ namespace brainKiller.Services
 
             var SocketBotOwner = _client.GetUser(clientOwner);
 
-            if (SocketBotOwner is IUser IbotOwner && arg is IGuild guild)
+            if (SocketBotOwner is IUser IbotOwner && arg is SocketGuild guild)
             {
-                await _serverHelper.MessageBotJoinOwnerAsync(IbotOwner, guild);
+                await _serverHelper.MessageBotJoinOwnerAsync(IbotOwner, arg);
                 return;
             }
 
@@ -201,7 +201,7 @@ namespace brainKiller.Services
 
             if (SocketBotOwner is IUser IbotOwner && arg is IGuild guild)
             {
-                await _serverHelper.MessageBotLeaveOwnerAsync(IbotOwner, guild);
+                await _serverHelper.MessageBotLeaveOwnerAsync(IbotOwner, arg);
                 return;
             }
         }
