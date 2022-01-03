@@ -8511,19 +8511,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\evann\\.nuget\\packages\\": {}
+    "C:\\Users\\Evan\\.nuget\\packages\\": {},
+    "D:\\VS shared components\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
+      "projectUniqueName": "D:\\brainKiller\\brainKiller\\brainKiller.csproj",
       "projectName": "brainKiller",
-      "projectPath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
-      "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
-      "outputPath": "C:\\brainKiller\\brainKiller\\obj\\",
+      "projectPath": "D:\\brainKiller\\brainKiller\\brainKiller.csproj",
+      "packagesPath": "C:\\Users\\Evan\\.nuget\\packages\\",
+      "outputPath": "D:\\brainKiller\\brainKiller\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "D:\\VS shared components\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Evan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8531,14 +8536,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Users\\Evan\\.nuget\\packages": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj"
+            "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
@@ -8666,5 +8671,16 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1102",
+      "level": "Error",
+      "message": "Unable to find package Microsoft.NETCore.App.Host.win-x64 with version (= 3.1.21)\r\n  - Found 1 version(s) in Package source [ Nearest version: 3.1.15 ]\r\n  - Found 0 version(s) in Microsoft Visual Studio Offline Packages",
+      "libraryId": "Microsoft.NETCore.App.Host.win-x64",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

@@ -25,6 +25,27 @@ namespace brainKiller.Common
             return message;
         }
 
+        public static async Task<IMessage> SendGuildDMJoin(this IUserMessage user, SocketGuild guild)
+        {
+            var totalUsers = guild.Users.Count;
+            var guildOwner = guild.Owner.Username + "#" + guild.Owner.Discriminator;
+            
+                var embed = new EmbedBuilder()
+                    .WithColor(new Color(43, 182, 115))
+                    .WithDescription($"New Guild: **{ guild.Name}**\nTotal Users: **{ totalUsers}**\nGuild Owner: **{ guildOwner}**")
+                    .WithAuthor(author =>
+                    {
+                        author
+                            .WithIconUrl(
+                                "https://icons-for-free.com/iconfiles/png/512/complete+done+green+success+valid+icon-1320183462969251652.png")
+                            .WithName("Nyme has joined a new guild!");
+                    })
+                    .Build();
+                var message = await user.ReplyAsync(embed: embed);
+                return message;
+            
+        }
+
         public static async Task<IMessage> SendErrorAsync(this ISocketMessageChannel channel, string title,
             string description)
         {

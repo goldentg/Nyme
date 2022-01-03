@@ -42,6 +42,7 @@ namespace brainKiller.Utilities
                     var totalUsers = guild.Users.Count();
                     var guildOwner = guild.Owner.Username + "#" + guild.Owner.Discriminator;
                     await channel.SendMessageAsync($"Nyme has joined a new guild!\nNew Guild: **{guild.Name}**\nTotal Users: **{totalUsers}**\nGuild Owner: **{guildOwner}**");
+                    //await user.SendMessageAsync.
                 
             }
             catch (Discord.Net.HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)

@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\brainKiller\\brainKiller\\brainKiller.csproj": {}
+    "D:\\brainKiller\\brainKiller\\brainKiller.csproj": {}
   },
   "projects": {
-    "C:\\brainKiller\\brainKiller\\brainKiller.csproj": {
+    "D:\\brainKiller\\brainKiller\\brainKiller.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
+        "projectUniqueName": "D:\\brainKiller\\brainKiller\\brainKiller.csproj",
         "projectName": "brainKiller",
-        "projectPath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
-        "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
-        "outputPath": "C:\\brainKiller\\brainKiller\\obj\\",
+        "projectPath": "D:\\brainKiller\\brainKiller\\brainKiller.csproj",
+        "packagesPath": "C:\\Users\\Evan\\.nuget\\packages\\",
+        "outputPath": "D:\\brainKiller\\brainKiller\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\VS shared components\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Evan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,14 +26,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Users\\Evan\\.nuget\\packages": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj"
+              "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -158,17 +162,21 @@
         }
       }
     },
-    "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
-        "outputPath": "C:\\brainKiller\\Infrastructure\\obj\\",
+        "projectPath": "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Evan\\.nuget\\packages\\",
+        "outputPath": "D:\\brainKiller\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\VS shared components\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Evan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -176,7 +184,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Users\\Evan\\.nuget\\packages": {}
         },
         "frameworks": {
           "netcoreapp3.1": {

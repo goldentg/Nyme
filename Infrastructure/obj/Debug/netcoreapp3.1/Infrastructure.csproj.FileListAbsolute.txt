@@ -11,3 +11,16 @@ C:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.pdb
 C:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.genruntimeconfig.cache
 C:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.csproj.AssemblyReference.cache
 C:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\brainKiller\Infrastructure\bin\Debug\netcoreapp3.1\Infrastructure.deps.json
+D:\brainKiller\Infrastructure\bin\Debug\netcoreapp3.1\Infrastructure.runtimeconfig.json
+D:\brainKiller\Infrastructure\bin\Debug\netcoreapp3.1\Infrastructure.runtimeconfig.dev.json
+D:\brainKiller\Infrastructure\bin\Debug\netcoreapp3.1\Infrastructure.dll
+D:\brainKiller\Infrastructure\bin\Debug\netcoreapp3.1\Infrastructure.pdb
+D:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.csproj.AssemblyReference.cache
+D:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.AssemblyInfoInputs.cache
+D:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.AssemblyInfo.cs
+D:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.csproj.CoreCompileInputs.cache
+D:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.dll
+D:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.pdb
+D:\brainKiller\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.genruntimeconfig.cache

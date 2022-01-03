@@ -104,3 +104,5 @@ C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\DiscordBotsList.Api.dll
 C:\brainKiller\brainKiller\bin\Debug\netcoreapp3.1\Octokit.dll
 C:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.csproj.AssemblyReference.cache
 C:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.GeneratedMSBuildEditorConfig.editorconfig
+D:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.dll
+D:\brainKiller\brainKiller\obj\Debug\netcoreapp3.1\brainKiller.pdb
