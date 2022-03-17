@@ -34,7 +34,8 @@ namespace brainKiller.Modules
         [Summary("Ping the bot")]
         public async Task Ping()
         {
-            await Context.Channel.SendSuccessAsync("Ping", "Pong!");
+            var lat = new DiscordSocketClient().Latency;
+            await Context.Channel.SendSuccessAsync("Ping", "Pong!, Latency is: " + lat + "ms");
         }
 
         [Command("info", RunMode = RunMode.Async)]

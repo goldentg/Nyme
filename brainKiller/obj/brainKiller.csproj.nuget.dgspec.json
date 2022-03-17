@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\brainKiller\\brainKiller\\brainKiller.csproj": {}
+    "C:\\brainKiller\\brainKiller\\brainKiller.csproj": {}
   },
   "projects": {
-    "D:\\brainKiller\\brainKiller\\brainKiller.csproj": {
+    "C:\\brainKiller\\brainKiller\\brainKiller.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\brainKiller\\brainKiller\\brainKiller.csproj",
+        "projectUniqueName": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
         "projectName": "brainKiller",
-        "projectPath": "D:\\brainKiller\\brainKiller\\brainKiller.csproj",
-        "packagesPath": "C:\\Users\\Evan\\.nuget\\packages\\",
-        "outputPath": "D:\\brainKiller\\brainKiller\\obj\\",
+        "projectPath": "C:\\brainKiller\\brainKiller\\brainKiller.csproj",
+        "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
+        "outputPath": "C:\\brainKiller\\brainKiller\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\VS shared components\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Evan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,14 +22,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\Evan\\.nuget\\packages": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj"
+              "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -150,7 +146,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.21, 3.1.21]"
+              "version": "[3.1.22, 3.1.22]"
             }
           ],
           "frameworkReferences": {
@@ -158,25 +154,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Evan\\.nuget\\packages\\",
-        "outputPath": "D:\\brainKiller\\Infrastructure\\obj\\",
+        "projectPath": "C:\\brainKiller\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\evann\\.nuget\\packages\\",
+        "outputPath": "C:\\brainKiller\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\VS shared components\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Evan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\evann\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -184,7 +176,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\Evan\\.nuget\\packages": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
@@ -242,7 +234,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
